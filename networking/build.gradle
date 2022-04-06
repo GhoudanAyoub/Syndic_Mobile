@@ -1,0 +1,49 @@
+plugins {
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.plugin.serialization'
+}
+
+android {
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation deps.dependency_injection.hilt
+    kapt deps.dependency_injection.hilt_processor
+
+    implementation deps.androidx.core_ktx
+    implementation deps.androidx.appcompat
+
+    implementation deps.serialization.kotlinx_serialization
+    implementation deps.serialization.kotlinx_serialization_converter
+
+    implementation deps.networking.retrofit
+    implementation deps.networking.retrofit_converter_gson
+    implementation deps.networking.logging_interceptor
+    implementation deps.networking.retrofit_adapter_rxjava2
+    implementation deps.networking.ok2curl
+    implementation deps.timber
+    implementation deps.couroutines
+
+
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.runner
+    androidTestImplementation deps.test.espresso
+
+    //rxjava
+    implementation deps.rxjava.rxjava2
+    implementation deps.rxjava.rxandroid
+    implementation deps.rxjava.rxbinding
+
+    //room
+    kapt deps.room.room_processor
+    implementation deps.room.room_runtime
+    implementation deps.room.room_guava
+    implementation deps.room.room_rxjava
+}
