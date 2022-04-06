@@ -1,21 +1,32 @@
-plugins {
-    id 'com.android.application'
-}
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
+
 
 android {
-    compileSdk 32
+    compileSdk rootProject.ext.androidCompileSdkVersion
 
     defaultConfig {
         applicationId "com.SyndicG5"
-        minSdk 21
-        targetSdk 32
-        versionCode 1
-        versionName "1.0"
-
+        minSdkVersion rootProject.ext.androidMinSdkVersion
+        targetSdkVersion rootProject.ext.androidTargetSdkVersion
+        versionCode appVersionCode.toInteger()
+        versionName appVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
 
     buildTypes {
+        all {
+            manifestPlaceholders = [enableCrashReporting:"true"]
+        }
+        debug {
+            manifestPlaceholders = [enableCrashReporting:"false"]
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -29,10 +40,112 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":networking")
+
+    implementation deps.kotlin_jdk7
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.core_ktx
+    implementation deps.androidx.constraintlayout
+    implementation deps.material
+    //todo:check legacy
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation deps.pixplicity
+    implementation deps.pageindicator
+    implementation deps.once
+    implementation deps.google_gson
+    implementation deps.networking.retrofit
+
+    /*implementation ('com.squareup.okhttp3:okhttp:3.12.12') {
+        force = true //API 19 support
+    }*/
+
+    implementation deps.networking.logging_interceptor
+    implementation deps.textdrawable_new
+    implementation deps.networking.retrofit_converter_gson
+    implementation deps.karumi_dexter
+    implementation deps.androidx.activity
+    implementation deps.androidx.fragment
+
+    implementation deps.libphonenumber
+    implementation deps.androidx.multidex
+    implementation deps.currency_edit_text
+    implementation deps.google.play_services_auth
+    implementation deps.google.play_services_auth_api_phone
+    implementation deps.medyo_about_page
+    implementation deps.androidx.work
+    implementation deps.balloon
+    implementation deps.imagepicker
+    implementation deps.esafirm_imagepicker
+    implementation deps.zelory_compressor
+    implementation deps.lifecycle
+    implementation deps.glide.glide
+    implementation deps.androidx.recycler_view
+    implementation 'com.google.android.play:core-ktx:1.8.1'
+    annotationProcessor deps.glide.compiler
+    implementation deps.stfalcon_imageviewer
+
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.runner
+    androidTestImplementation deps.test.espresso
+    implementation deps.keyboardvisibilityevent
+
+    // Firebase
+    implementation platform(deps.firebase.bom)
+    implementation deps.firebase.messaging
+    implementation deps.firebase.analytics
+    implementation deps.firebase.crashlytics
+    implementation deps.firebase.auth
+    implementation deps.firebase.config
+
+    implementation deps.google.material
+    implementation deps.facebook
+
+    // permission dispatcher
+    implementation deps.permission.permission_dispatcher
+    kapt deps.permission.processor
+
+    implementation deps.serialization.kotlinx_serialization
+    implementation deps.serialization.kotlinx_serialization_converter
+
+    implementation deps.livedata_ktx
+    implementation deps.couroutines
+
+    implementation deps.timber
+
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
+    //hilt
+    implementation deps.dependency_injection.hilt
+    kapt deps.dependency_injection.hilt_processor
+
+    implementation deps.circle_indicator
+    implementation deps.androidx.card_view
+
+    //analytics
+    implementation deps.analytics.amplitude
+    implementation deps.analytics.segment
+    implementation deps.analytics.segment_amplitude_integration
+
+    implementation deps.play_service.auth
+    implementation deps.play_service.auth_api_phone
+
+    //rxjava
+    implementation deps.rxjava.rxjava2
+    implementation deps.rxjava.rxandroid
+    implementation deps.rxjava.rxbinding
+
+    //room
+    kapt deps.room.room_processor
+    implementation deps.room.room_runtime
+    implementation deps.room.room_guava
+    implementation deps.room.room_rxjava
+
+    //navigation
+    implementation  deps.navigation.navigation_fragment
+    implementation  deps.navigation.navigation_ui
+
+    //eventbus
+    implementation deps.eventbus
 }
