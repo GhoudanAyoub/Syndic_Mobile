@@ -1,7 +1,91 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-plugins {
-    id 'com.android.application' version '7.1.2' apply false
-    id 'com.android.library' version '7.1.2' apply false
+apply from: 'dependencies.gradle'
+
+buildscript {
+    ext{
+        kotlin_version = '1.6.10'
+        hilt_version = '2.40.5'
+        gradle_version = '7.0.2'
+    }
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven {
+            url 'https://jitpack.io'
+        }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradle_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.2'
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+    }
+}
+
+Properties props = new Properties()
+props.load(new FileInputStream(file('modules.properties')))
+def androidModules = props.getProperty('androidModules').split(",")
+
+subprojects {
+    if (androidModules.contains(it.name)) {
+        if (it.name == 'app') {
+            apply plugin: 'com.android.application'
+        } else {
+            apply plugin: 'com.android.library'
+        }
+        apply plugin: 'kotlin-android'
+        apply plugin: 'kotlin-parcelize'
+
+        android {
+            compileSdkVersion rootProject.ext.androidCompileSdkVersion
+
+            defaultConfig {
+                minSdkVersion rootProject.ext.androidMinSdkVersion
+                targetSdkVersion rootProject.ext.androidTargetSdkVersion
+                versionCode 1
+                versionName "1.0"
+
+                testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_1_8
+                    targetCompatibility JavaVersion.VERSION_1_8
+                }
+                kotlinOptions {
+                    jvmTarget = '1.8'
+                }
+                packagingOptions {
+                    exclude 'META-INF/LICENSE'
+                    exclude 'META-INF/NOTICE'
+                    exclude 'META-INF/LICENSE.txt'
+                    exclude 'META-INF/NOTICE.txt'
+                    exclude 'META-INF/gradle/incremental.annotation.processors'
+                    exclude 'META-INF/metadata.kotlin_module'
+                    exclude 'META-INF/metadata.jvm.kotlin_module'
+                }
+            }
+
+            buildFeatures {
+                viewBinding true
+            }
+        }
+    } else {
+        apply plugin: 'java-library'
+        apply plugin: 'kotlin'
+    }
+}
+
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://github.com/WickeDev/stetho-realm/raw/master/maven-repo' }
+    }
 }
 
 task clean(type: Delete) {
