@@ -55,6 +55,7 @@ ext{
     kotlinx_serialization_converter_version = '0.8.0'
     kotlin_coroutines_version = '1.5.2'
     hilt_viewmodel_version = '1.0.0-alpha03'
+    hilt_hilt_proc_version = '1.0.0-alpha02'
     timber_version = '5.0.1'
     splash_screen_compat_version = '1.0.0-alpha01'
     retrofit_version = '2.6.2'
@@ -143,6 +144,7 @@ ext{
                     'hilt': "com.google.dagger:hilt-android:$hilt_version",
                     'hilt_processor': "com.google.dagger:hilt-compiler:$hilt_version",
                     'hilt_viewmodel'  : "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version",
+                    'hilt_hilt_proc'  : "androidx.hilt:hilt-compiler:$hilt_hilt_proc_version",
             ],
             'test': [
                     'junit' : "junit:junit:$test_junit_version",
