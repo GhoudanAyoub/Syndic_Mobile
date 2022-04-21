@@ -119,6 +119,8 @@ dependencies {
     //hilt
     implementation deps.dependency_injection.hilt
     kapt deps.dependency_injection.hilt_processor
+    implementation deps.dependency_injection.hilt_hilt_proc
+    implementation deps.dependency_injection.hilt_viewmodel
 
     implementation deps.circle_indicator
     implementation deps.androidx.card_view
