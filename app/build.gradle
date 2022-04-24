@@ -1,10 +1,8 @@
+apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
-
 
 android {
     compileSdk rootProject.ext.androidCompileSdkVersion
@@ -91,20 +89,10 @@ dependencies {
     androidTestImplementation deps.test.espresso
     implementation deps.keyboardvisibilityevent
 
-    // Firebase
-    implementation platform(deps.firebase.bom)
-    implementation deps.firebase.messaging
-    implementation deps.firebase.analytics
-    implementation deps.firebase.crashlytics
-    implementation deps.firebase.auth
-    implementation deps.firebase.config
-
-    implementation deps.google.material
-    implementation deps.facebook
 
     // permission dispatcher
     implementation deps.permission.permission_dispatcher
-    kapt deps.permission.processor
+    annotationProcessor deps.permission.processor
 
     implementation deps.serialization.kotlinx_serialization
     implementation deps.serialization.kotlinx_serialization_converter
@@ -117,10 +105,10 @@ dependencies {
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
     //hilt
-    implementation deps.dependency_injection.hilt
-    kapt deps.dependency_injection.hilt_processor
-    implementation deps.dependency_injection.hilt_hilt_proc
-    implementation deps.dependency_injection.hilt_viewmodel
+    implementation "com.google.dagger:hilt-android:2.28-alpha"
+    annotationProcessor 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
+    annotationProcessor 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 
     implementation deps.circle_indicator
     implementation deps.androidx.card_view
@@ -138,16 +126,16 @@ dependencies {
     implementation deps.rxjava.rxandroid
     implementation deps.rxjava.rxbinding
 
-    //room
-    kapt deps.room.room_processor
-    implementation deps.room.room_runtime
-    implementation deps.room.room_guava
-    implementation deps.room.room_rxjava
+    def room_version = "2.2.5"
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
 
     //navigation
     implementation  deps.navigation.navigation_fragment
     implementation  deps.navigation.navigation_ui
 
     //eventbus
-    implementation deps.eventbus
+    //implementation deps.eventbus
 }
