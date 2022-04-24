@@ -1,6 +1,7 @@
 package com.syndicg5.networking.models;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    private String id;
+    private int id;
     private String login;
     private String password;
     private String first_name;
@@ -17,6 +18,7 @@ public class User implements Serializable {
     private String email;
     private String image_url;
 
+    @Ignore
     public User(String login, String password, String first_name, String last_name, String email, String image_url) {
         this.login = login;
         this.password = password;
@@ -26,7 +28,7 @@ public class User implements Serializable {
         this.image_url = image_url;
     }
 
-    public User(String id, String login, String password, String first_name, String last_name, String email, String image_url) {
+    public User(int id, String login, String password, String first_name, String last_name, String email, String image_url) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -36,11 +38,11 @@ public class User implements Serializable {
         this.image_url = image_url;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
