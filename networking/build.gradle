@@ -14,8 +14,6 @@ android {
 }
 
 dependencies {
-    implementation deps.dependency_injection.hilt
-    kapt deps.dependency_injection.hilt_processor
 
     implementation deps.androidx.core_ktx
     implementation deps.androidx.appcompat
@@ -36,22 +34,24 @@ dependencies {
     androidTestImplementation deps.test.runner
     androidTestImplementation deps.test.espresso
 
+
+
+    def room_version = "2.2.5"
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+
     //rxjava
     implementation deps.rxjava.rxjava2
     implementation deps.rxjava.rxandroid
     implementation deps.rxjava.rxbinding
 
-    //room
-    kapt deps.room.room_processor
-    implementation deps.room.room_runtime
-    implementation deps.room.room_guava
-    implementation deps.room.room_rxjava
-
     //hilt
-    implementation deps.dependency_injection.hilt
-    kapt deps.dependency_injection.hilt_processor
-    implementation deps.dependency_injection.hilt_hilt_proc
-    implementation deps.dependency_injection.hilt_viewmodel
+    implementation "com.google.dagger:hilt-android:2.28-alpha"
+    annotationProcessor 'com.google.dagger:hilt-android-compiler:2.28-alpha'
+    implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
+    annotationProcessor 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 
     implementation deps.circle_indicator
     implementation deps.androidx.card_view

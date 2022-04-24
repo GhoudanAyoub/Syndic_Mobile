@@ -14,9 +14,9 @@ ext{
 
     eventbus_version='v3.2.0'
     navigation_fragment_version ='2.3.2'
-    rxjava_version='3.1.4'
-    rxandroid_version='3.0.0'
-    rxbinding_version='0.4.0'
+    rxjava_version='2.2.10'
+    rxandroid_version='2.1.1'
+    rxbinding_version='3.1.0'
     room_version  = '2.2.5'
     kotlin_version = '1.6.10'
     pixplicity_version = '1.10.0'
@@ -106,7 +106,7 @@ ext{
             'rxjava':[
                     'rxjava2':"io.reactivex.rxjava2:rxjava:$rxjava_version",
                     'rxandroid':"io.reactivex.rxjava2:rxandroid:$rxandroid_version",
-                    'rxbinding':"com.jakewharton.rxbinding3:rxbinding:$rxandroid_version"
+                    'rxbinding':"com.jakewharton.rxbinding3:rxbinding:$rxbinding_version"
             ],
             'room':[
                     'room_runtime':"androidx.room:room-runtime:$room_version",
