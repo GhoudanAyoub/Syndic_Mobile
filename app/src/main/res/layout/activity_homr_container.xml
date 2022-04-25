@@ -49,13 +49,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:fontFamily="sans-serif"
-                    android:text="Machine"
+                    android:text="Dashboard"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/ll_Salle"
+                android:id="@+id/ll_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
@@ -66,7 +66,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/salles"
+                    android:src="@drawable/user"
                     app:tint="@color/white" />
 
                 <TextView
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:fontFamily="sans-serif"
-                    android:text="Salles"
+                    android:text="Profile"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
@@ -101,33 +101,6 @@
                     android:layout_marginHorizontal="16dp"
                     android:fontFamily="sans-serif"
                     android:text="Statistiques"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_Chart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp"
-                android:layout_marginTop="24dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/statistiques"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:fontFamily="sans-serif"
-                    android:text="Machine By Salle"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 

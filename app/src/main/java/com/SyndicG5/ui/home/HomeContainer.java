@@ -19,7 +19,7 @@ public class HomeContainer extends AppCompatActivity  implements View.OnClickLis
 
     ActivityHomrContainerBinding binding;
     private static Toolbar toolbar;
-    private LinearLayout ll_Home, ll_Salle, ll_Chart,ll_stats;
+    private LinearLayout ll_Home, ll_profile,ll_stats;
     private static boolean open = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +49,13 @@ public class HomeContainer extends AppCompatActivity  implements View.OnClickLis
         View menuView = binding.drawer.getMenuView();
 
         ll_Home = menuView.findViewById(R.id.ll_Home);
-        ll_Salle = menuView.findViewById(R.id.ll_Salle);
+        ll_profile = menuView.findViewById(R.id.ll_profile);
         ll_stats = menuView.findViewById(R.id.ll_stats);
-        ll_Chart = menuView.findViewById(R.id.ll_Chart);
 
 
         ll_Home.setOnClickListener(this);
-        ll_Salle.setOnClickListener(this);
-        ll_Chart.setOnClickListener(this);
-        ll_stats.setOnClickListener(view -> {
-            open = !open;
-            if (open) {
-                ll_Chart.setVisibility(View.VISIBLE);
-            } else {
-                ll_Chart.setVisibility(View.GONE);
-            }
-        });
+        ll_profile.setOnClickListener(this);
+        ll_stats.setOnClickListener(this);
 
 
        replace(new homefragement());
@@ -79,11 +70,13 @@ public class HomeContainer extends AppCompatActivity  implements View.OnClickLis
                replace(new homefragement(), "Home");
                 break;
 
-            case R.id.ll_Salle:
+            case R.id.ll_profile:
                 // replace(new Main(), "Salle");
                 break;
-            case R.id.ll_Chart:
-               // replace(new MachineBySalle(), "Chart");
+
+
+            case R.id.ll_stats:
+                // replace(new Main(), "ll_stats");
                 break;
 
         }
