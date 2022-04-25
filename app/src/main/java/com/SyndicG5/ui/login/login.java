@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.SyndicG5.databinding.ActivityLoginBinding;
 import com.SyndicG5.ui.home.HomeContainer;
 import com.jakewharton.rxbinding3.view.RxView;
+import com.syndicg5.networking.models.Login;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +47,7 @@ public class login extends AppCompatActivity {
         progressDialog.setMessage("Login ..........");
 
         RxView.clicks(binding.login)
-                .throttleFirst(4, TimeUnit.SECONDS)
+                .throttleFirst(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Unit>() {
                     @Override
@@ -74,7 +75,17 @@ public class login extends AppCompatActivity {
 
     private void subscribe() {
         mViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
-            if (aBoolean) startActivity(new Intent(getApplication(), HomeContainer.class));
+            if (aBoolean) {
+                mViewModel.getLoginInfo();
+                mViewModel.getLoginLiveData().observe(this, login -> {
+                    if (login == null)
+                        mViewModel.saveLogin(new Login(1, true));
+                    else
+                        mViewModel.UpdateLogin(new Login(1, true));
+                });
+                startActivity(new Intent(getApplication(), HomeContainer.class));
+                progressDialog.dismiss();
+            }
         });
     }
 
@@ -86,5 +97,6 @@ public class login extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         compositeDisposable.dispose();
+        progressDialog.dismiss();
     }
 }
