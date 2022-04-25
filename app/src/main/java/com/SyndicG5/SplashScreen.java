@@ -1,12 +1,11 @@
 package com.SyndicG5;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
+
+import androidx.lifecycle.ViewModelProvider;
 
 import com.SyndicG5.ui.home.HomeContainer;
 import com.SyndicG5.ui.login.login;
@@ -20,8 +19,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
 @SuppressLint("CheckResult")
-@AndroidEntryPoint
-public class SplashScreen extends AppCompatActivity {
+public class SplashScreen extends SyndicActivity {
 
     private loginViewModel mViewModel;
 
@@ -34,7 +32,7 @@ public class SplashScreen extends AppCompatActivity {
         mViewModel.getLoginInfo();
         mViewModel.getLoginLiveData().observe(this, it -> {
             if (it != null) {
-                if (it.getEmail()!=null)
+                if (it.isStatus())
                     goHome();
                 else {
                     goLogin();

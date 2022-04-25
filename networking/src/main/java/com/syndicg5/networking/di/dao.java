@@ -6,18 +6,18 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.syndicg5.networking.models.User;
+import com.syndicg5.networking.models.Login;
 
 @Dao
 public interface dao {
 
-    @Query("Select * from user")
-    LiveData<User> getLoginInfo();
+    @Query("Select * from Login")
+    LiveData<Login> getLoginInfo();
 
     @Insert
-    void saveLogin(User f);
+    void saveLogin(Login f);
 
     @Update
-    void UpdateLogin(User f);
+    void UpdateLogin(Login f);
 
 }
