@@ -1,8 +1,10 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'androidx.navigation.safeargs'
+}
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdk rootProject.ext.androidCompileSdkVersion
