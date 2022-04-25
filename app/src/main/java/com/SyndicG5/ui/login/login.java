@@ -1,15 +1,13 @@
 package com.SyndicG5.ui.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
 
-import com.SyndicG5.R;
-import com.SyndicG5.databinding.ActivityHomrContainerBinding;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.SyndicG5.databinding.ActivityLoginBinding;
 import com.SyndicG5.ui.home.HomeContainer;
 import com.jakewharton.rxbinding3.view.RxView;
@@ -31,6 +29,7 @@ public class login extends AppCompatActivity {
     ActivityLoginBinding binding;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ProgressDialog progressDialog;
+    private loginViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,7 @@ public class login extends AppCompatActivity {
         setContentView(binding.getRoot());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        mViewModel = new ViewModelProvider(this).get(loginViewModel.class);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Login ..........");
@@ -67,9 +67,16 @@ public class login extends AppCompatActivity {
                     public void onComplete() {
                     }
                 });
+        subscribe();
+    }
+
+    private void subscribe() {
+        mViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
+            if (aBoolean) startActivity(new Intent(getApplication(), HomeContainer.class));
+        });
     }
 
     private void LoginUser(String email, String pass) {
-        startActivity(new Intent(getApplication(), HomeContainer.class));
+        mViewModel.Login(email, pass);
     }
 }
