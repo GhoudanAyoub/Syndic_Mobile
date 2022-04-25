@@ -24,6 +24,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import kotlin.Unit;
+import timber.log.Timber;
 
 public class login extends AppCompatActivity {
 
@@ -59,7 +60,7 @@ public class login extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", Objects.requireNonNull(e.getMessage()));
+                        Timber.e(Objects.requireNonNull(e.getMessage()));
                     }
 
                     @Override
