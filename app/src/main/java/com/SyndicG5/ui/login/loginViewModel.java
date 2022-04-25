@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.syndicg5.networking.models.Login;
 import com.syndicg5.networking.models.User;
 import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.repository.roomRepository;
@@ -15,9 +16,9 @@ public class loginViewModel extends ViewModel {
     private apiRepository apiRepository;
 
     private MutableLiveData<Boolean> booleanMutableLiveData = new MutableLiveData<>();
-    private LiveData<User> loginLiveData = new MutableLiveData<>();
+    private LiveData<Login> loginLiveData = null;
 
-    public LiveData<User> getLoginLiveData() {
+    public LiveData<Login> getLoginLiveData() {
         return loginLiveData;
     }
 
@@ -33,6 +34,14 @@ public class loginViewModel extends ViewModel {
 
     public void Login(String email, String pass) {
         booleanMutableLiveData.setValue(true);
+    }
+
+    public void saveLogin(Login f) {
+        roomRepo.saveLogin(f);
+    }
+
+    public void UpdateLogin(Login f) {
+        roomRepo.UpdateLogin(f);
     }
 
     public void getLoginInfo() {
