@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -24,6 +25,7 @@ import io.reactivex.disposables.Disposable;
 import kotlin.Unit;
 import timber.log.Timber;
 
+@AndroidEntryPoint
 public class login extends AppCompatActivity {
 
     ActivityLoginBinding binding;
@@ -78,5 +80,11 @@ public class login extends AppCompatActivity {
 
     private void LoginUser(String email, String pass) {
         mViewModel.Login(email, pass);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.dispose();
     }
 }
