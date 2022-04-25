@@ -144,4 +144,6 @@ dependencies {
     implementation 'nl.psdcompany:duo-navigation-drawer:3.0.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation "com.airbnb.android:lottie:3.4.0"
+    //circleImage
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

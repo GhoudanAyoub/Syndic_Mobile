@@ -15,10 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.SyndicG5.R;
+import com.SyndicG5.databinding.ProfileFragmentBinding;
 
 public class ProfileFragment extends Fragment {
 
     private ProfileViewModel mViewModel;
+    private ProfileFragmentBinding binding;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -28,13 +30,14 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
-        return inflater.inflate(R.layout.profile_fragment, container, false);
+        binding = ProfileFragmentBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setActivityName("Profile");
+        setActivityName("");
     }
 
 }
