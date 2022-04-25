@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 
 import com.SyndicG5.R;
 import com.SyndicG5.databinding.ActivityHomrContainerBinding;
-import com.SyndicG5.ui.home.fragments.home.homefragement;
+import com.SyndicG5.ui.home.fragments.home.homefragment;
+import com.SyndicG5.ui.home.fragments.profile.ProfileFragment;
+import com.SyndicG5.ui.home.fragments.stats.statsFragment;
 
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
@@ -58,7 +60,7 @@ public class HomeContainer extends AppCompatActivity  implements View.OnClickLis
         ll_stats.setOnClickListener(this);
 
 
-       replace(new homefragement());
+       replace(new homefragment());
 
 
     }
@@ -67,16 +69,16 @@ public class HomeContainer extends AppCompatActivity  implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_Home:
-               replace(new homefragement(), "Home");
+               replace(new homefragment(), "Home");
                 break;
 
             case R.id.ll_profile:
-                // replace(new Main(), "Salle");
+                 replace(new ProfileFragment(), "Profile");
                 break;
 
 
             case R.id.ll_stats:
-                // replace(new Main(), "ll_stats");
+                replace(new statsFragment(), "Stats");
                 break;
 
         }
