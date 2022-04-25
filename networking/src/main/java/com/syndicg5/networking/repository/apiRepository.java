@@ -5,6 +5,9 @@ import com.syndicg5.networking.api.APISettings;
 
 import javax.inject.Inject;
 
+import dagger.Reusable;
+
+@Reusable
 public class apiRepository {
     private final APISettings apiSettings;
 
