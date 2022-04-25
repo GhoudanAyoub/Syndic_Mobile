@@ -81,6 +81,7 @@ dependencies {
     implementation deps.glide.glide
     implementation deps.androidx.recycler_view
     implementation 'com.google.android.play:core-ktx:1.8.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     annotationProcessor deps.glide.compiler
     implementation deps.stfalcon_imageviewer
 
@@ -138,4 +139,7 @@ dependencies {
 
     //eventbus
     //implementation deps.eventbus
+    implementation 'nl.psdcompany:duo-navigation-drawer:3.0.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation "com.airbnb.android:lottie:3.4.0"
 }
