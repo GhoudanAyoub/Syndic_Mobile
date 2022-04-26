@@ -15,9 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.SyndicG5.R;
+import com.SyndicG5.databinding.HomefragementFragmentBinding;
+import com.SyndicG5.databinding.ProfileFragmentBinding;
 
 public class homefragment extends Fragment {
 
+    private HomefragementFragmentBinding binding;
     private HomefragementViewModel mViewModel;
 
     public static homefragment newInstance() {
@@ -28,7 +31,8 @@ public class homefragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
-        return inflater.inflate(R.layout.homefragement_fragment, container, false);
+        binding = HomefragementFragmentBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
