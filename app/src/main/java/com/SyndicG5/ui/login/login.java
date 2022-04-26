@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.SyndicG5.databinding.ActivityLoginBinding;
-import com.SyndicG5.ui.home.HomeContainer;
+import com.SyndicG5.ui.ContainerHome.HomeContainer;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.syndicg5.networking.models.Login;
 

@@ -1,11 +1,9 @@
-package com.SyndicG5.ui.home.fragments.home;
+package com.SyndicG5.ui.ContainerHome.fragments.home;
 
-import static com.SyndicG5.ui.home.HomeContainer.setActivityName;
+import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -24,8 +22,7 @@ import android.view.ViewGroup;
 import com.SyndicG5.Adapters.BalanceAdapter;
 import com.SyndicG5.R;
 import com.SyndicG5.databinding.HomefragementFragmentBinding;
-import com.SyndicG5.databinding.ProfileFragmentBinding;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.SyndicG5.ui.ContainerHome.transaction.calculatorActivity;
 import com.syndicg5.networking.utils.AppUtils;
 
 public class homefragment extends Fragment {
@@ -110,10 +107,11 @@ public class homefragment extends Fragment {
         subscribe();
     }
 
-    private void OpenCalcutor() {/*
+    private void OpenCalcutor() {
+        startActivity(new Intent(binding.getRoot().getContext(), calculatorActivity.class));
+        /*
         homeViewModel.getUserMutableLiveData().observe(getViewLifecycleOwner(), user -> {
             if (user != null)
-                startActivity(new Intent(binding.getRoot().getContext(), calculatorActivity.class));
             else
                 openProfile();
         });*/
