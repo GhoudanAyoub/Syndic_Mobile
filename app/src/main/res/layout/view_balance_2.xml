@@ -105,7 +105,7 @@
                     android:fontFamily="@font/catamaran"
                     android:textColor="#262626"
                     android:textSize="13sp"
-                    android:text="Expenses" />
+                    android:text="@string/depenses" />
 
                 <TextView
                     android:id="@+id/outcoming_balance_txt"
