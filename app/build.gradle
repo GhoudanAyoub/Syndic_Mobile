@@ -140,7 +140,7 @@ dependencies {
     implementation  deps.navigation.navigation_ui
 
     //eventbus
-    //implementation deps.eventbus
+    implementation 'com.github.greenrobot.EventBus:eventbus:V3.2.0'
     implementation 'nl.psdcompany:duo-navigation-drawer:3.0.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation "com.airbnb.android:lottie:3.4.0"
