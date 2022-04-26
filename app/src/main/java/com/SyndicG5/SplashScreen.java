@@ -7,13 +7,12 @@ import android.view.WindowManager;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.SyndicG5.ui.home.HomeContainer;
+import com.SyndicG5.ui.ContainerHome.HomeContainer;
 import com.SyndicG5.ui.login.login;
 import com.SyndicG5.ui.login.loginViewModel;
 
 import java.util.concurrent.TimeUnit;
 
-import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 

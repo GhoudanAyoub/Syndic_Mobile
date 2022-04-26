@@ -1,6 +1,6 @@
-package com.SyndicG5.ui.home.fragments.profile;
+package com.SyndicG5.ui.ContainerHome.fragments.profile;
 
-import static com.SyndicG5.ui.home.HomeContainer.setActivityName;
+import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.SyndicG5.R;
 import com.SyndicG5.databinding.ProfileFragmentBinding;
 
 public class ProfileFragment extends Fragment {
