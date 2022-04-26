@@ -4,8 +4,10 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
+
 
     <style name="circleImageView">
         <item name="cornerFamily">rounded</item>
@@ -24,6 +26,10 @@
     </style>
     <style name="CalculatorButtonNewGreen" parent="CalculatorButtonNew">
         <item name="android:background">@drawable/rounded_background_primary</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+    <style name="CalculatorButtonNewOrange">
+        <item name="android:background">@drawable/rounded_background_orange</item>
         <item name="android:textColor">#ffffff</item>
     </style>
 
