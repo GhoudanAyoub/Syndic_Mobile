@@ -27,6 +27,9 @@
             android:name=".ui.login.login"
             android:exported="false" />
         <activity
+            android:name=".ui.ContainerHome.transaction.calculatorActivity"
+            android:exported="false" />
+        <activity
             android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
