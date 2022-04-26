@@ -8,7 +8,7 @@
 
     //viewBalance
 
-    <string name="label_incoming_balance_client">Incomes</string>
+    <string name="label_incoming_balance_client">Revenus</string>
     <string name="label_price">%s</string>
     <string name="label_search_hint">Recherche…</string>
     <string name="label_select_all">Tout sélectionner</string>
@@ -16,4 +16,6 @@
     <string name="transaction_submit">Save</string>
     <string name="label_price_dh">%1$.2f DH</string>
     <string name="label_asterisk_amount">*******</string>
+    <string name="label_fabTransaction">New  Transaction</string>
+    <string name="depenses">Depenses</string>
 </resources>
