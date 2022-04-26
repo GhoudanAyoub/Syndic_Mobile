@@ -3,7 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/drawable-v24/actions_rounded_background.xml" value="0.148" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/drawable-v24/floating_btn_background.xml" value="0.1055" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/drawable-v24/ic_circle_image_selection.xml" value="0.1055" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/drawable-v24/rounded_background_switch_on.xml" value="0.1055" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/drawable-v24/statistiquesyears.xml" value="0.148" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1045" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/font/catamaran.xml" value="0.258974358974359" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/activity_homr_container.xml" value="0.2328125" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/activity_login.xml" value="0.2328125" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/activity_splashscreen.xml" value="0.176" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/homefragement_fragment.xml" value="0.2328125" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/profile_fragment.xml" value="0.2328125" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/stats_fragment.xml" value="0.21875" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/view_balance_2.xml" value="0.23333333333333334" />
       </map>
     </option>
   </component>

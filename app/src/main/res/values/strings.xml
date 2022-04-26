@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Syndic</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    //viewBalance
+
+    <string name="label_incoming_balance_client">Incomes</string>
+    <string name="label_price">%s</string>
+    <string name="label_search_hint">Recherche…</string>
+    <string name="label_select_all">Tout sélectionner</string>
+    <string name="wait_prog_bar">Attendez, s\'il vous plait  ...</string>
+    <string name="transaction_submit">Save</string>
+    <string name="label_price_dh">%1$.2f DH</string>
+    <string name="label_asterisk_amount">*******</string>
 </resources>
