@@ -18,4 +18,8 @@
     <string name="label_asterisk_amount">*******</string>
     <string name="label_fabTransaction">New  Transaction</string>
     <string name="depenses">Depenses</string>
+    <string name="label_details_transaction">transaction Details</string>
+    <string name="action_delete_2">supprimer</string>
+    <string name="action_cancel_2">Annuler</string>
+    <string name="delete_transaction_title_msg">Es-tu sûr de vouloir supprimer cette transaction?</string>
 </resources>
