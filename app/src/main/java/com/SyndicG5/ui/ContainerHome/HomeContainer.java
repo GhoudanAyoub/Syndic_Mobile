@@ -1,9 +1,8 @@
-package com.SyndicG5.ui.home;
+package com.SyndicG5.ui.ContainerHome;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -13,14 +12,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.SyndicG5.R;
 import com.SyndicG5.SyndicActivity;
 import com.SyndicG5.databinding.ActivityHomrContainerBinding;
-import com.SyndicG5.ui.home.fragments.home.homefragment;
-import com.SyndicG5.ui.home.fragments.profile.ProfileFragment;
-import com.SyndicG5.ui.home.fragments.stats.statsFragment;
-import com.SyndicG5.ui.login.login;
+import com.SyndicG5.ui.ContainerHome.fragments.home.homefragment;
+import com.SyndicG5.ui.ContainerHome.fragments.profile.ProfileFragment;
+import com.SyndicG5.ui.ContainerHome.fragments.stats.statsFragment;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Login;
 
-import dagger.hilt.android.AndroidEntryPoint;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 public class HomeContainer extends SyndicActivity implements View.OnClickListener {

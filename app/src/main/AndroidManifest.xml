@@ -21,10 +21,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.home.HomeContainer"
+            android:name=".ui.ContainerHome.HomeContainer"
             android:exported="false" />
         <activity
             android:name=".ui.login.login"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ContainerHome.transaction.calculatorActivity"
             android:exported="false" />
         <activity
             android:name=".SplashScreen"

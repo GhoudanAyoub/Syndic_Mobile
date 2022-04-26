@@ -1,6 +1,6 @@
-package com.SyndicG5.ui.home.fragments.stats;
+package com.SyndicG5.ui.ContainerHome.fragments.stats;
 
-import static com.SyndicG5.ui.home.HomeContainer.setActivityName;
+import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
 
 import androidx.lifecycle.ViewModelProvider;
 

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    style="@style/Theme.MaterialComponents.Light.NoActionBar"
+    android:layout_height="match_parent"
+    tools:context=".ui.ContainerHome.transaction.calculatorActivity"
+    android:background="@android:color/white">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/transaction_actions_container"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
+
+            <include
+                android:id="@+id/amountView"
+                layout="@layout/view_transaction_amount_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/transaction_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="#06c056"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/amountView"
+                tools:text="45 Dh" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/transaction_more_info_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/input_text_shape"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:fontFamily="sans-serif"
+                android:gravity="top|start"
+                android:hint="Ajouter Details..."
+                android:inputType="textMultiLine"
+                android:maxLines="2"
+                android:minLines="2"
+                android:padding="12dp"
+                android:textColor="#262626"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/guideline2"
+                app:layout_constraintStart_toEndOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/transaction_amount"
+                tools:text="Lorem ipsum dolor sit amet" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/transaction_actions_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/save_transaction_btn"
+        app:layout_constraintTop_toBottomOf="@+id/scroll_view">
+
+        <Button
+            android:id="@+id/transaction_date_btn"
+            style="@style/CalculatorButtonNewOrange"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:text="12/12/2022"
+            android:textAllCaps="false"
+            android:textColor="#262626"
+            android:textSize="12sp"
+            app:icon="@drawable/ic_light_calendar"
+            app:iconPadding="8dp"
+            app:iconTint="#06c056"
+            app:shapeAppearance="@style/roundedButton"
+            app:strokeColor="#06c056"
+            app:strokeWidth="1dp" />
+
+        <Button
+            android:id="@+id/transaction_money_btn"
+            style="@style/CalculatorButtonNewOrange"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:text="Income"
+            android:textAllCaps="false"
+            android:textColor="#262626"
+            android:textSize="12sp"
+            app:icon="@drawable/ic_attach_money"
+            app:iconPadding="8dp"
+            app:iconTint="#06c056"
+            app:shapeAppearance="@style/roundedButton"
+            app:strokeColor="#06c056"
+            app:strokeWidth="1dp" />
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/save_transaction_btn"
+        style="@style/transaction.cash_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:text="@string/transaction_submit"
+        android:enabled="false"
+        app:layout_constraintBottom_toTopOf="@+id/calculator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        android:id="@+id/calculator"
+        layout="@layout/view_calculator_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <include
+        android:id="@+id/llProgressBar"
+        layout="@layout/progbar"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

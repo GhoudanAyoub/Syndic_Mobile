@@ -1,4 +1,4 @@
-package com.SyndicG5.ui.home.fragments.profile;
+package com.SyndicG5.ui.ContainerHome.fragments.profile;
 
 import androidx.lifecycle.ViewModel;
 
