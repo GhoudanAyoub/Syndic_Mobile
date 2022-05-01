@@ -13,20 +13,26 @@ public class Resident implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private String id;
-    private String etat_familiale;
-    private Personne personne;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String mdp;
+    private String adresse;
+    private String ville;
+    private String photo;
+    private String telephone;
     private List<Appartement> appartements;
 
-    public Resident(String etat_familiale, Personne personne, List<Appartement> appartements) {
-        this.etat_familiale = etat_familiale;
-        this.personne = personne;
-        this.appartements = appartements;
-    }
-
-    public Resident(String id, String etat_familiale, Personne personne, List<Appartement> appartements) {
+    public Resident(String id, String nom, String prenom, String email, String mdp, String adresse, String ville, String photo, String telephone, List<Appartement> appartements) {
         this.id = id;
-        this.etat_familiale = etat_familiale;
-        this.personne = personne;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.mdp = mdp;
+        this.adresse = adresse;
+        this.ville = ville;
+        this.photo = photo;
+        this.telephone = telephone;
         this.appartements = appartements;
     }
 
@@ -38,20 +44,68 @@ public class Resident implements Serializable {
         this.id = id;
     }
 
-    public String getEtat_familiale() {
-        return etat_familiale;
+    public String getNom() {
+        return nom;
     }
 
-    public void setEtat_familiale(String etat_familiale) {
-        this.etat_familiale = etat_familiale;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public Personne getPersonne() {
-        return personne;
+    public String getPrenom() {
+        return prenom;
     }
 
-    public void setPersonne(Personne personne) {
-        this.personne = personne;
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMdp() {
+        return mdp;
+    }
+
+    public void setMdp(String mdp) {
+        this.mdp = mdp;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     public List<Appartement> getAppartements() {
