@@ -63,6 +63,10 @@ public class apiRepository {
         return apiSettings.getOneAppartement(id);
     }
 
+    public Single<List<Appartement>> getAppartementByImmeuble(int id) {
+        return apiSettings.getAppartementByImmeuble(id);
+    }
+
     //Immeuble
 
     public Single<Response<ResponseBody>> addImmeuble(Immeuble immeuble) {

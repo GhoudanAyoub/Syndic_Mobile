@@ -28,7 +28,7 @@ import com.syndicg5.networking.utils.AppUtils;
 public class homefragment extends Fragment {
 
     private HomefragementFragmentBinding binding;
-    private HomefragementViewModel mViewModel;
+    private HomefragementViewModel homeViewModel;
     private BalanceAdapter balanceAdapter;
     private RecyclerView recyclerView;
     private boolean amountHidden = false;
@@ -43,7 +43,7 @@ public class homefragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
         binding = HomefragementFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -132,7 +132,12 @@ public class homefragment extends Fragment {
     private void openFilterDialog() {
     }
 
-    private void subscribe() {/*
+    private void subscribe() {
+        homeViewModel.getAppartementByImmeuble(1);
+        homeViewModel.getListAppartementByImmeubleMutableLiveData().observe(getViewLifecycleOwner(),immeubles -> {
+
+        });
+        /*
         homeViewModel.getUserInfo();
         homeViewModel.getBalance();
         getBalanceView();
