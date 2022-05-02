@@ -109,12 +109,6 @@ public class homefragment extends Fragment {
 
     private void OpenCalcutor() {
         startActivity(new Intent(binding.getRoot().getContext(), calculatorActivity.class));
-        /*
-        homeViewModel.getUserMutableLiveData().observe(getViewLifecycleOwner(), user -> {
-            if (user != null)
-            else
-                openProfile();
-        });*/
     }
 
     private void updateEditMode() {
