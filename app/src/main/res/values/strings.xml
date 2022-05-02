@@ -22,4 +22,10 @@
     <string name="action_delete_2">supprimer</string>
     <string name="action_cancel_2">Annuler</string>
     <string name="delete_transaction_title_msg">Es-tu sûr de vouloir supprimer cette transaction?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="immeuble_list_title">Choisir une immeuble</string>
+    <string name="immeuble_list_description">Tu peux sélectionner une immeuble existante ou alors en créer une nouvelle!</string>
+    <string name="create_immeuble">Ou crée ton  Immeuble</string>
+    <string name="immeuble_list_label">Sélectionne une Immeuble existante</string>
 </resources>
