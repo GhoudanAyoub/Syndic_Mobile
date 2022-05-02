@@ -44,16 +44,16 @@ public interface APISettings {
     Single<List<Immeuble>> getAllImmeuble();
 
     @GET("/immeubles/{id}")
-    Single<Syndic> getOneImmeuble(@Path("id") int id);
+    Single<Immeuble> getOneImmeuble(@Path("id") int id);
 
     //Appartement
     @POST("appartements")
     Single<Response<ResponseBody>> addAppartements(@Body Appartement appartement);
 
     @GET("appartements")
-    Single<List<Immeuble>> getAllAppartements();
+    Single<List<Appartement>> getAllAppartements();
 
     @GET("/appartements/{id}")
-    Single<Syndic> getOneAppartement(@Path("id") int id);
+    Single<Appartement> getOneAppartement(@Path("id") int id);
 
 }
