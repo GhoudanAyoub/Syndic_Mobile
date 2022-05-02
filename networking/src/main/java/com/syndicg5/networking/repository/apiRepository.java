@@ -2,6 +2,9 @@ package com.syndicg5.networking.repository;
 
 
 import com.syndicg5.networking.api.APISettings;
+import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.models.Immeuble;
+import com.syndicg5.networking.models.Resident;
 import com.syndicg5.networking.models.Syndic;
 import com.syndicg5.networking.models.User;
 
@@ -28,12 +31,50 @@ public class apiRepository {
         return apiSettings.Login(user.getLogin(), user.getPassword());
     }
 
+
+    //Syndic
     public Single<List<Syndic>> getAllSyndic() {
         return apiSettings.getAllSyndic();
     }
 
     public Single<Syndic> getOneSyndic(int id) {
         return apiSettings.getOneSyndic(id);
+    }
+
+    //Resident
+    public Single<List<Resident>> getAllResidents() {
+        return apiSettings.getAllResidents();
+    }
+
+    public Single<Resident> getOneResidents(int id) {
+        return apiSettings.getOneResidents(id);
+    }
+
+    //Appartement
+    public Single<Response<ResponseBody>> addAppartements(Appartement appartement) {
+        return apiSettings.addAppartements(appartement);
+    }
+
+    public Single<List<Appartement>> getAllAppartements() {
+        return apiSettings.getAllAppartements();
+    }
+
+    public Single<Appartement> getOneAppartement(int id) {
+        return apiSettings.getOneAppartement(id);
+    }
+
+    //Immeuble
+
+    public Single<Response<ResponseBody>> addImmeuble(Immeuble immeuble) {
+        return apiSettings.addImmeuble(immeuble);
+    }
+
+    public Single<List<Immeuble>> getAllImmeuble() {
+        return apiSettings.getAllImmeuble();
+    }
+
+    public Single<Immeuble> getOneImmeuble(int id) {
+        return apiSettings.getOneImmeuble(id);
     }
 
 }
