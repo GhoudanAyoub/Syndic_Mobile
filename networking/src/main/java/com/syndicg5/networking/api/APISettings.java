@@ -56,4 +56,7 @@ public interface APISettings {
     @GET("/appartements/{id}")
     Single<Appartement> getOneAppartement(@Path("id") int id);
 
+    @GET("/appartements/{id}")
+    Single<List<Appartement>> getAppartementByImmeuble(@Path("id") int id);
+
 }

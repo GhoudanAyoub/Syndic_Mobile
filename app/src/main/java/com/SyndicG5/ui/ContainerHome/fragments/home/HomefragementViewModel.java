@@ -23,9 +23,14 @@ public class HomefragementViewModel extends ViewModel {
     private roomRepository roomRepo;
 
     private MutableLiveData<List<Appartement>> listAppartementMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Appartement>> listAppartementByImmeubleMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Immeuble>> listImmeubleMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Appartement> AppartementMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Immeuble> ImmeubleMutableLiveData = new MutableLiveData<>();
+
+    public MutableLiveData<List<Appartement>> getListAppartementByImmeubleMutableLiveData() {
+        return listAppartementByImmeubleMutableLiveData;
+    }
 
     public MutableLiveData<List<Appartement>> getListAppartementMutableLiveData() {
         return listAppartementMutableLiveData;
@@ -62,6 +67,14 @@ public class HomefragementViewModel extends ViewModel {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> AppartementMutableLiveData.setValue(response)
+                        , Throwable::printStackTrace);
+    }
+
+    public void getAppartementByImmeuble(int id) {
+        repository.getAppartementByImmeuble(id)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> listAppartementByImmeubleMutableLiveData.setValue(response)
                         , Throwable::printStackTrace);
     }
 
