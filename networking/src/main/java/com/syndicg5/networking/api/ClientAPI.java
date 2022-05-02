@@ -21,7 +21,7 @@ public class ClientAPI {
     @Provides
     @Singleton
     public static APISettings getInstance() {
-        String base_url = "http://"+IP+"/";
+        String base_url = "http://"+IP+"/api/";
         return new Retrofit.Builder()
                 .baseUrl(base_url)
                 .addConverterFactory(GsonConverterFactory.create())
