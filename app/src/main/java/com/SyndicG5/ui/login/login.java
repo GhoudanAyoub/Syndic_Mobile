@@ -77,6 +77,7 @@ public class login extends AppCompatActivity {
         mViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
             if (aBoolean) {
                 mViewModel.getLoginInfo();
+                mViewModel.getImmeubleInfo();
                 mViewModel.getLoginLiveData().observe(this, login -> {
                     if (login == null)
                         mViewModel.saveLogin(new Login(1, true));

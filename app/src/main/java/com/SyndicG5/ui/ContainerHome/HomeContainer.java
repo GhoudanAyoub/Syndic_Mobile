@@ -13,6 +13,7 @@ import com.SyndicG5.R;
 import com.SyndicG5.SyndicActivity;
 import com.SyndicG5.databinding.ActivityHomrContainerBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.homefragment;
+import com.SyndicG5.ui.ContainerHome.fragments.immeuble.immeubleFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.profile.ProfileFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.stats.statsFragment;
 import com.SyndicG5.ui.login.loginViewModel;
@@ -68,7 +69,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         ll_Logout.setOnClickListener(this);
 
 
-        replace(new homefragment());
+        replace(new immeubleFragment());
 
 
     }

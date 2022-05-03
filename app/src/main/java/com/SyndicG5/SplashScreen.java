@@ -29,6 +29,7 @@ public class SplashScreen extends SyndicActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mViewModel = new ViewModelProvider(this).get(loginViewModel.class);
         mViewModel.getLoginInfo();
+        mViewModel.getImmeubleInfo();
         mViewModel.getLoginLiveData().observe(this, it -> {
             if (it != null) {
                 if (it.isStatus())
