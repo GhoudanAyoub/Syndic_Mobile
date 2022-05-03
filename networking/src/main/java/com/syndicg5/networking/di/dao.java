@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Login;
 
 @Dao
@@ -19,5 +20,14 @@ public interface dao {
 
     @Update
     void UpdateLogin(Login f);
+
+    @Query("Select * from immeuble")
+    LiveData<Immeuble> getImmeubleInfo();
+
+    @Insert
+    void saveImmeuble(Immeuble f);
+
+    @Update
+    void UpdateImmeuble(Immeuble f);
 
 }
