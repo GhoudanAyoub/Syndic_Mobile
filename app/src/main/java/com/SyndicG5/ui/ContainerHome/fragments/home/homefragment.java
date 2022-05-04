@@ -1,6 +1,7 @@
 package com.SyndicG5.ui.ContainerHome.fragments.home;
 
 import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
+import static com.syndicg5.networking.utils.Commun.listDepense;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
@@ -99,16 +100,13 @@ public class homefragment extends Fragment {
             }
             amountHidden = !amountHidden;
         });
-        binding.fragmentNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY)
-                    binding.addContactFabTitle.setVisibility(View.GONE);
-                else if (scrollX == scrollY)
-                    binding.addContactFabTitle.setVisibility(View.VISIBLE);
-                else
-                    binding.addContactFabTitle.setVisibility(View.VISIBLE);
-            }
+        binding.fragmentNestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > oldScrollY)
+                binding.addContactFabTitle.setVisibility(View.GONE);
+            else if (scrollX == scrollY)
+                binding.addContactFabTitle.setVisibility(View.VISIBLE);
+            else
+                binding.addContactFabTitle.setVisibility(View.VISIBLE);
         });
         subscribe();
     }
@@ -144,6 +142,7 @@ public class homefragment extends Fragment {
         homeViewModel.getListAppartementByImmeubleMutableLiveData().observe(getViewLifecycleOwner(),appartementList -> {
 
         });
+        balanceAdapter.setList(listDepense);
         /*homeViewModel.getUserInfo();
         homeViewModel.getBalance();
         getBalanceView();
