@@ -57,9 +57,9 @@ class ImmeubleListAdapter:
         }
     }
 
-    private var setImmeubleClickListener: ((Immeuble: Immeuble) -> Unit)? = null
+    private var setImmeubleClickListener: ((Immeuble: Immeuble) -> Boolean)? = null
 
-    fun onImmeubleClicked(listener: (Immeuble) -> Unit) {
+    fun onImmeubleClicked(listener: (Immeuble) -> Boolean) {
         setImmeubleClickListener = listener
     }
 

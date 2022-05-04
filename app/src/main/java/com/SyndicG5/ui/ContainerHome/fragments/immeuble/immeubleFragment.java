@@ -1,6 +1,8 @@
 package com.SyndicG5.ui.ContainerHome.fragments.immeuble;
 
+import static com.SyndicG5.ui.ContainerHome.HomeContainer.openHome;
 import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
+import static com.syndicg5.networking.utils.Commun.listImmeuble;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import com.SyndicG5.Adapters.ImmeubleListAdapter;
 import com.SyndicG5.R;
 import com.SyndicG5.databinding.FragmentImmebleBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
+import com.SyndicG5.ui.login.loginViewModel;
 
 import javax.inject.Singleton;
 
@@ -27,8 +30,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class immeubleFragment extends Fragment {
     private FragmentImmebleBinding binding;
     HomefragementViewModel homeViewModel;
+    loginViewModel loginViewModel;
     private RecyclerView recyclerView;
     private ImmeubleListAdapter immeubleListAdapter;
+
 
     @Singleton
     public static immeubleFragment newInstance() {
@@ -39,6 +44,7 @@ public class immeubleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
+        loginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
         binding = FragmentImmebleBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -51,11 +57,17 @@ public class immeubleFragment extends Fragment {
         recyclerView = view.findViewById(R.id.immeuble_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         immeubleListAdapter = new ImmeubleListAdapter();
-        //recyclerView.setAdapter(immeubleListAdapter);
+        recyclerView.setAdapter(immeubleListAdapter);
         homeViewModel.getAllImmeuble();
+        immeubleListAdapter.setImmeublesList(listImmeuble);
         homeViewModel.getListImmeubleMutableLiveData().observe(getViewLifecycleOwner(),immeubles ->{
             if (!immeubles.isEmpty())immeubleListAdapter.setImmeublesList(immeubles);
         } );
+        immeubleListAdapter.onImmeubleClicked(immeuble -> {
+            loginViewModel.saveImmeuble(immeuble);
+            return true;
+        });
+        binding.selectStoreBtn.setOnClickListener(view1 -> openHome());
     }
 
 }

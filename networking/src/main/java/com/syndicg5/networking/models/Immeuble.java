@@ -1,6 +1,7 @@
 package com.syndicg5.networking.models;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -22,6 +23,17 @@ public class Immeuble implements Serializable {
     private List<Appartement> appartements;
     private List<Depense> depenses;
     private List<Revenu> revenus;
+
+    @Ignore
+    public Immeuble(int id, String nom, String adresse, String ville, String photo, Integer numero, Integer etages) {
+        this.id = id;
+        this.nom = nom;
+        this.adresse = adresse;
+        this.ville = ville;
+        this.photo = photo;
+        this.numero = numero;
+        this.etages = etages;
+    }
 
     public Immeuble(int id, String nom, String adresse, String ville, String photo, Integer numero, Integer etages, Syndic syndic, List<Appartement> appartements, List<Depense> depenses, List<Revenu> revenus) {
         this.id = id;
