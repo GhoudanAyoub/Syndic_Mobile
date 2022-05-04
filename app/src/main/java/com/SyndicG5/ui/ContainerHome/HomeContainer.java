@@ -19,7 +19,9 @@ import com.SyndicG5.ui.ContainerHome.fragments.stats.statsFragment;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Login;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
+import timber.log.Timber;
 
 public class HomeContainer extends SyndicActivity implements View.OnClickListener {
 
@@ -27,7 +29,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
     private static Toolbar toolbar;
     private LinearLayout ll_Home, ll_profile, ll_stats, ll_Logout;
     private static boolean open = false;
-    private loginViewModel mViewModel;
+    loginViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +69,13 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         ll_profile.setOnClickListener(this);
         ll_stats.setOnClickListener(this);
         ll_Logout.setOnClickListener(this);
-
-
-        replace(new immeubleFragment());
-
-
+        mViewModel.getImmeubleInfo();
+       mViewModel.getImmeubleInfoLiveData().observe(this,immeuble -> {
+            if(immeuble==null)
+                replace(immeubleFragment.newInstance());
+            else
+                replace(homefragment.newInstance());
+        });
     }
 
     @Override
