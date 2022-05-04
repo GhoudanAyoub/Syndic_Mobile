@@ -1,5 +1,6 @@
 package com.SyndicG5.ui.ContainerHome;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -31,12 +32,15 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
     private static boolean open = false;
     loginViewModel mViewModel;
 
+     private static FragmentTransaction transaction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHomrContainerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         mViewModel = new ViewModelProvider(this).get(loginViewModel.class);
+        transaction =  getSupportFragmentManager().beginTransaction();
         init();
     }
 
@@ -69,6 +73,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         ll_profile.setOnClickListener(this);
         ll_stats.setOnClickListener(this);
         ll_Logout.setOnClickListener(this);
+        replace(immeubleFragment.newInstance());
         mViewModel.getImmeubleInfo();
        mViewModel.getImmeubleInfoLiveData().observe(this,immeuble -> {
             if(immeuble==null)
@@ -78,6 +83,10 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         });
     }
 
+    public static void openHome(){
+        transaction.replace(R.id.frame, homefragment.newInstance());
+        transaction.commit();
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

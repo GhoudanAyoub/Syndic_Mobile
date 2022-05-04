@@ -11,12 +11,20 @@ import java.util.List;
 public class Depense implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    private String id;
+    private int id;
     private Double montant;
     private Date date;
     private String description;
     private List<Categorie> categories ;
     private Immeuble immeuble;
+
+    public Depense(int id, Double montant, Date date, String description, Immeuble immeuble) {
+        this.id = id;
+        this.montant = montant;
+        this.date = date;
+        this.description = description;
+        this.immeuble = immeuble;
+    }
 
     public Depense(Double montant, Date date, String description, List<Categorie> categories, Immeuble immeuble) {
         this.montant = montant;
@@ -26,7 +34,7 @@ public class Depense implements Serializable {
         this.immeuble = immeuble;
     }
 
-    public Depense(String id, Double montant, Date date, String description, List<Categorie> categories, Immeuble immeuble) {
+    public Depense(int id, Double montant, Date date, String description, List<Categorie> categories, Immeuble immeuble) {
         this.id = id;
         this.montant = montant;
         this.date = date;
@@ -35,11 +43,11 @@ public class Depense implements Serializable {
         this.immeuble = immeuble;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
