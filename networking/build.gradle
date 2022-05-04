@@ -27,6 +27,7 @@ dependencies {
     implementation deps.networking.ok2curl
     implementation deps.timber
     implementation deps.couroutines
+    implementation 'com.google.android.material:material:1.5.0'
 
 
     testImplementation deps.test.junit
