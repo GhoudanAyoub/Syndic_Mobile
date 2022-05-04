@@ -17,10 +17,10 @@ public class loginViewModel extends ViewModel {
     private apiRepository apiRepository;
 
     private MutableLiveData<Boolean> booleanMutableLiveData = new MutableLiveData<>();
-    private LiveData<Login> loginLiveData = null;
-    private LiveData<Immeuble> immeubleLoginLiveData = null;
+    private LiveData<Login> loginLiveData = new MutableLiveData<>();
+    private LiveData<Immeuble> immeubleLoginLiveData = new MutableLiveData<>();
 
-    public LiveData<Immeuble> getImmeubleLoginLiveData() {
+    public LiveData<Immeuble> getImmeubleInfoLiveData() {
         return immeubleLoginLiveData;
     }
 
