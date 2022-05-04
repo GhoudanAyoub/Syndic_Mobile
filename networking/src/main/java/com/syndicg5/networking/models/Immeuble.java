@@ -11,7 +11,7 @@ public class Immeuble implements Serializable {
 
 
     @PrimaryKey(autoGenerate = true)
-    private String id;
+    private int id;
     private String nom;
     private String adresse;
     private String ville;
@@ -23,7 +23,7 @@ public class Immeuble implements Serializable {
     private List<Depense> depenses;
     private List<Revenu> revenus;
 
-    public Immeuble(String id, String nom, String adresse, String ville, String photo, Integer numero, Integer etages, Syndic syndic, List<Appartement> appartements, List<Depense> depenses, List<Revenu> revenus) {
+    public Immeuble(int id, String nom, String adresse, String ville, String photo, Integer numero, Integer etages, Syndic syndic, List<Appartement> appartements, List<Depense> depenses, List<Revenu> revenus) {
         this.id = id;
         this.nom = nom;
         this.adresse = adresse;
@@ -37,11 +37,11 @@ public class Immeuble implements Serializable {
         this.revenus = revenus;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
