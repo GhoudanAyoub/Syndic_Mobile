@@ -43,7 +43,7 @@ public interface APISettings {
     @GET("immeubles")
     Single<List<Immeuble>> getAllImmeuble();
 
-    @GET("/immeubles/{id}")
+    @GET("immeubles/{id}")
     Single<Immeuble> getOneImmeuble(@Path("id") int id);
 
     //Appartement
@@ -53,10 +53,10 @@ public interface APISettings {
     @GET("appartements")
     Single<List<Appartement>> getAllAppartements();
 
-    @GET("/appartements/{id}")
+    @GET("appartements/{id}")
     Single<Appartement> getOneAppartement(@Path("id") int id);
 
-    @GET("/appartements/{id}")
+    @GET("appartements/{id}")
     Single<List<Appartement>> getAppartementByImmeuble(@Path("id") int id);
 
 }
