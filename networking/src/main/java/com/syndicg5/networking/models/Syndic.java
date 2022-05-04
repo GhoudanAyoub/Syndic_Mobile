@@ -1,6 +1,7 @@
 package com.syndicg5.networking.models;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.util.List;
 public class Syndic implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    private String id;
+    private int id;
     private String nom;
     private String prenom;
     private String email;
@@ -21,7 +22,20 @@ public class Syndic implements Serializable {
     private String telephone;
     private List<Immeuble> immeubles;
 
-    public Syndic(String id, String nom, String prenom, String email, String mdp, String adresse, String ville, String photo, String telephone, List<Immeuble> immeubles) {
+    @Ignore
+    public Syndic(int id, String nom, String prenom, String email, String mdp, String adresse, String ville, String photo, String telephone) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.mdp = mdp;
+        this.adresse = adresse;
+        this.ville = ville;
+        this.photo = photo;
+        this.telephone = telephone;
+    }
+
+    public Syndic(int id, String nom, String prenom, String email, String mdp, String adresse, String ville, String photo, String telephone, List<Immeuble> immeubles) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -34,11 +48,11 @@ public class Syndic implements Serializable {
         this.immeubles = immeubles;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

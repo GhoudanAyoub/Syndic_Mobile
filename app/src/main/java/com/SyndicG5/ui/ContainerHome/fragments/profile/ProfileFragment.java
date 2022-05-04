@@ -1,6 +1,7 @@
 package com.SyndicG5.ui.ContainerHome.fragments.profile;
 
 import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
+import static com.syndicg5.networking.utils.Commun.profile;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -37,6 +38,10 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setActivityName("");
+        binding.textView7.setText(profile.getNom()+" "+profile.getPrenom());
+        binding.emailedittext.getEditText().setText(profile.getEmail());
+        binding.phoneedittext.getEditText().setText(profile.getTelephone());
+        binding.passedittext.getEditText().setText(profile.getMdp());
     }
 
 }
