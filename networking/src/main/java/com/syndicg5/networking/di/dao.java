@@ -1,5 +1,7 @@
 package com.syndicg5.networking.di;
 
+import static androidx.room.OnConflictStrategy.REPLACE;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -24,7 +26,7 @@ public interface dao {
     @Query("Select * from immeuble")
     LiveData<Immeuble> getImmeubleInfo();
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     void saveImmeuble(Immeuble f);
 
     @Update
