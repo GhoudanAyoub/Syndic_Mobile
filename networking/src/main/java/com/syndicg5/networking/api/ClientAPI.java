@@ -4,6 +4,8 @@ package com.syndicg5.networking.api;
 
 import static com.syndicg5.networking.utils.Commun.IP;
 
+import com.google.gson.GsonBuilder;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -24,7 +26,9 @@ public class ClientAPI {
         String base_url = "http://"+IP+"/api/";
         return new Retrofit.Builder()
                 .baseUrl(base_url)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create( new GsonBuilder()
+                        .setLenient()
+                        .create()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(APISettings.class);
