@@ -3,12 +3,14 @@ package com.syndicg5.networking.di;
 import androidx.room.TypeConverter;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.syndicg5.networking.models.Appartement;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Converters {
@@ -35,6 +37,11 @@ public class Converters {
     public String FromListDepenseToString(List<Depense> Appartement) {
         return new Gson().toJson(Appartement);
     }
+    /*@TypeConverter
+    public static List<String> fromStringToList(String value) {
+        Type listType = new TypeToken<List<String>>() {}.getType();
+        return new Gson().fromJson(value, listType);
+    }*/
 
     @TypeConverter
     public List<Depense> FromStringToListDepense(String json) {
