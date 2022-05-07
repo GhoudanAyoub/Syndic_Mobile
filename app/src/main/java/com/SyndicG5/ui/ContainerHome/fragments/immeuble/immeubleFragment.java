@@ -61,7 +61,7 @@ public class immeubleFragment extends Fragment {
         homeViewModel.getAllImmeuble();
         immeubleListAdapter.setImmeublesList(listImmeuble);
         homeViewModel.getListImmeubleMutableLiveData().observe(getViewLifecycleOwner(),immeubles ->{
-            if (!immeubles.isEmpty())immeubleListAdapter.setImmeublesList(immeubles);
+           // if (!immeubles.isEmpty())immeubleListAdapter.setImmeublesList(immeubles);
         } );
         immeubleListAdapter.onImmeubleClicked(immeuble -> {
             loginViewModel.saveImmeuble(immeuble);
