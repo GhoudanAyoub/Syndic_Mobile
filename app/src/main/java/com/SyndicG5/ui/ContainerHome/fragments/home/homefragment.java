@@ -25,10 +25,15 @@ import com.SyndicG5.databinding.HomefragementFragmentBinding;
 import com.SyndicG5.ui.ContainerHome.transaction.calculatorActivity;
 import com.syndicg5.networking.utils.AppUtils;
 
+import javax.inject.Singleton;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class homefragment extends Fragment {
 
     private HomefragementFragmentBinding binding;
-    private HomefragementViewModel mViewModel;
+    HomefragementViewModel homeViewModel;
     private BalanceAdapter balanceAdapter;
     private RecyclerView recyclerView;
     private boolean amountHidden = false;
@@ -36,6 +41,7 @@ public class homefragment extends Fragment {
     private Double income = 0.0;
     private Double solde = 0.0;
 
+    @Singleton
     public static homefragment newInstance() {
         return new homefragment();
     }
@@ -43,7 +49,7 @@ public class homefragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
         binding = HomefragementFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -109,12 +115,6 @@ public class homefragment extends Fragment {
 
     private void OpenCalcutor() {
         startActivity(new Intent(binding.getRoot().getContext(), calculatorActivity.class));
-        /*
-        homeViewModel.getUserMutableLiveData().observe(getViewLifecycleOwner(), user -> {
-            if (user != null)
-            else
-                openProfile();
-        });*/
     }
 
     private void updateEditMode() {
@@ -138,8 +138,13 @@ public class homefragment extends Fragment {
     private void openFilterDialog() {
     }
 
-    private void subscribe() {/*
-        homeViewModel.getUserInfo();
+    private void subscribe() {
+
+        homeViewModel.getAppartementByImmeuble(1);
+        homeViewModel.getListAppartementByImmeubleMutableLiveData().observe(getViewLifecycleOwner(),appartementList -> {
+
+        });
+        /*homeViewModel.getUserInfo();
         homeViewModel.getBalance();
         getBalanceView();
         homeViewModel.getBalanceList().observe(getViewLifecycleOwner(), balances -> {

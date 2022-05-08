@@ -13,12 +13,15 @@ import com.SyndicG5.R;
 import com.SyndicG5.SyndicActivity;
 import com.SyndicG5.databinding.ActivityHomrContainerBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.homefragment;
+import com.SyndicG5.ui.ContainerHome.fragments.immeuble.immeubleFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.profile.ProfileFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.stats.statsFragment;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Login;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
+import timber.log.Timber;
 
 public class HomeContainer extends SyndicActivity implements View.OnClickListener {
 
@@ -26,7 +29,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
     private static Toolbar toolbar;
     private LinearLayout ll_Home, ll_profile, ll_stats, ll_Logout;
     private static boolean open = false;
-    private loginViewModel mViewModel;
+    loginViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +69,13 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         ll_profile.setOnClickListener(this);
         ll_stats.setOnClickListener(this);
         ll_Logout.setOnClickListener(this);
-
-
-        replace(new homefragment());
-
-
+        mViewModel.getImmeubleInfo();
+       mViewModel.getImmeubleInfoLiveData().observe(this,immeuble -> {
+            if(immeuble==null)
+                replace(immeubleFragment.newInstance());
+            else
+                replace(homefragment.newInstance());
+        });
     }
 
     @Override

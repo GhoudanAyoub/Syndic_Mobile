@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Login;
 import com.syndicg5.networking.models.User;
 import com.syndicg5.networking.repository.apiRepository;
@@ -16,7 +17,12 @@ public class loginViewModel extends ViewModel {
     private apiRepository apiRepository;
 
     private MutableLiveData<Boolean> booleanMutableLiveData = new MutableLiveData<>();
-    private LiveData<Login> loginLiveData = null;
+    private LiveData<Login> loginLiveData = new MutableLiveData<>();
+    private LiveData<Immeuble> immeubleLoginLiveData = new MutableLiveData<>();
+
+    public LiveData<Immeuble> getImmeubleInfoLiveData() {
+        return immeubleLoginLiveData;
+    }
 
     public LiveData<Login> getLoginLiveData() {
         return loginLiveData;
@@ -46,5 +52,17 @@ public class loginViewModel extends ViewModel {
 
     public void getLoginInfo() {
         loginLiveData = roomRepo.getLoginInfo();
+    }
+
+    public void saveImmeuble(Immeuble f) {
+        roomRepo.saveImmeuble(f);
+    }
+
+    public void UpdateLogin(Immeuble f) {
+        roomRepo.UpdateImmeuble(f);
+    }
+
+    public void getImmeubleInfo() {
+        immeubleLoginLiveData = roomRepo.getImmeubleInfo();
     }
 }

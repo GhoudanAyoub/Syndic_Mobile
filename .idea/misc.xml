@@ -21,14 +21,19 @@
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/activity_splashscreen.xml" value="0.176" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/delete_transaction_dialog.xml" value="0.23333333333333334" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/dialog_details_transaction.xml" value="0.23333333333333334" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/fragment_immeble.xml" value="0.2" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/homefragement_fragment.xml" value="0.2328125" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/immeuble_layout.xml" value="0.24094202898550723" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/karny_radio_button.xml" value="0.24094202898550723" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/profile_fragment.xml" value="0.2328125" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/progbar.xml" value="0.23333333333333334" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/selected_radio_button_item.xml" value="0.24094202898550723" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/stats_fragment.xml" value="0.21875" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/template_balance_item.xml" value="0.23333333333333334" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/view_balance_2.xml" value="0.23333333333333334" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/view_calculator_2.xml" value="0.23333333333333334" />
         <entry key="..\:/Users/ayoub/StudioProjects/Syndic/app/src/main/res/layout/view_transaction_amount_new.xml" value="0.23333333333333334" />
+        <entry key="..\:/Users/ayoub/StudioProjects/Syndic/networking/src/main/res/layout/karny_radio_button.xml" value="0.24094202898550723" />
       </map>
     </option>
   </component>

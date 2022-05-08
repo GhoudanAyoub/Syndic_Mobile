@@ -11,62 +11,46 @@ public class Immeuble implements Serializable {
 
 
     @PrimaryKey(autoGenerate = true)
-    private String id;
-    private String libelle;
+    private int id;
+    private String nom;
     private String adresse;
     private String ville;
+    private String photo;
     private Integer numero;
-    private Integer nbEtages;
+    private Integer etages;
     private Syndic syndic;
+    private List<Appartement> appartements;
     private List<Depense> depenses;
     private List<Revenu> revenus;
 
-    public Immeuble(String libelle, String adresse, String ville, Integer numero, Integer nbEtages, Syndic syndic) {
-        this.libelle = libelle;
-        this.adresse = adresse;
-        this.ville = ville;
-        this.numero = numero;
-        this.nbEtages = nbEtages;
-        this.syndic = syndic;
-    }
-
-    public Immeuble(String libelle, String adresse, String ville, Integer numero, Integer nbEtages, Syndic syndic, List<Depense> depenses, List<Revenu> revenus) {
-        this.libelle = libelle;
-        this.adresse = adresse;
-        this.ville = ville;
-        this.numero = numero;
-        this.nbEtages = nbEtages;
-        this.syndic = syndic;
-        this.depenses = depenses;
-        this.revenus = revenus;
-    }
-
-    public Immeuble(String id, String libelle, String adresse, String ville, Integer numero, Integer nbEtages, Syndic syndic, List<Depense> depenses, List<Revenu> revenus) {
+    public Immeuble(int id, String nom, String adresse, String ville, String photo, Integer numero, Integer etages, Syndic syndic, List<Appartement> appartements, List<Depense> depenses, List<Revenu> revenus) {
         this.id = id;
-        this.libelle = libelle;
+        this.nom = nom;
         this.adresse = adresse;
         this.ville = ville;
+        this.photo = photo;
         this.numero = numero;
-        this.nbEtages = nbEtages;
+        this.etages = etages;
         this.syndic = syndic;
+        this.appartements = appartements;
         this.depenses = depenses;
         this.revenus = revenus;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getLibelle() {
-        return libelle;
+    public String getNom() {
+        return nom;
     }
 
-    public void setLibelle(String libelle) {
-        this.libelle = libelle;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public String getAdresse() {
@@ -85,6 +69,14 @@ public class Immeuble implements Serializable {
         this.ville = ville;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     public Integer getNumero() {
         return numero;
     }
@@ -93,12 +85,12 @@ public class Immeuble implements Serializable {
         this.numero = numero;
     }
 
-    public Integer getNbEtages() {
-        return nbEtages;
+    public Integer getEtages() {
+        return etages;
     }
 
-    public void setNbEtages(Integer nbEtages) {
-        this.nbEtages = nbEtages;
+    public void setEtages(Integer etages) {
+        this.etages = etages;
     }
 
     public Syndic getSyndic() {
@@ -107,6 +99,14 @@ public class Immeuble implements Serializable {
 
     public void setSyndic(Syndic syndic) {
         this.syndic = syndic;
+    }
+
+    public List<Appartement> getAppartements() {
+        return appartements;
+    }
+
+    public void setAppartements(List<Appartement> appartements) {
+        this.appartements = appartements;
     }
 
     public List<Depense> getDepenses() {
@@ -121,7 +121,7 @@ public class Immeuble implements Serializable {
         return revenus;
     }
 
-    public void ListRevenus(List<Revenu> revenus) {
+    public void setRevenus(List<Revenu> revenus) {
         this.revenus = revenus;
     }
 }
