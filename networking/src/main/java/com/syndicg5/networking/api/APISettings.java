@@ -1,8 +1,10 @@
 package com.syndicg5.networking.api;
 
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Resident;
+import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
 
 import java.util.List;
@@ -56,7 +58,19 @@ public interface APISettings {
     @GET("appartements/{id}")
     Single<Appartement> getOneAppartement(@Path("id") int id);
 
-    @GET("appartements/{id}")
+    @GET("appartementByImmeuble/{id}")
     Single<List<Appartement>> getAppartementByImmeuble(@Path("id") int id);
+
+    //revenu
+    @GET("revenusByAppartement/{id}")
+    Single<List<Revenu>> getRevenusByAppartement(@Path("id") int id);
+
+    @GET("revenusByImmeuble/{id}")
+    Single<List<Revenu>> getRevenusByImmeuble(@Path("id") int id);
+
+    //depense
+    @GET("depenseByImmeuble/{id}")
+    Single<List<Depense>> getDepenseByImmeuble(@Path("id") int id);
+
 
 }

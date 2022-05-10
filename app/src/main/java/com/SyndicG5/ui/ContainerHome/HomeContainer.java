@@ -1,10 +1,12 @@
 package com.SyndicG5.ui.ContainerHome;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,11 +26,12 @@ import dagger.hilt.android.AndroidEntryPoint;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 import timber.log.Timber;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class HomeContainer extends SyndicActivity implements View.OnClickListener {
 
     private ActivityHomrContainerBinding binding;
     private static Toolbar toolbar;
-    private LinearLayout ll_Home, ll_profile, ll_stats, ll_Logout;
+    private LinearLayout ll_Home, ll_profile, ll_Immeuble,ll_stats, ll_Logout;
     private static boolean open = false;
     loginViewModel mViewModel;
 
@@ -65,12 +68,14 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
 
         ll_Home = menuView.findViewById(R.id.ll_Home);
         ll_profile = menuView.findViewById(R.id.ll_profile);
+        ll_Immeuble = menuView.findViewById(R.id.ll_Immeuble);
         ll_stats = menuView.findViewById(R.id.ll_stats);
         ll_Logout = menuView.findViewById(R.id.ll_Logout);
 
 
         ll_Home.setOnClickListener(this);
         ll_profile.setOnClickListener(this);
+        ll_Immeuble.setOnClickListener(this);
         ll_stats.setOnClickListener(this);
         ll_Logout.setOnClickListener(this);
         replace(immeubleFragment.newInstance());
@@ -98,6 +103,10 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
                 replace(new ProfileFragment(), "Profile");
                 break;
 
+
+            case R.id.ll_Immeuble:
+                replace(new statsFragment(), "Stats");
+                break;
 
             case R.id.ll_stats:
                 replace(new statsFragment(), "Stats");

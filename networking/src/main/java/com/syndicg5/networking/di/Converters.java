@@ -5,6 +5,7 @@ import androidx.room.TypeConverter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Revenu;
@@ -22,6 +23,36 @@ public class Converters {
     @TypeConverter
     public Syndic FromStringToSyndic(String json) {
         return new Gson().fromJson(json, Syndic.class);
+    }
+
+    @TypeConverter
+    public String FromImmeubleToString(Immeuble immeuble) {
+        return new Gson().toJson(immeuble);
+    }
+
+    @TypeConverter
+    public Immeuble FromStringToImmeuble(String json) {
+        return new Gson().fromJson(json, Immeuble.class);
+    }
+
+    @TypeConverter
+    public String FromCategorieToString(Categorie categorie) {
+        return new Gson().toJson(categorie);
+    }
+
+    @TypeConverter
+    public Categorie FromStringToCategorie(String json) {
+        return new Gson().fromJson(json, Categorie.class);
+    }
+
+    @TypeConverter
+    public String FromAppartementToString(Appartement appartement) {
+        return new Gson().toJson(appartement);
+    }
+
+    @TypeConverter
+    public Appartement FromStringToAppartement(String json) {
+        return new Gson().fromJson(json, Appartement.class);
     }
 
     @TypeConverter
