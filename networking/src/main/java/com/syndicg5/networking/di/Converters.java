@@ -6,11 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.syndicg5.networking.models.Appartement;
 import com.syndicg5.networking.models.Depense;
+import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Converters {
@@ -37,6 +37,22 @@ public class Converters {
         }
         Gson gson = new Gson();
         Type type = new TypeToken<List<Appartement>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    @TypeConverter
+    public String FromListImmeubleToString(List<Immeuble> Appartement) {
+        return new Gson().toJson(Appartement);
+    }
+
+    @TypeConverter
+    public List<Immeuble> FromStringToListImmeuble(String json) {
+        if (json == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Immeuble>>() {
         }.getType();
         return gson.fromJson(json, type);
     }
