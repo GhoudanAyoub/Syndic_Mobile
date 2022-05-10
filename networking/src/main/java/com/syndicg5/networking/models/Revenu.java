@@ -15,21 +15,16 @@ public class Revenu implements Serializable {
     private Double montant;
     private Date date;
     private String description;
-    private List<Categorie> categories;
+    private Appartement appartement;
+    private Immeuble immeuble;
 
-    public Revenu(Double montant, Date date, String description, List<Categorie> categories) {
-        this.montant = montant;
-        this.date = date;
-        this.description = description;
-        this.categories = categories;
-    }
-
-    public Revenu(String id, Double montant, Date date, String description, List<Categorie> categories) {
+    public Revenu(String id, Double montant, Date date, String description, Appartement appartement, Immeuble immeuble) {
         this.id = id;
         this.montant = montant;
         this.date = date;
         this.description = description;
-        this.categories = categories;
+        this.appartement = appartement;
+        this.immeuble = immeuble;
     }
 
     public String getId() {
@@ -64,11 +59,19 @@ public class Revenu implements Serializable {
         this.description = description;
     }
 
-    public List<Categorie> getCategories() {
-        return categories;
+    public Appartement getAppartement() {
+        return appartement;
     }
 
-    public void setCategories(List<Categorie> categories) {
-        this.categories = categories;
+    public void setAppartement(Appartement appartement) {
+        this.appartement = appartement;
+    }
+
+    public Immeuble getImmeuble() {
+        return immeuble;
+    }
+
+    public void setImmeuble(Immeuble immeuble) {
+        this.immeuble = immeuble;
     }
 }

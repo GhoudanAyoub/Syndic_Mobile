@@ -1,7 +1,5 @@
 package com.SyndicG5.Adapters;
 
-import static com.syndicg5.networking.utils.Commun.getClientNameInitials;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -13,35 +11,33 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SyndicG5.R;
-import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.syndicg5.networking.models.Appartement;
 import com.syndicg5.networking.models.Depense;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
-public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalanceViewHolder> {
+public class AppartementAdapter extends RecyclerView.Adapter<AppartementAdapter.AppartementAdapterHolder> {
 
-    private List<Depense> BalanceList = new ArrayList<>();
+    private ArrayList<Appartement> AppartementList = new ArrayList<>();
     private Context context;
-
-    public BalanceAdapter(Context context) {
-        this.context = context;
+    public AppartementAdapter(Context context) {
+        this.context=context;
     }
 
     @NonNull
     @Override
-    public BalanceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new BalanceViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.template_balance_item, parent, false));
+    public AppartementAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new AppartementAdapterHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.template_balance_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BalanceViewHolder holder, int position) {
-        Depense balance = BalanceList.get(position);
-        holder.transactionContact.setText(balance.getDescription());
-        holder.transactionDate.setText(new SimpleDateFormat("dd-MM-yyyy").format(balance.getDate()));
-        holder.transactionAmount.setText(balance.getMontant().toString());
+    public void onBindViewHolder(@NonNull AppartementAdapterHolder holder, int position) {
+        Appartement appartement = AppartementList.get(position);
+        holder.transactionContact.setText("Appartement "+appartement.getNumero().toString());
+        holder.transactionDate.setText("Etage "+appartement.getEtage().toString());
+       // holder.transactionAmount.setText(appartement.get().toString());
         holder.transactionAmount.setTextColor(Color.GREEN);
         holder.client_name_shortcut.setVisibility(View.VISIBLE);
       /*  holder.client_name_shortcut.setText(getClientNameInitials(balance.getImmeuble().getNom()));
@@ -52,23 +48,24 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.BalanceV
             holder.client_name_shortcut.setVisibility(View.GONE);
             holder.client_image.setVisibility(View.VISIBLE);
         }*/
+
     }
 
     @Override
     public int getItemCount() {
-        return BalanceList.size();
+        return AppartementList.size();
     }
 
-    public void setList(List<Depense> BalanceList) {
-        this.BalanceList = BalanceList;
+    public void setList(ArrayList<Appartement> AppartementList) {
+        this.AppartementList = AppartementList;
         notifyDataSetChanged();
     }
 
-    public class BalanceViewHolder extends RecyclerView.ViewHolder {
+    public class AppartementAdapterHolder extends RecyclerView.ViewHolder {
         public TextView transactionContact, transactionAmount, transactionDate, client_name_shortcut;
         public ShapeableImageView client_image;
 
-        public BalanceViewHolder(View itemView) {
+        public AppartementAdapterHolder(View itemView) {
             super(itemView);
             transactionContact = itemView.findViewById(R.id.transactionContact);
             transactionAmount = itemView.findViewById(R.id.transactionAmount);

@@ -3,8 +3,10 @@ package com.syndicg5.networking.repository;
 
 import com.syndicg5.networking.api.APISettings;
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Resident;
+import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
 import com.syndicg5.networking.models.User;
 
@@ -65,6 +67,17 @@ public class apiRepository {
 
     public Single<List<Appartement>> getAppartementByImmeuble(int id) {
         return apiSettings.getAppartementByImmeuble(id);
+    }
+
+    //revenu  depense
+    public Single<List<Revenu>> getRevenusByAppartement(int id) {
+        return apiSettings.getRevenusByAppartement(id);
+    }
+    public Single<List<Revenu>> getRevenusByImmeuble(int id) {
+        return apiSettings.getRevenusByImmeuble(id);
+    }
+    public Single<List<Depense>> getDepenseByImmeuble(int id) {
+        return apiSettings.getDepenseByImmeuble(id);
     }
 
     //Immeuble

@@ -10,39 +10,31 @@ import java.util.List;
 @Entity(tableName = "appartement")
 public class Appartement implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private String id;
     private Integer numero;
     private Integer etage;
     private Double surface;
-    private List<Payement> payements;
-    private Resident resident;
-    private Immeuble immeuble;
+    private int resident_id;
+    private int immeuble_id;
 
-    public Appartement(Integer numero, Integer etage, Double surface, Immeuble immeuble) {
+
+
+    public Appartement(Integer numero, Integer etage, Double surface, int resident_id, int immeuble_id) {
         this.numero = numero;
         this.etage = etage;
         this.surface = surface;
-        this.immeuble = immeuble;
+        this.resident_id = resident_id;
+        this.immeuble_id = immeuble_id;
     }
 
-    public Appartement(Integer numero, Integer etage, Double surface, List<Payement> payements, Resident resident, Immeuble immeuble) {
-        this.numero = numero;
-        this.etage = etage;
-        this.surface = surface;
-        this.payements = payements;
-        this.resident = resident;
-        this.immeuble = immeuble;
-    }
-
-    public Appartement(String id, Integer numero, Integer etage, Double surface, List<Payement> payements, Resident resident, Immeuble immeuble) {
+    public Appartement(String id, Integer numero, Integer etage, Double surface, int resident_id, int immeuble_id) {
         this.id = id;
         this.numero = numero;
         this.etage = etage;
         this.surface = surface;
-        this.payements = payements;
-        this.resident = resident;
-        this.immeuble = immeuble;
+        this.resident_id = resident_id;
+        this.immeuble_id = immeuble_id;
     }
 
     public String getId() {
@@ -77,27 +69,19 @@ public class Appartement implements Serializable {
         this.surface = surface;
     }
 
-    public List<Payement> getPayements() {
-        return payements;
+    public int getResident_id() {
+        return resident_id;
     }
 
-    public void setPayements(List<Payement> payements) {
-        this.payements = payements;
+    public void setResident_id(int resident_id) {
+        this.resident_id = resident_id;
     }
 
-    public Resident getResident() {
-        return resident;
+    public int getImmeuble_id() {
+        return immeuble_id;
     }
 
-    public void setResident(Resident resident) {
-        this.resident = resident;
-    }
-
-    public Immeuble getImmeuble() {
-        return immeuble;
-    }
-
-    public void setImmeuble(Immeuble immeuble) {
-        this.immeuble = immeuble;
+    public void setImmeuble_id(int immeuble_id) {
+        this.immeuble_id = immeuble_id;
     }
 }
