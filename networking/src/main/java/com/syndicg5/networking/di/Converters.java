@@ -29,10 +29,18 @@ public class Converters {
         return new Gson().toJson(Appartement);
     }
 
+
     @TypeConverter
     public List<Appartement> FromStringToListAppartement(String json) {
-        return new Gson().fromJson(json, (Type) Appartement.class);
+        if (json == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Appartement>>() {
+        }.getType();
+        return gson.fromJson(json, type);
     }
+
     @TypeConverter
     public String FromListDepenseToString(List<Depense> Appartement) {
         return new Gson().toJson(Appartement);
