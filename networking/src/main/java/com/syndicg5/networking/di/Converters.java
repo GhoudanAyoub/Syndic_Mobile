@@ -61,15 +61,16 @@ public class Converters {
     public String FromListDepenseToString(List<Depense> Appartement) {
         return new Gson().toJson(Appartement);
     }
-    /*@TypeConverter
-    public static List<String> fromStringToList(String value) {
-        Type listType = new TypeToken<List<String>>() {}.getType();
-        return new Gson().fromJson(value, listType);
-    }*/
 
     @TypeConverter
     public List<Depense> FromStringToListDepense(String json) {
-        return new Gson().fromJson(json, (Type) Depense.class);
+        if (json == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Depense>>() {
+        }.getType();
+        return gson.fromJson(json, type);
     }
 
     @TypeConverter
@@ -79,7 +80,13 @@ public class Converters {
 
     @TypeConverter
     public List<Revenu> FromStringToListRevenu(String json) {
-        return new Gson().fromJson(json, (Type) Revenu.class);
+        if (json == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Revenu>>() {
+        }.getType();
+        return gson.fromJson(json, type);
     }
 
 }
