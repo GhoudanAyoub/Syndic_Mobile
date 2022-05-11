@@ -94,7 +94,6 @@ public class homefragment extends Fragment {
             AppUtils.showKeyboard(requireActivity());
         });
 
-        binding.sortFilterBtn.setOnClickListener(view1 -> openFilterDialog());
         binding.endSearchBtn.setOnClickListener(view1 -> clearAndHideSearchView());
         binding.balanceView.showHideBalanceBtn.setOnClickListener(view1 -> {
             if (amountHidden) {
@@ -142,8 +141,6 @@ public class homefragment extends Fragment {
         AppUtils.hideKeyboard(requireActivity());
     }
 
-    private void openFilterDialog() {
-    }
 
     private void subscribe() {
         homeViewModel.getImmeubleInfo().observe(getViewLifecycleOwner(), immeuble -> {
@@ -151,6 +148,7 @@ public class homefragment extends Fragment {
             getBalanceView(immeuble.getId());
             homeViewModel.getAppartementByImmeuble(immeuble.getId());
             homeViewModel.getListAppartementByImmeubleMutableLiveData().observe(getViewLifecycleOwner(), appartementList -> {
+                binding.clientsNumberTxt.setText(appartementList.size()+"");
                 appartementAdapter.setList((ArrayList<Appartement>) appartementList);
             });
         });

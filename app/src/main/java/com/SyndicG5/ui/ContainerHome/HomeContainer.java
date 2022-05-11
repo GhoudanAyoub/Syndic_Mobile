@@ -43,6 +43,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         binding = ActivityHomrContainerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         mViewModel = new ViewModelProvider(this).get(loginViewModel.class);
+        mViewModel.getImmeubleInfo();
         transaction =  getSupportFragmentManager().beginTransaction();
         init();
     }
@@ -79,7 +80,6 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         ll_stats.setOnClickListener(this);
         ll_Logout.setOnClickListener(this);
         replace(immeubleFragment.newInstance());
-        mViewModel.getImmeubleInfo();
        mViewModel.getImmeubleInfoLiveData().observe(this,immeuble -> {
             if(immeuble==null)
                 replace(immeubleFragment.newInstance());
