@@ -34,6 +34,7 @@ public class roomRepository {
     }
 
     public void saveImmeuble(Immeuble f) {
+        dao.deleteImmeuble();
         dao.saveImmeuble(f);
     }
 

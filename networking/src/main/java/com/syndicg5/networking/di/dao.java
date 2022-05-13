@@ -4,6 +4,7 @@ import static androidx.room.OnConflictStrategy.REPLACE;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -22,6 +23,9 @@ public interface dao {
 
     @Update
     void UpdateLogin(Login f);
+
+    @Query("DELETE FROM immeuble")
+    void deleteImmeuble();
 
     @Query("Select * from immeuble")
     LiveData<Immeuble> getImmeubleInfo();

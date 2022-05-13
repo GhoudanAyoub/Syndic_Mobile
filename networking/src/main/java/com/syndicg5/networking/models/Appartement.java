@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "appartement")
@@ -15,26 +16,20 @@ public class Appartement implements Serializable {
     private Integer numero;
     private Integer etage;
     private Double surface;
-    private int resident_id;
-    private int immeuble_id;
+    private Date debut;
+    private Date fin;
+    private Resident resident;
+    private Immeuble immeuble;
 
-
-
-    public Appartement(Integer numero, Integer etage, Double surface, int resident_id, int immeuble_id) {
-        this.numero = numero;
-        this.etage = etage;
-        this.surface = surface;
-        this.resident_id = resident_id;
-        this.immeuble_id = immeuble_id;
-    }
-
-    public Appartement(String id, Integer numero, Integer etage, Double surface, int resident_id, int immeuble_id) {
+    public Appartement(String id, Integer numero, Integer etage, Double surface, Date debut, Date fin, Resident resident, Immeuble immeuble) {
         this.id = id;
         this.numero = numero;
         this.etage = etage;
         this.surface = surface;
-        this.resident_id = resident_id;
-        this.immeuble_id = immeuble_id;
+        this.debut = debut;
+        this.fin = fin;
+        this.resident = resident;
+        this.immeuble = immeuble;
     }
 
     public String getId() {
@@ -69,19 +64,35 @@ public class Appartement implements Serializable {
         this.surface = surface;
     }
 
-    public int getResident_id() {
-        return resident_id;
+    public Resident getResident() {
+        return resident;
     }
 
-    public void setResident_id(int resident_id) {
-        this.resident_id = resident_id;
+    public void setResident(Resident resident) {
+        this.resident = resident;
     }
 
-    public int getImmeuble_id() {
-        return immeuble_id;
+    public Immeuble getImmeuble() {
+        return immeuble;
     }
 
-    public void setImmeuble_id(int immeuble_id) {
-        this.immeuble_id = immeuble_id;
+    public void setImmeuble(Immeuble immeuble) {
+        this.immeuble = immeuble;
+    }
+
+    public Date getDebut() {
+        return debut;
+    }
+
+    public void setDebut(Date debut) {
+        this.debut = debut;
+    }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
     }
 }
