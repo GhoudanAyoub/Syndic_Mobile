@@ -9,13 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +34,9 @@ import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.utils.AppUtils;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.inject.Singleton;
 
@@ -50,6 +56,7 @@ public class homefragment extends Fragment {
     private Double income = 0.0;
     private Double solde = 0.0;
     private Immeuble currentImmeuble;
+    private List<Appartement> appartementLists;
 
     @Singleton
     public static homefragment newInstance() {
@@ -93,6 +100,19 @@ public class homefragment extends Fragment {
             binding.clientsSearchView.requestFocus();
             AppUtils.showKeyboard(requireActivity());
         });
+        binding.clientsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                clearAndHideSearchView();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return true;
+            }
+        });
 
         binding.endSearchBtn.setOnClickListener(view1 -> clearAndHideSearchView());
         binding.balanceView.showHideBalanceBtn.setOnClickListener(view1 -> {
@@ -116,6 +136,22 @@ public class homefragment extends Fragment {
             else
                 binding.addContactFabTitle.setVisibility(View.VISIBLE);
         });
+    }
+    private void filter(String query) {
+        String lowerCaseQuery = query.toLowerCase();
+        List<Appartement> filteredModelList = query.isEmpty() ?
+                appartementLists :
+                appartementLists
+                        .stream()
+                        .filter(appartement -> appartement.getNumero().toString().contains(lowerCaseQuery) || appartement.getEtage().toString().contains(lowerCaseQuery))
+                .collect(Collectors.toList());
+        appartementAdapter.setList((ArrayList<Appartement>) filteredModelList);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         subscribe();
     }
 
@@ -148,6 +184,7 @@ public class homefragment extends Fragment {
             getBalanceView(immeuble.getId());
             homeViewModel.getAppartementByImmeuble(immeuble.getId());
             homeViewModel.getListAppartementByImmeubleMutableLiveData().observe(getViewLifecycleOwner(), appartementList -> {
+                appartementLists = appartementList;
                 binding.clientsNumberTxt.setText(appartementList.size()+"");
                 appartementAdapter.setList((ArrayList<Appartement>) appartementList);
             });
@@ -184,7 +221,6 @@ public class homefragment extends Fragment {
             }
         });
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();

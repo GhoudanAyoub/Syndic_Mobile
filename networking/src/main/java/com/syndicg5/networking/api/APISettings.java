@@ -1,5 +1,7 @@
 package com.syndicg5.networking.api;
 
+import androidx.lifecycle.LiveData;
+
 import com.syndicg5.networking.models.Appartement;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
@@ -58,12 +60,15 @@ public interface APISettings {
     @GET("appartements/{id}")
     Single<Appartement> getOneAppartement(@Path("id") int id);
 
-    @GET("appartementByImmeuble/{id}")
+    @GET("appartements/syndic/immeuble/{id}")
     Single<List<Appartement>> getAppartementByImmeuble(@Path("id") int id);
 
     //revenu
     @GET("revenusByAppartement/{id}")
     Single<List<Revenu>> getRevenusByAppartement(@Path("id") int id);
+
+    @GET("revenusByAppartement/{id}")
+    LiveData<List<Revenu>> getRevenusByAppartementData(@Path("id") int id);
 
     @GET("revenusByImmeuble/{id}")
     Single<List<Revenu>> getRevenusByImmeuble(@Path("id") int id);

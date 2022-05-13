@@ -105,7 +105,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
 
 
             case R.id.ll_Immeuble:
-                replace(new statsFragment(), "Stats");
+                replace(new immeubleFragment(), "immeuble");
                 break;
 
             case R.id.ll_stats:

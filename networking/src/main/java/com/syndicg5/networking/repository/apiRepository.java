@@ -1,6 +1,8 @@
 package com.syndicg5.networking.repository;
 
 
+import androidx.lifecycle.LiveData;
+
 import com.syndicg5.networking.api.APISettings;
 import com.syndicg5.networking.models.Appartement;
 import com.syndicg5.networking.models.Depense;
@@ -72,6 +74,9 @@ public class apiRepository {
     //revenu  depense
     public Single<List<Revenu>> getRevenusByAppartement(int id) {
         return apiSettings.getRevenusByAppartement(id);
+    }
+    public LiveData<List<Revenu>> getRevenusByAppartementData(int id) {
+        return apiSettings.getRevenusByAppartementData(id);
     }
     public Single<List<Revenu>> getRevenusByImmeuble(int id) {
         return apiSettings.getRevenusByImmeuble(id);

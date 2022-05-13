@@ -1,5 +1,6 @@
 package com.SyndicG5.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -8,15 +9,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SyndicG5.R;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.syndicg5.networking.models.Appartement;
 import com.syndicg5.networking.models.Depense;
+import com.syndicg5.networking.models.Revenu;
+import com.syndicg5.networking.repository.apiRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import io.reactivex.Single;
 
 public class AppartementAdapter extends RecyclerView.Adapter<AppartementAdapter.AppartementAdapterHolder> {
 
@@ -25,6 +34,9 @@ public class AppartementAdapter extends RecyclerView.Adapter<AppartementAdapter.
     public AppartementAdapter(Context context) {
         this.context=context;
     }
+
+    @Inject
+    apiRepository apiRepository;
 
     @NonNull
     @Override
@@ -37,11 +49,11 @@ public class AppartementAdapter extends RecyclerView.Adapter<AppartementAdapter.
         Appartement appartement = AppartementList.get(position);
         holder.transactionContact.setText("Appartement "+appartement.getNumero().toString());
         holder.transactionDate.setText("Etage "+appartement.getEtage().toString());
-       // holder.transactionAmount.setText(appartement.get().toString());
+        holder.transactionAmount.setText("0 dh");
         holder.transactionAmount.setTextColor(Color.GREEN);
         holder.client_name_shortcut.setVisibility(View.VISIBLE);
-      /*  holder.client_name_shortcut.setText(getClientNameInitials(balance.getImmeuble().getNom()));
-        Glide.with(context)
+        holder.client_name_shortcut.setText(appartement.getNumero().toString());
+       /* Glide.with(context)
                 .load(balance.getImmeuble().getPhoto())
                 .into(holder.client_image);
         if (balance.getImmeuble().getPhoto() != null) {
