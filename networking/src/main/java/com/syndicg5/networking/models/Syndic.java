@@ -22,6 +22,10 @@ public class Syndic implements Serializable {
     private String telephone;
     private List<Immeuble> immeubles;
 
+    public User toUser(){
+        return new User( id,  email,  mdp,  nom,  prenom,  mdp,  adresse,  ville,  photo,  telephone);
+    }
+
     @Ignore
     public Syndic(int id, String nom, String prenom, String email, String mdp, String adresse, String ville, String photo, String telephone) {
         this.id = id;

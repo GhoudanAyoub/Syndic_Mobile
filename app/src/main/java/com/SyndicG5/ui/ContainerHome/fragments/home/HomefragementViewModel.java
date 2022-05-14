@@ -96,8 +96,8 @@ public class HomefragementViewModel extends ViewModel {
                         , Throwable::printStackTrace);
     }
 
-    public void getAllImmeuble() {
-        repository.getAllImmeuble()
+    public void getAllImmeuble(int id) {
+        repository.getAllImmeuble(id)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> listImmeubleMutableLiveData.setValue(response)

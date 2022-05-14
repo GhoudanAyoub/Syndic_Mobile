@@ -2,16 +2,21 @@ package com.SyndicG5.ui.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.SyndicG5.SyndicActivity;
 import com.SyndicG5.databinding.ActivityLoginBinding;
 import com.SyndicG5.ui.ContainerHome.HomeContainer;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.syndicg5.networking.models.Login;
+import com.syndicg5.networking.models.Syndic;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +31,7 @@ import io.reactivex.disposables.Disposable;
 import kotlin.Unit;
 import timber.log.Timber;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 @AndroidEntryPoint
 public class login extends AppCompatActivity {
 
@@ -79,14 +85,23 @@ public class login extends AppCompatActivity {
                 mViewModel.getLoginInfo();
                 mViewModel.getImmeubleInfo();
                 mViewModel.getLoginLiveData().observe(this, login -> {
-                    if (login == null)
+                    if (login == null){
                         mViewModel.saveLogin(new Login(1, true));
-                    else
+                        mViewModel.getOneSyndic(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
+                        mViewModel.getSyndicMutableLiveData().observe(this,syndic -> {
+                            mViewModel.saveUser(syndic.toUser());
+                            startActivity(new Intent(getApplication(), HomeContainer.class));
+                                }
+                        );
+                    }
+                    else {
                         mViewModel.UpdateLogin(new Login(1, true));
+                        startActivity(new Intent(getApplication(), HomeContainer.class));
+                    }
                 });
-                startActivity(new Intent(getApplication(), HomeContainer.class));
-                progressDialog.dismiss();
-            }
+            }else
+                Toast.makeText(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
         });
     }
 

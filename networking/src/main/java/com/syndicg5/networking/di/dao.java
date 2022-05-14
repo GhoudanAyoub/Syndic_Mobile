@@ -11,6 +11,7 @@ import androidx.room.Update;
 
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Login;
+import com.syndicg5.networking.models.User;
 
 @Dao
 public interface dao {
@@ -35,5 +36,11 @@ public interface dao {
 
     @Update
     void UpdateImmeuble(Immeuble f);
+
+    @Insert(onConflict = REPLACE)
+    void saveUser(User u);
+
+    @Query("Select * from user")
+    LiveData<User> getUserInfo();
 
 }
