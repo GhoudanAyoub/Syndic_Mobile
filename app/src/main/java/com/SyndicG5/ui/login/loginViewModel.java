@@ -1,5 +1,7 @@
 package com.SyndicG5.ui.login;
 
+import android.annotation.SuppressLint;
+
 import androidx.hilt.lifecycle.ViewModelInject;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -7,9 +9,13 @@ import androidx.lifecycle.ViewModel;
 
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Login;
+import com.syndicg5.networking.models.Syndic;
 import com.syndicg5.networking.models.User;
 import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.repository.roomRepository;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class loginViewModel extends ViewModel {
 
@@ -19,6 +25,8 @@ public class loginViewModel extends ViewModel {
     private MutableLiveData<Boolean> booleanMutableLiveData = new MutableLiveData<>();
     private LiveData<Login> loginLiveData = new MutableLiveData<>();
     private LiveData<Immeuble> immeubleLoginLiveData = new MutableLiveData<>();
+    private LiveData<User> userLoginLiveData = new MutableLiveData<>();
+    private MutableLiveData<Syndic> syndicMutableLiveData = new MutableLiveData<>();
 
     public LiveData<Immeuble> getImmeubleInfoLiveData() {
         return immeubleLoginLiveData;
@@ -32,14 +40,44 @@ public class loginViewModel extends ViewModel {
         return booleanMutableLiveData;
     }
 
+    public LiveData<User> getUserLoginLiveData() {
+        return userLoginLiveData;
+    }
+
+    public MutableLiveData<Syndic> getSyndicMutableLiveData() {
+        return syndicMutableLiveData;
+    }
+
     @ViewModelInject
     public loginViewModel(roomRepository roomRepository, apiRepository apiRepository) {
         this.roomRepo = roomRepository;
         this.apiRepository = apiRepository;
     }
 
+    @SuppressLint("CheckResult")
     public void Login(String email, String pass) {
-        booleanMutableLiveData.setValue(true);
+        apiRepository.Login(new User(email,pass))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                            if (response.isSuccessful()) {
+                                if (response.code() == 200)
+                                    booleanMutableLiveData.setValue(true);
+                                else
+                                    booleanMutableLiveData.setValue(false);
+                            } else
+                                booleanMutableLiveData.setValue(false);
+                        }, Throwable::printStackTrace);
+    }
+
+    @SuppressLint("CheckResult")
+    public void getOneSyndic(String email){
+        apiRepository.getOneSyndic(email)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    syndicMutableLiveData.setValue(response);
+                }, Throwable::printStackTrace);
     }
 
     public void saveLogin(Login f) {
@@ -58,11 +96,19 @@ public class loginViewModel extends ViewModel {
         roomRepo.saveImmeuble(f);
     }
 
+    public void saveUser(User f) {
+        roomRepo.saveUser(f);
+    }
+
     public void UpdateLogin(Immeuble f) {
         roomRepo.UpdateImmeuble(f);
     }
 
     public void getImmeubleInfo() {
         immeubleLoginLiveData = roomRepo.getImmeubleInfo();
+    }
+
+    public void getUserInfo() {
+        userLoginLiveData = roomRepo.getUserInfo();
     }
 }

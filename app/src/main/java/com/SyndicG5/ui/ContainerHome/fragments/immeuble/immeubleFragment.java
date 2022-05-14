@@ -61,7 +61,11 @@ public class immeubleFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         immeubleListAdapter = new ImmeubleListAdapter();
         recyclerView.setAdapter(immeubleListAdapter);
-        homeViewModel.getAllImmeuble();
+        loginViewModel.getUserInfo();
+        loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(),user -> {
+            if(user!=null)
+                homeViewModel.getAllImmeuble(user.getId());
+        });
         homeViewModel.getListImmeubleMutableLiveData().observe(getViewLifecycleOwner(), immeubles -> {
             if (!immeubles.isEmpty())
                 immeubleListAdapter.setImmeublesList(immeubles);

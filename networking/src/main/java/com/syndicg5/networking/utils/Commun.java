@@ -24,7 +24,6 @@ public class Commun {
         } else {
             initials = "AA";
         }
-
         return initials;
     }
 

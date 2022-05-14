@@ -20,6 +20,7 @@ import dagger.Reusable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
+import retrofit2.http.Path;
 
 @Reusable
 public class apiRepository {
@@ -32,7 +33,7 @@ public class apiRepository {
 
 
     public Single<Response<ResponseBody>> Login(User user) {
-        return apiSettings.Login(user.getLogin(), user.getPassword());
+        return apiSettings.Login(user.getEmail(), user.getPassword());
     }
 
 
@@ -41,7 +42,7 @@ public class apiRepository {
         return apiSettings.getAllSyndic();
     }
 
-    public Single<Syndic> getOneSyndic(int id) {
+    public Single<Syndic> getOneSyndic(String id) {
         return apiSettings.getOneSyndic(id);
     }
 
@@ -91,8 +92,8 @@ public class apiRepository {
         return apiSettings.addImmeuble(immeuble);
     }
 
-    public Single<List<Immeuble>> getAllImmeuble() {
-        return apiSettings.getAllImmeuble();
+    public Single<List<Immeuble>> getAllImmeuble(int id) {
+        return apiSettings.getAllImmeuble(id);
     }
 
     public Single<Immeuble> getOneImmeuble(int id) {

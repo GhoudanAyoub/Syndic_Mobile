@@ -24,57 +24,57 @@ public interface APISettings {
 
 
     @POST("login")
-    Single<Response<ResponseBody>> Login(@Query("username") String username, @Query("password") String password);
+    Single<Response<ResponseBody>> Login(@Query("email") String username, @Query("password") String password);
 
     //Syndic
-    @GET("syndics")
+    @GET("api/syndics")
     Single<List<Syndic>> getAllSyndic();
 
-    @GET("syndics/{id}")
-    Single<Syndic> getOneSyndic(@Path("id") int id);
+    @GET("api/syndicsByEmail/{email}")
+    Single<Syndic> getOneSyndic(@Path("email") String id);
 
     //residents
-    @GET("residents")
+    @GET("api/residents")
     Single<List<Resident>> getAllResidents();
 
-    @GET("residents/{id}")
+    @GET("api/residents/{id}")
     Single<Resident> getOneResidents(@Path("id") int id);
 
     //Immeuble
-    @POST("immeubles")
+    @POST("api/immeubles")
     Single<Response<ResponseBody>> addImmeuble(@Body Immeuble immeuble);
 
-    @GET("immeubles")
-    Single<List<Immeuble>> getAllImmeuble();
+    @GET("api/immeubles/syndic/{id}")
+    Single<List<Immeuble>> getAllImmeuble(@Path("id") int id);
 
-    @GET("immeubles/{id}")
+    @GET("api/immeubles/{id}")
     Single<Immeuble> getOneImmeuble(@Path("id") int id);
 
     //Appartement
-    @POST("appartements")
+    @POST("api/appartements")
     Single<Response<ResponseBody>> addAppartements(@Body Appartement appartement);
 
-    @GET("appartements")
+    @GET("api/appartements")
     Single<List<Appartement>> getAllAppartements();
 
-    @GET("appartements/{id}")
+    @GET("api/appartements/{id}")
     Single<Appartement> getOneAppartement(@Path("id") int id);
 
-    @GET("appartements/syndic/immeuble/{id}")
+    @GET("api/appartements/syndic/immeuble/{id}")
     Single<List<Appartement>> getAppartementByImmeuble(@Path("id") int id);
 
     //revenu
-    @GET("revenusByAppartement/{id}")
+    @GET("api/revenusByAppartement/{id}")
     Single<List<Revenu>> getRevenusByAppartement(@Path("id") int id);
 
-    @GET("revenusByAppartement/{id}")
+    @GET("api/revenusByAppartement/{id}")
     LiveData<List<Revenu>> getRevenusByAppartementData(@Path("id") int id);
 
-    @GET("revenusByImmeuble/{id}")
+    @GET("api/revenusByImmeuble/{id}")
     Single<List<Revenu>> getRevenusByImmeuble(@Path("id") int id);
 
     //depense
-    @GET("depenseByImmeuble/{id}")
+    @GET("api/depenseByImmeuble/{id}")
     Single<List<Depense>> getDepenseByImmeuble(@Path("id") int id);
 
 

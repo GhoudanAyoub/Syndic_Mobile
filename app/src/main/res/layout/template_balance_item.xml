@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
+    android:id="@+id/cardView"
     android:paddingTop="16dp">
 
 
@@ -104,5 +105,48 @@
             android:background="@color/primary_warm_grey_five" />
 
     </FrameLayout>
+
+    <!--The following is the expandable portion whose
+        visibility is initially set to 'gone'.
+        The parent LinearLayout contains 3 child LinearLayouts
+        that hold a subject name and an icon each.-->
+    <LinearLayout
+        android:id="@+id/hidden_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/separator"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/separator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!--Child LinearLayout 1-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/residentImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_user" />
+
+            <TextView
+                android:id="@+id/residentName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:textColor="#000000"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
