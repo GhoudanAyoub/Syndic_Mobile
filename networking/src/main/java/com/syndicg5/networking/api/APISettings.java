@@ -40,6 +40,9 @@ public interface APISettings {
     @GET("api/residents/{id}")
     Single<Resident> getOneResidents(@Path("id") int id);
 
+    @GET("api/residents/syndic/{id}")
+    Single<List<Resident>> getResidentBySyndic(@Path("id") int id);
+
     //Immeuble
     @POST("api/immeubles")
     Single<Response<ResponseBody>> addImmeuble(@Body Immeuble immeuble);

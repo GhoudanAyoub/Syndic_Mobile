@@ -18,6 +18,7 @@ import com.SyndicG5.databinding.ActivityHomrContainerBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.homefragment;
 import com.SyndicG5.ui.ContainerHome.fragments.immeuble.immeubleFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.profile.ProfileFragment;
+import com.SyndicG5.ui.ContainerHome.fragments.residents.residentFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.stats.statsFragment;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Login;
@@ -31,7 +32,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
 
     private ActivityHomrContainerBinding binding;
     private static Toolbar toolbar;
-    private LinearLayout ll_Home, ll_profile, ll_Immeuble,ll_stats, ll_Logout;
+    private LinearLayout ll_Home, ll_profile, ll_Immeuble,ll_Residents,ll_stats, ll_Logout;
     private static boolean open = false;
     loginViewModel mViewModel;
 
@@ -70,6 +71,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         ll_Home = menuView.findViewById(R.id.ll_Home);
         ll_profile = menuView.findViewById(R.id.ll_profile);
         ll_Immeuble = menuView.findViewById(R.id.ll_Immeuble);
+        ll_Residents = menuView.findViewById(R.id.ll_Residents);
         ll_stats = menuView.findViewById(R.id.ll_stats);
         ll_Logout = menuView.findViewById(R.id.ll_Logout);
 
@@ -77,6 +79,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         ll_Home.setOnClickListener(this);
         ll_profile.setOnClickListener(this);
         ll_Immeuble.setOnClickListener(this);
+        ll_Residents.setOnClickListener(this);
         ll_stats.setOnClickListener(this);
         ll_Logout.setOnClickListener(this);
         replace(immeubleFragment.newInstance());
@@ -106,6 +109,10 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
 
             case R.id.ll_Immeuble:
                 replace(new immeubleFragment(), "immeuble");
+                break;
+
+            case R.id.ll_Residents:
+                replace(new residentFragment(), "Residents");
                 break;
 
             case R.id.ll_stats:
