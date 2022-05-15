@@ -13,6 +13,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -71,7 +72,7 @@ public interface APISettings {
     Single<List<Revenu>> getRevenusByAppartement(@Path("id") int id);
 
     @GET("api/revenusByAppartement/{id}")
-    LiveData<List<Revenu>> getRevenusByAppartementData(@Path("id") int id);
+    Single<List<Revenu>> getRevenusByAppartementData(@Path("id") int id);
 
     @GET("api/revenusByImmeuble/{id}")
     Single<List<Revenu>> getRevenusByImmeuble(@Path("id") int id);

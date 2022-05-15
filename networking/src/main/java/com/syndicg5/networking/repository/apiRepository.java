@@ -77,7 +77,7 @@ public class apiRepository {
     public Single<List<Revenu>> getRevenusByAppartement(int id) {
         return apiSettings.getRevenusByAppartement(id);
     }
-    public LiveData<List<Revenu>> getRevenusByAppartementData(int id) {
+    public Single<List<Revenu>> getRevenusByAppartementData(int id) {
         return apiSettings.getRevenusByAppartementData(id);
     }
     public Single<List<Revenu>> getRevenusByImmeuble(int id) {

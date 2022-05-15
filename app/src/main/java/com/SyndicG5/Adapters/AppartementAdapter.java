@@ -1,7 +1,9 @@
 package com.SyndicG5.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -13,29 +15,34 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SyndicG5.R;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.repository.apiRepository;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
-import javax.inject.Inject;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class AppartementAdapter extends RecyclerView.Adapter<AppartementAdapter.AppartementAdapterHolder> {
 
     private ArrayList<Appartement> AppartementList = new ArrayList<>();
     private Context context;
+    private apiRepository repository;
 
-    public AppartementAdapter(Context context) {
+    public AppartementAdapter(Context context, apiRepository repository) {
         this.context = context;
+        this.repository=repository;
     }
-
-    @Inject
-    apiRepository apiRepository;
 
     @NonNull
     @Override
@@ -48,7 +55,7 @@ public class AppartementAdapter extends RecyclerView.Adapter<AppartementAdapter.
         Appartement appartement = AppartementList.get(position);
         holder.transactionContact.setText("Appartement " + appartement.getNumero().toString());
         holder.transactionDate.setText("Etage " + appartement.getEtage().toString());
-        holder.transactionAmount.setText("0 dh");
+        holder.transactionAmount.setText(getDepanseByAppartement(appartement.getId())+" Dh");
         holder.transactionAmount.setTextColor(Color.GREEN);
         holder.client_name_shortcut.setVisibility(View.VISIBLE);
         holder.client_name_shortcut.setText(appartement.getNumero().toString());
@@ -83,6 +90,19 @@ public class AppartementAdapter extends RecyclerView.Adapter<AppartementAdapter.
 
     }
 
+    @SuppressLint("CheckResult")
+    public Double getDepanseByAppartement(int id){
+        final Double[] sum = {0.0};
+        repository.getRevenusByAppartementData(id)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(revenuList ->{
+                            for (Revenu r : revenuList)
+                                sum[0] += r.getMontant();
+                        }
+                        , Throwable::printStackTrace);
+        return sum[0];
+    }
     @Override
     public int getItemCount() {
         return AppartementList.size();

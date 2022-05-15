@@ -12,7 +12,7 @@ import java.util.List;
 public class Appartement implements Serializable {
 
     @PrimaryKey
-    private String id;
+    private int id;
     private Integer numero;
     private Integer etage;
     private Double surface;
@@ -21,7 +21,7 @@ public class Appartement implements Serializable {
     private Resident resident;
     private Immeuble immeuble;
 
-    public Appartement(String id, Integer numero, Integer etage, Double surface, Date debut, Date fin, Resident resident, Immeuble immeuble) {
+    public Appartement(int id, Integer numero, Integer etage, Double surface, Date debut, Date fin, Resident resident, Immeuble immeuble) {
         this.id = id;
         this.numero = numero;
         this.etage = etage;
@@ -32,11 +32,11 @@ public class Appartement implements Serializable {
         this.immeuble = immeuble;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -31,6 +31,7 @@ import com.syndicg5.networking.models.Appartement;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Revenu;
+import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -57,6 +59,8 @@ public class homefragment extends Fragment {
     private Double solde = 0.0;
     private Immeuble currentImmeuble;
     private List<Appartement> appartementLists;
+    @Inject
+    apiRepository repository;
 
     @Singleton
     public static homefragment newInstance() {
@@ -76,7 +80,7 @@ public class homefragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setActivityName("Home");
         recyclerView = view.findViewById(R.id.balance_recycler_view);
-        appartementAdapter = new AppartementAdapter(getContext());
+        appartementAdapter = new AppartementAdapter(getContext(),repository);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(appartementAdapter);
 
