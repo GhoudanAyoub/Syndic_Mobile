@@ -17,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.Reusable;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -100,4 +101,7 @@ public class apiRepository {
         return apiSettings.getOneImmeuble(id);
     }
 
+    public  Single<List<Resident>>  getResidentBySyndic(int id) {
+        return apiSettings.getResidentBySyndic(id);
+    }
 }
