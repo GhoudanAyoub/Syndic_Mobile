@@ -100,7 +100,7 @@ public class loginViewModel extends ViewModel {
         roomRepo.saveUser(f);
     }
 
-    public void UpdateLogin(Immeuble f) {
+    public void UpdateImmeuble(Immeuble f) {
         roomRepo.UpdateImmeuble(f);
     }
 
