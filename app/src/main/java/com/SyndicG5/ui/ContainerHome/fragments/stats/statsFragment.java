@@ -44,6 +44,8 @@ public class statsFragment extends Fragment {
     private BarChart chart;
     private List<String> type = new ArrayList<>();
     private HomefragementViewModel homeViewModel;
+    List<Double> dep = new ArrayList<>();
+    List<Double> rev = new ArrayList<>();
 
     public static statsFragment newInstance() {
         return new statsFragment();
@@ -105,7 +107,7 @@ public class statsFragment extends Fragment {
 
         for (int i = 0; i < byMarqueList.size(); i++) {
             Double dataObject = byMarqueList.get(i);
-            values.add(new BarEntry(i, Integer.parseInt(dataObject.toString())));
+            values.add(new BarEntry(i, Float.parseFloat(dataObject.toString())));
         }
         BarDataSet set1;
         if (chart.getData() != null &&
@@ -132,19 +134,14 @@ public class statsFragment extends Fragment {
             chart.invalidate();
         }
     }
+
     private void subscribe() {
         homeViewModel.getImmeubleInfo().observe(getViewLifecycleOwner(), immeuble -> {
             getBalanceView(immeuble.getId());
         });
-    }
-
-    private void getBalanceView(int immeuble) {
-        List<Double> dep = new ArrayList<>();
-        List<Double> rev = new ArrayList<>();
-        homeViewModel.getDepenseByImmeuble(immeuble);
         homeViewModel.getListDepenseByImmeubleMutableLiveData().observe(getViewLifecycleOwner(), depenses -> {
             if (depenses != null) {
-               double outcome =0.0;
+                double outcome =0.0;
                 for (Depense depense  : depenses){
                     outcome += depense.getMontant();
                     dep.add(depense.getMontant());
@@ -152,16 +149,20 @@ public class statsFragment extends Fragment {
                 }
             }
         });
-        homeViewModel.getRevenusByImmeuble(immeuble);
         homeViewModel.getListRevenuByImmeubleMutableLiveData().observe(getViewLifecycleOwner(), revenus -> {
             if (revenus != null) {
-               double  income = 0.0;
+                double  income = 0.0;
                 for (Revenu revenu  : revenus){
                     income += revenu.getMontant();
                     rev.add(revenu.getMontant());
                 }
+                createBarChart(rev);
             }
         });
-        createBarChart(dep);
+    }
+
+    private void getBalanceView(int immeuble) {
+        homeViewModel.getDepenseByImmeuble(immeuble);
+        homeViewModel.getRevenusByImmeuble(immeuble);
     }
 }

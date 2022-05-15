@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.SyndicG5.Adapters.ResidentAdapter;
 import com.SyndicG5.R;
 import com.SyndicG5.databinding.ResidentFragmentBinding;
+import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Resident;
 import com.syndicg5.networking.utils.AppUtils;
@@ -39,6 +40,7 @@ public class residentFragment extends Fragment {
     private ResidentFragmentBinding binding;
     private ResidentViewModel mViewModel;
     private loginViewModel loginViewModel;
+    private HomefragementViewModel homeViewModel;
     private RecyclerView recyclerView;
     private ResidentAdapter residentAdapter;
     private List<Resident> residentList;
@@ -53,6 +55,7 @@ public class residentFragment extends Fragment {
 
         loginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
         mViewModel = new ViewModelProvider(this).get(ResidentViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
         binding = ResidentFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
