@@ -43,4 +43,7 @@ public interface dao {
     @Query("Select * from user")
     LiveData<User> getUserInfo();
 
+    @Update
+    void UpdateUser(User f);
+
 }

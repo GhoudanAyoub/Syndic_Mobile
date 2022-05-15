@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import es.dmoral.toasty.Toasty;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -100,7 +101,7 @@ public class login extends AppCompatActivity {
                     }
                 });
             }else
-                Toast.makeText(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT).show();
+                Toasty.error(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT, true).show();
             progressDialog.dismiss();
         });
     }

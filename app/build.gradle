@@ -149,4 +149,6 @@ dependencies {
     implementation "com.airbnb.android:lottie:3.4.0"
     //circleImage
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //toasty
+    implementation 'com.github.GrenderG:Toasty:1.5.2'
 }

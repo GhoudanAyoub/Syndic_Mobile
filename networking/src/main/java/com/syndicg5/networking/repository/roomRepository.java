@@ -46,6 +46,9 @@ public class roomRepository {
     public void UpdateImmeuble(Immeuble f) {
         dao.UpdateImmeuble(f);
     }
+    public void UpdateUser(User f) {
+        dao.UpdateUser(f);
+    }
 
     public LiveData<Immeuble> getImmeubleInfo() {
         return dao.getImmeubleInfo();
