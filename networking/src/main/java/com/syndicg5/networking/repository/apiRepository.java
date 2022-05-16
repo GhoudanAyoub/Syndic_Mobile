@@ -1,7 +1,9 @@
 package com.syndicg5.networking.repository;
 
 
-import androidx.lifecycle.LiveData;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.syndicg5.networking.api.APISettings;
 import com.syndicg5.networking.models.Appartement;
@@ -17,11 +19,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.Reusable;
-import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.http.Path;
 
 @Reusable
 public class apiRepository {
