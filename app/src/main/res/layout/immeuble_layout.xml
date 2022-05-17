@@ -8,6 +8,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:background="@drawable/shop_radio_btn_unselected"
         android:gravity="center_vertical"
         android:minHeight="65dp"
@@ -26,12 +27,12 @@
 
         <TextView
             android:id="@+id/shop_name"
-            tools:text="Epicerie Afrique"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/catamaran_bold"
+            android:fontFamily="@font/catamaran"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:text="Epicerie Afrique" />
     </LinearLayout>
 
 </merge>

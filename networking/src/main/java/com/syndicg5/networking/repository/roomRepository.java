@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import com.syndicg5.networking.di.dao;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Login;
+import com.syndicg5.networking.models.User;
 
 import javax.inject.Inject;
 
@@ -34,15 +35,27 @@ public class roomRepository {
     }
 
     public void saveImmeuble(Immeuble f) {
+        dao.deleteImmeuble();
         dao.saveImmeuble(f);
+    }
+
+    public void saveUser(User f) {
+        dao.saveUser(f);
     }
 
     public void UpdateImmeuble(Immeuble f) {
         dao.UpdateImmeuble(f);
     }
+    public void UpdateUser(User f) {
+        dao.UpdateUser(f);
+    }
 
     public LiveData<Immeuble> getImmeubleInfo() {
         return dao.getImmeubleInfo();
+    }
+
+    public LiveData<User> getUserInfo() {
+        return dao.getUserInfo();
     }
 
 }

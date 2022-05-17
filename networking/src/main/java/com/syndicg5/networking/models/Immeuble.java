@@ -1,6 +1,7 @@
 package com.syndicg5.networking.models;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -9,8 +10,7 @@ import java.util.List;
 @Entity(tableName = "immeuble")
 public class Immeuble implements Serializable {
 
-
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private int id;
     private String nom;
     private String adresse;
@@ -19,11 +19,9 @@ public class Immeuble implements Serializable {
     private Integer numero;
     private Integer etages;
     private Syndic syndic;
-    private List<Appartement> appartements;
-    private List<Depense> depenses;
-    private List<Revenu> revenus;
 
-    public Immeuble(int id, String nom, String adresse, String ville, String photo, Integer numero, Integer etages, Syndic syndic, List<Appartement> appartements, List<Depense> depenses, List<Revenu> revenus) {
+
+    public Immeuble(int id, String nom, String adresse, String ville, String photo, Integer numero, Integer etages, Syndic syndic) {
         this.id = id;
         this.nom = nom;
         this.adresse = adresse;
@@ -32,9 +30,6 @@ public class Immeuble implements Serializable {
         this.numero = numero;
         this.etages = etages;
         this.syndic = syndic;
-        this.appartements = appartements;
-        this.depenses = depenses;
-        this.revenus = revenus;
     }
 
     public int getId() {
@@ -97,31 +92,7 @@ public class Immeuble implements Serializable {
         return syndic;
     }
 
-    public void setSyndic(Syndic syndic) {
-        this.syndic = syndic;
-    }
-
-    public List<Appartement> getAppartements() {
-        return appartements;
-    }
-
-    public void setAppartements(List<Appartement> appartements) {
-        this.appartements = appartements;
-    }
-
-    public List<Depense> getDepenses() {
-        return depenses;
-    }
-
-    public void setDepenses(List<Depense> depenses) {
-        this.depenses = depenses;
-    }
-
-    public List<Revenu> getRevenus() {
-        return revenus;
-    }
-
-    public void setRevenus(List<Revenu> revenus) {
-        this.revenus = revenus;
+    public void setSyndic_id(Syndic syndic_id) {
+        this.syndic = syndic_id;
     }
 }

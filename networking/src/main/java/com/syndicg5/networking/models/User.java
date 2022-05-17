@@ -9,33 +9,91 @@ import java.io.Serializable;
 @Entity(tableName = "user")
 public class User implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private int id;
-    private String login;
-    private String password;
-    private String first_name;
-    private String last_name;
     private String email;
-    private String image_url;
+    private String password;
+    private String nom;
+    private String prenom;
+    private String mdp;
+    private String adresse;
+    private String ville;
+    private String photo;
+    private String telephone;
 
     @Ignore
-    public User(String login, String password, String first_name, String last_name, String email, String image_url) {
-        this.login = login;
-        this.password = password;
-        this.first_name = first_name;
-        this.last_name = last_name;
+    public User(String email, String password) {
         this.email = email;
-        this.image_url = image_url;
+        this.password = password;
     }
 
-    public User(int id, String login, String password, String first_name, String last_name, String email, String image_url) {
+    public User(int id, String email, String password, String nom, String prenom, String mdp, String adresse, String ville, String photo, String telephone) {
         this.id = id;
-        this.login = login;
-        this.password = password;
-        this.first_name = first_name;
-        this.last_name = last_name;
         this.email = email;
-        this.image_url = image_url;
+        this.password = password;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.mdp = mdp;
+        this.adresse = adresse;
+        this.ville = ville;
+        this.photo = photo;
+        this.telephone = telephone;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getMdp() {
+        return mdp;
+    }
+
+    public void setMdp(String mdp) {
+        this.mdp = mdp;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     public int getId() {
@@ -46,38 +104,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -86,11 +112,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getPassword() {
+        return password;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

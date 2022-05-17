@@ -5,51 +5,38 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "appartement")
 public class Appartement implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
-    private String id;
+    @PrimaryKey
+    private int id;
     private Integer numero;
     private Integer etage;
     private Double surface;
-    private List<Payement> payements;
+    private Date debut;
+    private Date fin;
     private Resident resident;
     private Immeuble immeuble;
 
-    public Appartement(Integer numero, Integer etage, Double surface, Immeuble immeuble) {
-        this.numero = numero;
-        this.etage = etage;
-        this.surface = surface;
-        this.immeuble = immeuble;
-    }
-
-    public Appartement(Integer numero, Integer etage, Double surface, List<Payement> payements, Resident resident, Immeuble immeuble) {
-        this.numero = numero;
-        this.etage = etage;
-        this.surface = surface;
-        this.payements = payements;
-        this.resident = resident;
-        this.immeuble = immeuble;
-    }
-
-    public Appartement(String id, Integer numero, Integer etage, Double surface, List<Payement> payements, Resident resident, Immeuble immeuble) {
+    public Appartement(int id, Integer numero, Integer etage, Double surface, Date debut, Date fin, Resident resident, Immeuble immeuble) {
         this.id = id;
         this.numero = numero;
         this.etage = etage;
         this.surface = surface;
-        this.payements = payements;
+        this.debut = debut;
+        this.fin = fin;
         this.resident = resident;
         this.immeuble = immeuble;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -77,14 +64,6 @@ public class Appartement implements Serializable {
         this.surface = surface;
     }
 
-    public List<Payement> getPayements() {
-        return payements;
-    }
-
-    public void setPayements(List<Payement> payements) {
-        this.payements = payements;
-    }
-
     public Resident getResident() {
         return resident;
     }
@@ -99,5 +78,21 @@ public class Appartement implements Serializable {
 
     public void setImmeuble(Immeuble immeuble) {
         this.immeuble = immeuble;
+    }
+
+    public Date getDebut() {
+        return debut;
+    }
+
+    public void setDebut(Date debut) {
+        this.debut = debut;
+    }
+
+    public Date getFin() {
+        return fin;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
     }
 }

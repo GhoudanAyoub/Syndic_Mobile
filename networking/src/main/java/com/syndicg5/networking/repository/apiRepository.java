@@ -1,10 +1,14 @@
 package com.syndicg5.networking.repository;
 
 
+import androidx.lifecycle.LiveData;
+
 import com.syndicg5.networking.api.APISettings;
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Resident;
+import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
 import com.syndicg5.networking.models.User;
 
@@ -13,9 +17,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.Reusable;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
+import retrofit2.http.Path;
 
 @Reusable
 public class apiRepository {
@@ -28,7 +34,7 @@ public class apiRepository {
 
 
     public Single<Response<ResponseBody>> Login(User user) {
-        return apiSettings.Login(user.getLogin(), user.getPassword());
+        return apiSettings.Login(user.getEmail(), user.getPassword());
     }
 
 
@@ -37,7 +43,7 @@ public class apiRepository {
         return apiSettings.getAllSyndic();
     }
 
-    public Single<Syndic> getOneSyndic(int id) {
+    public Single<Syndic> getOneSyndic(String id) {
         return apiSettings.getOneSyndic(id);
     }
 
@@ -67,18 +73,35 @@ public class apiRepository {
         return apiSettings.getAppartementByImmeuble(id);
     }
 
+    //revenu  depense
+    public Single<List<Revenu>> getRevenusByAppartement(int id) {
+        return apiSettings.getRevenusByAppartement(id);
+    }
+    public Single<List<Revenu>> getRevenusByAppartementData(int id) {
+        return apiSettings.getRevenusByAppartementData(id);
+    }
+    public Single<List<Revenu>> getRevenusByImmeuble(int id) {
+        return apiSettings.getRevenusByImmeuble(id);
+    }
+    public Single<List<Depense>> getDepenseByImmeuble(int id) {
+        return apiSettings.getDepenseByImmeuble(id);
+    }
+
     //Immeuble
 
     public Single<Response<ResponseBody>> addImmeuble(Immeuble immeuble) {
         return apiSettings.addImmeuble(immeuble);
     }
 
-    public Single<List<Immeuble>> getAllImmeuble() {
-        return apiSettings.getAllImmeuble();
+    public Single<List<Immeuble>> getAllImmeuble(int id) {
+        return apiSettings.getAllImmeuble(id);
     }
 
     public Single<Immeuble> getOneImmeuble(int id) {
         return apiSettings.getOneImmeuble(id);
     }
 
+    public  Single<List<Resident>>  getResidentBySyndic(int id) {
+        return apiSettings.getResidentBySyndic(id);
+    }
 }

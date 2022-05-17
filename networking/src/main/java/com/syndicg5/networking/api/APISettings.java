@@ -1,14 +1,19 @@
 package com.syndicg5.networking.api;
 
+import androidx.lifecycle.LiveData;
+
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Resident;
+import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
 
 import java.util.List;
 
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -20,43 +25,61 @@ public interface APISettings {
 
 
     @POST("login")
-    Single<Response<ResponseBody>> Login(@Query("username") String username, @Query("password") String password);
+    Single<Response<ResponseBody>> Login(@Query("email") String username, @Query("password") String password);
 
     //Syndic
-    @GET("syndics")
+    @GET("api/syndics")
     Single<List<Syndic>> getAllSyndic();
 
-    @GET("syndics/{id}")
-    Single<Syndic> getOneSyndic(@Path("id") int id);
+    @GET("api/syndicsByEmail/{email}")
+    Single<Syndic> getOneSyndic(@Path("email") String id);
 
     //residents
-    @GET("residents")
+    @GET("api/residents")
     Single<List<Resident>> getAllResidents();
 
-    @GET("residents/{id}")
+    @GET("api/residents/{id}")
     Single<Resident> getOneResidents(@Path("id") int id);
 
+    @GET("api/residents/syndic/{id}")
+    Single<List<Resident>> getResidentBySyndic(@Path("id") int id);
+
     //Immeuble
-    @POST("immeubles")
+    @POST("api/immeubles")
     Single<Response<ResponseBody>> addImmeuble(@Body Immeuble immeuble);
 
-    @GET("immeubles")
-    Single<List<Immeuble>> getAllImmeuble();
+    @GET("api/immeubles/syndic/{id}")
+    Single<List<Immeuble>> getAllImmeuble(@Path("id") int id);
 
-    @GET("/immeubles/{id}")
+    @GET("api/immeubles/{id}")
     Single<Immeuble> getOneImmeuble(@Path("id") int id);
 
     //Appartement
-    @POST("appartements")
+    @POST("api/appartements")
     Single<Response<ResponseBody>> addAppartements(@Body Appartement appartement);
 
-    @GET("appartements")
+    @GET("api/appartements")
     Single<List<Appartement>> getAllAppartements();
 
-    @GET("/appartements/{id}")
+    @GET("api/appartements/{id}")
     Single<Appartement> getOneAppartement(@Path("id") int id);
 
-    @GET("/appartements/{id}")
+    @GET("api/appartements/syndic/immeuble/{id}")
     Single<List<Appartement>> getAppartementByImmeuble(@Path("id") int id);
+
+    //revenu
+    @GET("api/revenusByAppartement/{id}")
+    Single<List<Revenu>> getRevenusByAppartement(@Path("id") int id);
+
+    @GET("api/revenusByAppartement/{id}")
+    Single<List<Revenu>> getRevenusByAppartementData(@Path("id") int id);
+
+    @GET("api/revenusByImmeuble/{id}")
+    Single<List<Revenu>> getRevenusByImmeuble(@Path("id") int id);
+
+    //depense
+    @GET("api/depenseByImmeuble/{id}")
+    Single<List<Depense>> getDepenseByImmeuble(@Path("id") int id);
+
 
 }
