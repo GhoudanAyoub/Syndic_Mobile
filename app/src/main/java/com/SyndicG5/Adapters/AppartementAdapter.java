@@ -28,6 +28,7 @@ import com.syndicg5.networking.repository.apiRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -92,16 +93,10 @@ public class AppartementAdapter extends RecyclerView.Adapter<AppartementAdapter.
 
     @SuppressLint("CheckResult")
     public Double getDepanseByAppartement(int id){
-        final Double[] sum = {0.0};
-        repository.getRevenusByAppartementData(id)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(revenuList ->{
-                            for (Revenu r : revenuList)
-                                sum[0] += r.getMontant();
-                        }
-                        , Throwable::printStackTrace);
-        return sum[0];
+        return repository.getRevenusByAppartementData(id)
+                .subscribeOn(Schedulers.io()).blockingGet()
+                .stream().filter(revenu -> revenu.getMontant() > 0).mapToDouble(Revenu::getMontant).sum();
+
     }
     @Override
     public int getItemCount() {

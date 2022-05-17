@@ -64,7 +64,7 @@ public class immeubleFragment extends Fragment {
         loginViewModel.getUserInfo();
         loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(),user -> {
             if(user!=null)
-                homeViewModel.getAllImmeuble(user.getId());
+                homeViewModel.getAllImmeuble(user.getId(),user.getEmail(),user.getType());
         });
         homeViewModel.getListImmeubleMutableLiveData().observe(getViewLifecycleOwner(), immeubles -> {
             if (!immeubles.isEmpty())

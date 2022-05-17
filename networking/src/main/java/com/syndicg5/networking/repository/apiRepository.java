@@ -1,27 +1,26 @@
 package com.syndicg5.networking.repository;
 
 
-import androidx.lifecycle.LiveData;
-
 import com.syndicg5.networking.api.APISettings;
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.request.RevenusReq;
+import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Resident;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
 import com.syndicg5.networking.models.User;
+import com.syndicg5.networking.request.depenseReq;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import dagger.Reusable;
-import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.http.Path;
 
 @Reusable
 public class apiRepository {
@@ -52,8 +51,8 @@ public class apiRepository {
         return apiSettings.getAllResidents();
     }
 
-    public Single<Resident> getOneResidents(int id) {
-        return apiSettings.getOneResidents(id);
+    public Single<Resident> getOneResidents(String id) {
+        return apiSettings.getOneResident(id);
     }
 
     //Appartement
@@ -77,12 +76,15 @@ public class apiRepository {
     public Single<List<Revenu>> getRevenusByAppartement(int id) {
         return apiSettings.getRevenusByAppartement(id);
     }
+
     public Single<List<Revenu>> getRevenusByAppartementData(int id) {
         return apiSettings.getRevenusByAppartementData(id);
     }
+
     public Single<List<Revenu>> getRevenusByImmeuble(int id) {
         return apiSettings.getRevenusByImmeuble(id);
     }
+
     public Single<List<Depense>> getDepenseByImmeuble(int id) {
         return apiSettings.getDepenseByImmeuble(id);
     }
@@ -93,15 +95,30 @@ public class apiRepository {
         return apiSettings.addImmeuble(immeuble);
     }
 
-    public Single<List<Immeuble>> getAllImmeuble(int id) {
-        return apiSettings.getAllImmeuble(id);
+    public Single<List<Immeuble>> getAllImmeuble(int id, String email, int type) {
+        if (type == 1)
+            return apiSettings.getAllImmeuble(id);
+        else
+            return apiSettings.getImmeubleResident(email);
     }
 
     public Single<Immeuble> getOneImmeuble(int id) {
         return apiSettings.getOneImmeuble(id);
     }
 
-    public  Single<List<Resident>>  getResidentBySyndic(int id) {
+    public Single<List<Resident>> getResidentBySyndic(int id) {
         return apiSettings.getResidentBySyndic(id);
+    }
+
+    public Single<Response<ResponseBody>> saveBalance(RevenusReq f, depenseReq d, boolean type) {
+        if (type)
+            return apiSettings.addRevenus(f);
+        else {
+           return apiSettings.addDepense(d);
+        }
+    }
+
+    public  Single<List<Categorie>> getAllCategories() {
+        return apiSettings.getAllCategories();
     }
 }

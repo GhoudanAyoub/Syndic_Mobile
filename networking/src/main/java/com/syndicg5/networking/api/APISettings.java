@@ -1,19 +1,19 @@
 package com.syndicg5.networking.api;
 
-import androidx.lifecycle.LiveData;
-
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.request.RevenusReq;
+import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Resident;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
+import com.syndicg5.networking.request.depenseReq;
 
 import java.util.List;
 
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -44,12 +44,18 @@ public interface APISettings {
     @GET("api/residents/syndic/{id}")
     Single<List<Resident>> getResidentBySyndic(@Path("id") int id);
 
+    @GET("api/residentByEmail/{email}")
+    Single<Resident> getOneResident(@Path("email") String id);
+
     //Immeuble
     @POST("api/immeubles")
     Single<Response<ResponseBody>> addImmeuble(@Body Immeuble immeuble);
 
     @GET("api/immeubles/syndic/{id}")
     Single<List<Immeuble>> getAllImmeuble(@Path("id") int id);
+
+    @GET("api/immeubles/resident/{email}")
+    Single<List<Immeuble>> getImmeubleResident(@Path("email") String id);
 
     @GET("api/immeubles/{id}")
     Single<Immeuble> getOneImmeuble(@Path("id") int id);
@@ -82,4 +88,12 @@ public interface APISettings {
     Single<List<Depense>> getDepenseByImmeuble(@Path("id") int id);
 
 
+    @POST("/api/revenus")
+    Single<Response<ResponseBody>> addRevenus(@Body RevenusReq f);
+
+    @POST("api/depenses")
+    Single<Response<ResponseBody>> addDepense(@Body depenseReq f);
+
+    @GET("api/categories")
+    Single<List<Categorie>> getAllCategories();
 }
