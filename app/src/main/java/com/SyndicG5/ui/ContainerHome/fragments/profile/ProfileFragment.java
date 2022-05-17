@@ -110,7 +110,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void UpdateData() {
-        mViewModel.UpdateUser(new User(currentUser.getId(), Objects.requireNonNull(binding.emailedittext.getEditText()).getText().toString() , currentUser.getPassword(), currentUser.getNom(), currentUser.getPrenom() , currentUser.getMdp(), currentUser.getAdresse() , currentUser.getVille(), currentUser.getPhoto(), Objects.requireNonNull(binding.phoneedittext.getEditText()).getText().toString()));
+        mViewModel.UpdateUser(new User(currentUser.getId(), Objects.requireNonNull(binding.emailedittext.getEditText()).getText().toString() , currentUser.getPassword(), currentUser.getNom(), currentUser.getPrenom() , currentUser.getMdp(), currentUser.getAdresse() , currentUser.getVille(), currentUser.getPhoto(), Objects.requireNonNull(binding.phoneedittext.getEditText()).getText().toString(),currentUser.getType()));
         Toasty.success(requireActivity(), "Success!", Toast.LENGTH_SHORT, true).show();
     }
 

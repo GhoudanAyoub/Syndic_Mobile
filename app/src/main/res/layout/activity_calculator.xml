@@ -88,40 +88,35 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/save_transaction_btn"
         app:layout_constraintTop_toBottomOf="@+id/scroll_view">
 
-        <Button
+        <ImageButton
             android:id="@+id/transaction_date_btn"
-            style="@style/CalculatorButtonNewOrange"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif"
-            android:text="12/12/2022"
-            android:textAllCaps="false"
-            android:textColor="#262626"
-            android:textSize="12sp"
-            app:icon="@drawable/ic_light_calendar"
-            app:iconPadding="8dp"
-            app:iconTint="#06c056"
-            app:shapeAppearance="@style/roundedButton"
-            app:strokeColor="#06c056"
-            app:strokeWidth="1dp" />
+            android:layout_weight="0"
+            android:background="@drawable/bg_circle_outlined"
+            android:src="@drawable/ic_baseline_calendar_month_24"
+            app:tint="@color/colorPrimary" />
 
         <Button
             android:id="@+id/transaction_money_btn"
-            style="@style/CalculatorButtonNewOrange"
+            style="@style/CalculatorButtonNewWhite"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="sans-serif"
-            android:text="Income"
+            android:text="Revenus"
             android:textAllCaps="false"
-            android:textColor="#262626"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/bg_circle_outlined"
+            android:elevation="5dp"
             android:textSize="12sp"
             app:icon="@drawable/ic_attach_money"
             app:iconPadding="8dp"
@@ -130,13 +125,45 @@
             app:strokeColor="#06c056"
             app:strokeWidth="1dp" />
 
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_circle_outlined"
+            android:spinnerMode="dropdown"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/spinner3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_circle_outlined"
+            android:layout_weight="1"
+            android:spinnerMode="dropdown"
+            android:layout_marginEnd="8dp"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/spinner4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_circle_outlined"
+            android:layout_weight="1"
+            android:spinnerMode="dropdown"
+            android:visibility="gone"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
 
     </LinearLayout>
 
 
     <Button
         android:id="@+id/save_transaction_btn"
-        style="@style/transaction.cash_in_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -144,8 +171,10 @@
         android:layout_weight="1"
         android:paddingStart="40dp"
         android:paddingEnd="40dp"
+        android:background="@drawable/rounded_background_primary"
         android:text="@string/transaction_submit"
         android:enabled="false"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/calculator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

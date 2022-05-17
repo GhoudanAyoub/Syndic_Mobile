@@ -21,9 +21,10 @@ public class Syndic implements Serializable {
     private String photo;
     private String telephone;
     private List<Immeuble> immeubles;
+    private int type ;
 
     public User toUser(){
-        return new User( id,  email,  mdp,  nom,  prenom,  mdp,  adresse,  ville,  photo,  telephone);
+        return new User( id,  email,  mdp,  nom,  prenom,  mdp,  adresse,  ville,  photo,  telephone,type);
     }
 
     @Ignore
@@ -50,6 +51,14 @@ public class Syndic implements Serializable {
         this.photo = photo;
         this.telephone = telephone;
         this.immeubles = immeubles;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getId() {

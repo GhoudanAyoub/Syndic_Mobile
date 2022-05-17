@@ -19,8 +19,11 @@ public interface dao {
     @Query("Select * from Login")
     LiveData<Login> getLoginInfo();
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     void saveLogin(Login f);
+
+    @Query("DELETE FROM Login")
+    void deleteLogin();
 
     @Update
     void UpdateLogin(Login f);
@@ -39,6 +42,8 @@ public interface dao {
 
     @Insert(onConflict = REPLACE)
     void saveUser(User u);
+    @Query("DELETE FROM user")
+    void deleteUser();
 
     @Query("Select * from user")
     LiveData<User> getUserInfo();

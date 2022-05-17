@@ -20,6 +20,7 @@ public class User implements Serializable {
     private String ville;
     private String photo;
     private String telephone;
+    private int type;
 
     @Ignore
     public User(String email, String password) {
@@ -27,7 +28,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(int id, String email, String password, String nom, String prenom, String mdp, String adresse, String ville, String photo, String telephone) {
+    public User(int id, String email, String password, String nom, String prenom, String mdp, String adresse, String ville, String photo, String telephone,int type) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -38,6 +39,15 @@ public class User implements Serializable {
         this.ville = ville;
         this.photo = photo;
         this.telephone = telephone;
+        this.type=type;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getNom() {

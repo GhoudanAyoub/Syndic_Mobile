@@ -12,7 +12,7 @@ public class Resident implements Serializable {
 
 
     @PrimaryKey(autoGenerate = true)
-    private String id;
+    private int id;
     private String nom;
     private String prenom;
     private String email;
@@ -22,8 +22,13 @@ public class Resident implements Serializable {
     private String photo;
     private String telephone;
     private List<Appartement> appartements;
+    private int type ;
 
-    public Resident(String id, String nom, String prenom, String email, String mdp, String adresse, String ville, String photo, String telephone, List<Appartement> appartements) {
+    public User toUser(){
+        return new User( id,  email,  mdp,  nom,  prenom,  mdp,  adresse,  ville,  photo,  telephone,type);
+    }
+
+    public Resident(int id, String nom, String prenom, String email, String mdp, String adresse, String ville, String photo, String telephone, List<Appartement> appartements) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -36,11 +41,19 @@ public class Resident implements Serializable {
         this.appartements = appartements;
     }
 
-    public String getId() {
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
