@@ -8,11 +8,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.request.RevenusReq;
+import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.repository.roomRepository;
+import com.syndicg5.networking.request.depenseReq;
 
 import java.util.List;
 
@@ -24,7 +27,9 @@ public class HomefragementViewModel extends ViewModel {
 
     private apiRepository repository;
     private roomRepository roomRepo;
+    private MutableLiveData<Boolean> booleanMutableLiveData = new MutableLiveData<>();
 
+    private MutableLiveData<List<Categorie>> listCategorieMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Appartement>> listAppartementMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Appartement>> listAppartementByImmeubleMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Immeuble>> listImmeubleMutableLiveData = new MutableLiveData<>();
@@ -33,6 +38,14 @@ public class HomefragementViewModel extends ViewModel {
     private MutableLiveData<List<Depense>> listDepenseByImmeubleMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Appartement> AppartementMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Immeuble> ImmeubleMutableLiveData = new MutableLiveData<>();
+
+    public MutableLiveData<List<Categorie>> getListCategorieMutableLiveData() {
+        return listCategorieMutableLiveData;
+    }
+
+    public MutableLiveData<Boolean> getBooleanMutableLiveData() {
+        return booleanMutableLiveData;
+    }
 
     public MutableLiveData<List<Revenu>> getListRevenuByAppartementMutableLiveData() {
         return listRevenuByAppartementMutableLiveData;
@@ -96,8 +109,8 @@ public class HomefragementViewModel extends ViewModel {
                         , Throwable::printStackTrace);
     }
 
-    public void getAllImmeuble(int id) {
-        repository.getAllImmeuble(id)
+    public void getAllImmeuble(int id, String email, int type) {
+        repository.getAllImmeuble(id,email,type)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> listImmeubleMutableLiveData.setValue(response)
@@ -136,4 +149,26 @@ public class HomefragementViewModel extends ViewModel {
     public LiveData<Immeuble> getImmeubleInfo() { return  roomRepo.getImmeubleInfo(); }
 
 
+    public void saveBalance(RevenusReq f, depenseReq d, boolean type) {
+        repository.saveBalance(f,d,type)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if (response.isSuccessful()) {
+                        if (response.code() == 200)
+                            booleanMutableLiveData.setValue(true);
+                        else
+                            booleanMutableLiveData.setValue(false);
+                    } else
+                        booleanMutableLiveData.setValue(false);
+                }, Throwable::printStackTrace);
+    }
+
+    public void getAllCategories() {
+        repository.getAllCategories()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> listCategorieMutableLiveData.setValue(response)
+                        , Throwable::printStackTrace);
+    }
 }

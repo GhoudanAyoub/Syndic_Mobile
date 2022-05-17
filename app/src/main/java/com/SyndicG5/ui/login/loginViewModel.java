@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Login;
+import com.syndicg5.networking.models.Resident;
 import com.syndicg5.networking.models.Syndic;
 import com.syndicg5.networking.models.User;
 import com.syndicg5.networking.repository.apiRepository;
@@ -27,6 +28,11 @@ public class loginViewModel extends ViewModel {
     private LiveData<Immeuble> immeubleLoginLiveData = new MutableLiveData<>();
     private LiveData<User> userLoginLiveData = new MutableLiveData<>();
     private MutableLiveData<Syndic> syndicMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<Resident> residentMutableLiveData = new MutableLiveData<>();
+
+    public MutableLiveData<Resident> getResidentMutableLiveData() {
+        return residentMutableLiveData;
+    }
 
     public LiveData<Immeuble> getImmeubleInfoLiveData() {
         return immeubleLoginLiveData;
@@ -77,6 +83,15 @@ public class loginViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     syndicMutableLiveData.setValue(response);
+                }, Throwable::printStackTrace);
+    }
+    @SuppressLint("CheckResult")
+    public void getOneResidents(String email){
+        apiRepository.getOneResidents(email)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    residentMutableLiveData.setValue(response);
                 }, Throwable::printStackTrace);
     }
 

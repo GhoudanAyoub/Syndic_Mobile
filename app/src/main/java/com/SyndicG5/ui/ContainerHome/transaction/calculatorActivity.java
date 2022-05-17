@@ -4,18 +4,28 @@ package com.SyndicG5.ui.ContainerHome.transaction;
 import static com.syndicg5.networking.utils.AppUtils.hideKeyboard;
 
 import android.app.DatePickerDialog;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.SyndicG5.SyndicActivity;
 import com.SyndicG5.databinding.ActivityCalculatorBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
-import com.syndicg5.networking.models.Balance;
+import com.SyndicG5.ui.login.loginViewModel;
+import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.request.RevenusReq;
+import com.syndicg5.networking.models.Categorie;
+import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.User;
+import com.syndicg5.networking.request.depenseReq;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -24,19 +34,34 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class calculatorActivity extends SyndicActivity {
+import es.dmoral.toasty.Toasty;
+
+@RequiresApi(api = Build.VERSION_CODES.N)
+public class calculatorActivity extends SyndicActivity implements
+        AdapterView.OnItemSelectedListener {
 
     private ActivityCalculatorBinding binding;
     private HomefragementViewModel homeViewModel;
+    private loginViewModel loginViewModel;
+    private Spinner spin, appartementSpin,categorySpin;
     private Double transactionAmount = 0.0;
     private boolean editingAmount = false;
-    private static Boolean balanceType = true;
+    private Boolean balanceType = true;
     private Calendar selectedDate = Calendar.getInstance();
 
     private String input, output, newOutput;
     private double income, outcome = 0.0;
     private User user;
+    private List<Immeuble> listImmeuble;
+    private List<Appartement> listAppartement;
+    private Immeuble selectedID;
+    private Appartement appartementSelectedID;
+    private String selectedDateVal;
+    private Categorie categoriesSelectedID;
+    private List<Categorie> listCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +71,51 @@ public class calculatorActivity extends SyndicActivity {
         setContentView(view);
         setupCalculatorView();
         homeViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
-        subscribe();
+        loginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
+        spin = binding.spinner2;
+        appartementSpin = binding.spinner3;
+        categorySpin = binding.spinner4;
+        spin.setOnItemSelectedListener(this);
+        appartementSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                appartementSelectedID = listAppartement.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        categorySpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                categoriesSelectedID = listCategories.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        loginViewModel.getUserInfo();
+        homeViewModel.getAllCategories();
 
         binding.transactionMoneyBtn.setOnClickListener(view1 -> {
             balanceType = !balanceType;
-            binding.transactionMoneyBtn.setText(balanceType ? "Income" : "Expense");
-           // binding.transactionMoneyBtn.setIconTint(balanceType ? ColorStateList.valueOf(Color.GREEN) : ColorStateList.valueOf(Color.RED));
+            binding.transactionMoneyBtn.setText(balanceType ? "Revenus" : "Depenses");
+            if (balanceType) {
+                appartementSpin.setVisibility(View.VISIBLE);
+                categorySpin.setVisibility(View.GONE);
+            }
+            else{
+                categorySpin.setVisibility(View.VISIBLE);
+                appartementSpin.setVisibility(View.GONE);
+            }
+
+            // binding.transactionMoneyBtn.setIconTint(balanceType ? ColorStateList.valueOf(Color.GREEN) : ColorStateList.valueOf(Color.RED));
         });
 
-        binding.transactionDateBtn.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date().getTime()));
         binding.transactionDateBtn.setOnClickListener(view1 -> {
 
             int year = selectedDate.get(Calendar.YEAR);
@@ -63,7 +124,7 @@ public class calculatorActivity extends SyndicActivity {
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), (datePicker, year2, month2, day2) -> {
                 selectedDate.set(year2, month2, day2);
-                binding.transactionDateBtn.setText(new SimpleDateFormat("dd/MM/yyyy").format(selectedDate.getTime()));
+                selectedDateVal = new SimpleDateFormat("yyyy-MM-dd").format(selectedDate.getTime());
             }, year, month, day);
             datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
             datePickerDialog.show();
@@ -71,29 +132,59 @@ public class calculatorActivity extends SyndicActivity {
             datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
         });
 
-
         binding.transactionMoreInfoInput.setOnClickListener(view1 -> {
             AddTransactionDetailsFragment transactionDetailsDialog = new AddTransactionDetailsFragment();
             transactionDetailsDialog.show(getSupportFragmentManager(), transactionDetailsDialog.getTag());
         });
 
         binding.saveTransactionBtn.setOnClickListener(view1 -> {
-            if (balanceType) {
-                income = Double.parseDouble(newOutput);
-                outcome = 0.0;
-            } else {
-                outcome = Double.parseDouble(newOutput);
-                income = 0.0;
-            }
-            Balance f = new Balance(outcome, income, new Date().getTime(), user, binding.transactionMoreInfoInput.getText().toString());
-            //homeViewModel.saveBalance(f);
-            super.onBackPressed();
+            RevenusReq f = new RevenusReq(Double.parseDouble(newOutput), binding.transactionMoreInfoInput.getText().toString(), selectedDateVal, selectedID, appartementSelectedID);
+            depenseReq f2 = new depenseReq(Double.parseDouble(newOutput), binding.transactionMoreInfoInput.getText().toString(), selectedDateVal, selectedID, categoriesSelectedID);
+            homeViewModel.saveBalance(f,f2, balanceType);
+            homeViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
+                if (aBoolean) {
+                    Toasty.success(getApplicationContext(), "Success!", Toast.LENGTH_SHORT, true).show();
+                    super.onBackPressed();
+                }
+            });
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        subscribe();
+    }
+
     private void subscribe() {
-        //homeViewModel.getUserInfo();
-      //  homeViewModel.getUserMutableLiveData().observe(this, user1 -> this.user = user1);
+
+        loginViewModel.getUserLoginLiveData().observe(this, user -> {
+            if (user != null)
+                homeViewModel.getAllImmeuble(user.getId(), user.getEmail(), user.getType());
+        });
+        homeViewModel.getListImmeubleMutableLiveData().observe(this, immeubles -> {
+            if (!immeubles.isEmpty()) {
+                listImmeuble = immeubles;
+                List<String> names = immeubles.stream().map(Immeuble::getNom).collect(Collectors.toList());
+                ArrayAdapter aa = new ArrayAdapter(getApplication(), android.R.layout.simple_spinner_item, names);
+                aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spin.setAdapter(aa);
+            }
+        });
+        homeViewModel.getListAppartementByImmeubleMutableLiveData().observe(this, appartementList -> {
+            listAppartement = appartementList;
+            List<Integer> appartementName = appartementList.stream().map(Appartement::getNumero).collect(Collectors.toList());
+            ArrayAdapter aa = new ArrayAdapter(getApplication(), android.R.layout.simple_spinner_item, appartementName);
+            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            appartementSpin.setAdapter(aa);
+        });
+        homeViewModel.getListCategorieMutableLiveData().observe(this, categoriesList -> {
+            listCategories = categoriesList;
+            List<String> categorieName = categoriesList.stream().map(Categorie::getLibelle).collect(Collectors.toList());
+            ArrayAdapter aa = new ArrayAdapter(getApplication(), android.R.layout.simple_spinner_item, categorieName);
+            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            categorySpin.setAdapter(aa);
+        });
     }
 
 
@@ -285,4 +376,14 @@ public class calculatorActivity extends SyndicActivity {
         binding.saveTransactionBtn.setEnabled(true);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        selectedID = listImmeuble.get(position);
+        homeViewModel.getAppartementByImmeuble(listImmeuble.get(position).getId());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }

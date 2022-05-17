@@ -5,33 +5,23 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "categorie")
 public class Categorie implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
-    private String id;
+    private int id;
     private String libelle;
-    private Depense depense;
-    private Revenu revenu;
+    private Syndic syndic;
 
-    public Categorie(String libelle, Depense depense, Revenu revenu) {
-        this.libelle = libelle;
-        this.depense = depense;
-        this.revenu = revenu;
-    }
-
-    public Categorie(String id, String libelle, Depense depense, Revenu revenu) {
+    public Categorie(int id, String libelle, Syndic syndic) {
         this.id = id;
         this.libelle = libelle;
-        this.depense = depense;
-        this.revenu = revenu;
+        this.syndic = syndic;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,19 +33,11 @@ public class Categorie implements Serializable {
         this.libelle = libelle;
     }
 
-    public Depense getDepense() {
-        return depense;
+    public Syndic getSyndic() {
+        return syndic;
     }
 
-    public void setDepense(Depense depense) {
-        this.depense = depense;
-    }
-
-    public Revenu getRevenu() {
-        return revenu;
-    }
-
-    public void setRevenu(Revenu revenu) {
-        this.revenu = revenu;
+    public void setSyndic(Syndic syndic) {
+        this.syndic = syndic;
     }
 }

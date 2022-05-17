@@ -18,6 +18,13 @@ public class Revenu implements Serializable {
     private Appartement appartement;
     private Immeuble immeuble;
 
+    public Revenu( Double montant, Date date, String description, Appartement appartement, Immeuble immeuble) {
+        this.montant = montant;
+        this.date = date;
+        this.description = description;
+        this.appartement = appartement;
+        this.immeuble = immeuble;
+    }
     public Revenu(String id, Double montant, Date date, String description, Appartement appartement, Immeuble immeuble) {
         this.id = id;
         this.montant = montant;

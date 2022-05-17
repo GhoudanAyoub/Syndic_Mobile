@@ -5,18 +5,18 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.SyndicG5.SyndicActivity;
+import com.SyndicG5.R;
 import com.SyndicG5.databinding.ActivityLoginBinding;
 import com.SyndicG5.ui.ContainerHome.HomeContainer;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.syndicg5.networking.models.Login;
-import com.syndicg5.networking.models.Syndic;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,6 +40,8 @@ public class login extends AppCompatActivity {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ProgressDialog progressDialog;
     private loginViewModel mViewModel;
+    private RadioButton radioButton, radioButton2;
+    private String radioButtonText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,12 @@ public class login extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Login ..........");
+        radioButton = findViewById(R.id.radioButton);
+        radioButton2 = findViewById(R.id.radioButton2);
+        if (radioButton.isChecked())
+            radioButtonText = "syndic";
+        if (radioButton2.isChecked())
+            radioButtonText = "resident";
 
         RxView.clicks(binding.login)
                 .throttleFirst(3, TimeUnit.SECONDS)
@@ -86,23 +94,36 @@ public class login extends AppCompatActivity {
                 mViewModel.getLoginInfo();
                 mViewModel.getImmeubleInfo();
                 mViewModel.getLoginLiveData().observe(this, login -> {
-                    if (login == null){
+                    if (login == null) {
                         mViewModel.saveLogin(new Login(1, true));
-                        mViewModel.getOneSyndic(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
-                        mViewModel.getSyndicMutableLiveData().observe(this,syndic -> {
-                            mViewModel.saveUser(syndic.toUser());
-                            startActivity(new Intent(getApplication(), HomeContainer.class));
-                                }
-                        );
-                    }
-                    else {
+                      //  if (radioButton.isChecked()) {
+                            mViewModel.getOneSyndic(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
+                            mViewModel.getSyndicMutableLiveData().observe(this, syndic -> {
+                                        syndic.setType(1);
+                                        mViewModel.saveUser(syndic.toUser());
+                                        progressDialog.dismiss();
+                                        startActivity(new Intent(getApplication(), HomeContainer.class));
+                                    }
+                            );
+                       /* } else {
+                            mViewModel.getOneResidents(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
+                            mViewModel.getResidentMutableLiveData().observe(this, resident -> {
+                                        resident.setType(2);
+                                        mViewModel.saveUser(resident.toUser());
+                                        progressDialog.dismiss();
+                                        startActivity(new Intent(getApplication(), HomeContainer.class));
+                                    }
+                            );
+                        }*/
+                    } else {
                         mViewModel.UpdateLogin(new Login(1, true));
                         startActivity(new Intent(getApplication(), HomeContainer.class));
                     }
                 });
-            }else
+            } else {
                 Toasty.error(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT, true).show();
-            progressDialog.dismiss();
+                progressDialog.dismiss();
+            }
         });
     }
 
