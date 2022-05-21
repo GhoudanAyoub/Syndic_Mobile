@@ -13,7 +13,7 @@ import java.util.Locale;
 import kotlin.text.Regex;
 
 public class Commun {
-    public static String IP = "192.168.1.3:9090";
+    public static String IP = "192.168.56.1:9090";
 
     public static String getClientNameInitials(String name) {
         String initials;
@@ -28,5 +28,5 @@ public class Commun {
     }
 
 
-    public static Syndic profile = new Syndic(1,"Ghoudan","Ayoub","Ayoubghoudanos@gmail.com","ayoub","LL1","kech","","0639603352");
+  //  public static Syndic profile = new Syndic(1,"Ghoudan","Ayoub","Ayoubghoudanos@gmail.com","ayoub","LL1","kech","","0639603352");
 }
