@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.SyndicG5.R;
 import com.SyndicG5.databinding.StatsFragmentBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
 import com.SyndicG5.ui.login.loginViewModel;
@@ -33,7 +34,11 @@ import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Revenu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -63,26 +68,28 @@ public class statsFragment extends Fragment implements
                              @Nullable Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
         loginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
-        binding = StatsFragmentBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setActivityName("Statistics");
-        chart = binding.chart1;
-        spin = binding.spinner;
+      //  binding = StatsFragmentBinding.inflate(inflater, container, false);
+        View v = inflater.inflate(R.layout.stats_fragment, container, false);
+        chart = v.findViewById(R.id.chart);
+        spin = v.findViewById(R.id.spinner);
         spin.setOnItemSelectedListener(this);
         initializeBarChart();
+        ArrayList<String> mois = new ArrayList<>(
+                Arrays.asList("JAN","FEV","MAR","AVR"));
         getImmeubleList();
+        subscribe();
+        return v.getRootView();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setActivityName("Statistics");
     }
 
     private void getImmeubleList() {
         loginViewModel.getUserInfo();
         loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user -> {
-            if (user != null)
                 homeViewModel.getAllImmeuble(user.getId(), user.getEmail(), user.getType());
         });
     }
@@ -90,9 +97,7 @@ public class statsFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-        initializeBarChart();
     }
-
     private void initializeBarChart() {
         chart.getDescription().setEnabled(false);
         chart.setMaxVisibleValueCount(4);
@@ -116,16 +121,16 @@ public class statsFragment extends Fragment implements
         chart.getXAxis().setEnabled(true);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.invalidate();
-        subscribe();
     }
 
-    private void createBarChart(List<Double> byMarqueList) {
+    private void createBarChart(Map<String, Integer> map) {
         ArrayList<BarEntry> values = new ArrayList<>();
-
-        for (int i = 0; i < byMarqueList.size(); i++) {
-            Double dataObject = byMarqueList.get(i);
-            values.add(new BarEntry(i, Float.parseFloat(dataObject.toString())));
+        int i = 0;
+        for(String key : map.keySet()) {
+            values.add(new BarEntry(i, map.get(key)));
+            ++i;
         }
+
         BarDataSet set1;
         if (chart.getData() != null &&
                 chart.getData().getDataSetCount() > 0) {
@@ -140,17 +145,76 @@ public class statsFragment extends Fragment implements
             dataSets.add(set1);
             BarData data = new BarData(dataSets);
             chart.setData(data);
-            chart.setVisibleXRange(1, 4);
+            chart.setVisibleXRange(1,4);
             chart.setFitBars(true);
             XAxis xAxis = chart.getXAxis();
             xAxis.setGranularity(1f);
             xAxis.setGranularityEnabled(true);
-            xAxis.setValueFormatter(new IndexAxisValueFormatter(type));
+            xAxis.setValueFormatter(new IndexAxisValueFormatter(map.keySet()));
             for (IDataSet set : chart.getData().getDataSets())
                 set.setDrawValues(!set.isDrawValuesEnabled());
             chart.invalidate();
         }
     }
+//
+//    private void initializeBarChart() {
+//        chart.getDescription().setEnabled(false);
+//        chart.setMaxVisibleValueCount(4);
+//        chart.getXAxis().setDrawGridLines(false);
+//        chart.setPinchZoom(false);
+//        chart.setDrawBarShadow(false);
+//        chart.setDrawGridBackground(false);
+//        XAxis xAxis = chart.getXAxis();
+//        xAxis.setDrawGridLines(false);
+//        chart.getAxisLeft().setDrawGridLines(false);
+//        chart.getAxisRight().setDrawGridLines(false);
+//        chart.getAxisRight().setEnabled(false);
+//        chart.getAxisLeft().setEnabled(true);
+//        chart.getXAxis().setDrawGridLines(false);
+//        chart.animateY(1500);
+//        chart.getLegend().setEnabled(false);
+//        chart.getAxisRight().setDrawLabels(false);
+//        chart.getAxisLeft().setDrawLabels(true);
+//        chart.setTouchEnabled(false);
+//        chart.setDoubleTapToZoomEnabled(false);
+//        chart.getXAxis().setEnabled(true);
+//        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+//        chart.invalidate();
+//        subscribe();
+//    }
+//
+//    private void createBarChart(List<Double> byMarqueList) {
+//        ArrayList<BarEntry> values = new ArrayList<>();
+//
+//        for (int i = 0; i < byMarqueList.size(); i++) {
+//            Double dataObject = byMarqueList.get(i);
+//            values.add(new BarEntry(i, Float.parseFloat(dataObject.toString())));
+//        }
+//        BarDataSet set1;
+//        if (chart.getData() != null &&
+//                chart.getData().getDataSetCount() > 0) {
+//            set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
+//            set1.setValues(values);
+//            chart.getData().notifyDataChanged();
+//            chart.notifyDataSetChanged();
+//        } else {
+//            set1 = new BarDataSet(values, "Data Set");
+//            set1.setDrawValues(true);
+//            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+//            dataSets.add(set1);
+//            BarData data = new BarData(dataSets);
+//            chart.setData(data);
+//            chart.setVisibleXRange(1, 4);
+//            chart.setFitBars(true);
+//            XAxis xAxis = chart.getXAxis();
+//            xAxis.setGranularity(1f);
+//            xAxis.setGranularityEnabled(true);
+//            xAxis.setValueFormatter(new IndexAxisValueFormatter(type));
+//            for (IDataSet set : chart.getData().getDataSets())
+//                set.setDrawValues(!set.isDrawValuesEnabled());
+//            chart.invalidate();
+//        }
+//    }
 
     private void subscribe() {
         homeViewModel.getImmeubleInfo().observe(getViewLifecycleOwner(), immeuble -> {
@@ -189,12 +253,20 @@ public class statsFragment extends Fragment implements
             if (revenus != null) {
                 double income = 0.0;
                 type.clear();
+                Map<String, Integer> map = new HashMap<>();
                 for (Revenu revenu : revenus) {
                     income += revenu.getMontant();
                     rev.add(revenu.getMontant());
                     type.add(revenu.getDate().getYear() + "");
                 }
-                createBarChart(rev);
+                ArrayList<Integer> val = new ArrayList<>(
+                        Arrays.asList(2000,3500,3659,55853));
+
+                for(int m : val) {
+                    map.put(m+"", m*10);
+                }
+                createBarChart(map);
+                //createBarChart(rev);
             }
         });
     }
@@ -206,6 +278,14 @@ public class statsFragment extends Fragment implements
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        Map<String, Integer> map = new HashMap<>();
+        ArrayList<Integer> val = new ArrayList<>(
+                Arrays.asList(2000,3500,3659,55853));
+
+        for(int m : val) {
+            map.put(m+"", position*10);
+        }
+        createBarChart(map);
         selectedID = immeubleList.get(position).getId();
         getBalanceView(immeubleList.get(position).getId());
     }
