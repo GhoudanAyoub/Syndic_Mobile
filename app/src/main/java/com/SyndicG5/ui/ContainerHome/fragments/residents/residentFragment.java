@@ -24,12 +24,15 @@ import com.SyndicG5.databinding.ResidentFragmentBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Resident;
+import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -44,6 +47,8 @@ public class residentFragment extends Fragment {
     private RecyclerView recyclerView;
     private ResidentAdapter residentAdapter;
     private List<Resident> residentList;
+    @Inject
+    apiRepository repository;
 
     public static residentFragment newInstance() {
         return new residentFragment();
@@ -65,7 +70,7 @@ public class residentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setActivityName("Residents ");
         recyclerView = view.findViewById(R.id.resident_recycler_view);
-        residentAdapter = new ResidentAdapter(getContext());
+        residentAdapter = new ResidentAdapter(getContext(),repository);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(residentAdapter);
 
@@ -120,7 +125,7 @@ public class residentFragment extends Fragment {
     }
 
     private void filter(String query) {
-        String lowerCaseQuery = query.toLowerCase();
+        String lowerCaseQuery = query.toUpperCase(Locale.ROOT);
         List<Resident> filteredModelList = query.isEmpty() ?
                 residentList :
                 residentList
