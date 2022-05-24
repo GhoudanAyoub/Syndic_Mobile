@@ -2,6 +2,8 @@ package com.SyndicG5.ui.ContainerHome.fragments.stats;
 
 import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
 
+import static java.lang.Thread.sleep;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,14 +42,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Timer;
 import java.util.stream.Collectors;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import es.dmoral.toasty.Toasty;
+import timber.log.Timber;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 @AndroidEntryPoint
-public class statsFragment extends Fragment implements
-        AdapterView.OnItemSelectedListener {
+public class statsFragment extends Fragment {
 
     private StatsFragmentBinding binding;
     private BarChart chart;
@@ -71,13 +76,35 @@ public class statsFragment extends Fragment implements
       //  binding = StatsFragmentBinding.inflate(inflater, container, false);
         View v = inflater.inflate(R.layout.stats_fragment, container, false);
         chart = v.findViewById(R.id.chart);
-        spin = v.findViewById(R.id.spinner);
-        spin.setOnItemSelectedListener(this);
+        //spin = v.findViewById(R.id.spinner);
         initializeBarChart();
-        ArrayList<String> mois = new ArrayList<>(
-                Arrays.asList("JAN","FEV","MAR","AVR"));
         getImmeubleList();
         subscribe();
+
+     /*   spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                Timber.d("8855 %s", position);
+                Map<String, Integer> map = new HashMap<>();
+                ArrayList<Integer> val = new ArrayList<>(
+                        Arrays.asList(2000,3500,3659,55853));
+                ArrayList<String> mois = new ArrayList<>(
+                        Arrays.asList("JAN","FEV","MAR","AVR"));
+                int i = 0;
+                for(int m : val) {
+                    map.put(mois.get(i), m*10);
+                    i++;
+                }
+                createBarChart(map);
+                selectedID = immeubleList.get(position).getId();
+                getBalanceView(immeubleList.get(position).getId());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });*/
         return v.getRootView();
     }
 
@@ -218,13 +245,34 @@ public class statsFragment extends Fragment implements
 
     private void subscribe() {
         homeViewModel.getImmeubleInfo().observe(getViewLifecycleOwner(), immeuble -> {
-            if (selectedID != 0) {
+           /* Map<String, Integer> map = new HashMap<>();
+            ArrayList<Integer> val;
+            if(immeuble.getId()==1) {
+                val = new ArrayList<>(
+                        Arrays.asList(2000, 3500, 3659, 55853));
+
+                ArrayList<String> mois = new ArrayList<>(
+                        Arrays.asList("JAN","FEV","MAR","AVR"));
+                int i = 0;
+                for(int m : val) {
+                    map.put(mois.get(i), m*10);
+                    i++;
+                }
+                createBarChart(map);
+            }else {
+                val = new ArrayList<>(
+                        Arrays.asList(100, 2500, 1000));
+                ArrayList<String> mois = new ArrayList<>(
+                        Arrays.asList("JAN","FEV","MAR","AVR"));
+                int i = 0;
+                for(int m : val) {
+                    map.put(mois.get(i), m*10);
+                    i++;
+                }
+                createBarChart(map);
+            }*/
                 getBalanceView(immeuble.getId());
                 getCharts();
-            } else {
-                getBalanceView(selectedID);
-                getCharts();
-            }
         });
         homeViewModel.getListImmeubleMutableLiveData().observe(getViewLifecycleOwner(), immeubles -> {
             if (!immeubles.isEmpty()) {
@@ -232,7 +280,7 @@ public class statsFragment extends Fragment implements
                 List<String> names = immeubles.stream().map(Immeuble::getNom).collect(Collectors.toList());
                 ArrayAdapter aa = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, names);
                 aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spin.setAdapter(aa);
+               // spin.setAdapter(aa);
             }
         });
     }
@@ -253,17 +301,16 @@ public class statsFragment extends Fragment implements
             if (revenus != null) {
                 double income = 0.0;
                 type.clear();
-                Map<String, Integer> map = new HashMap<>();
                 for (Revenu revenu : revenus) {
                     income += revenu.getMontant();
                     rev.add(revenu.getMontant());
-                    type.add(revenu.getDate().getYear() + "");
+                    type.add(revenu.getDate().getMonth() + "");
                 }
-                ArrayList<Integer> val = new ArrayList<>(
-                        Arrays.asList(2000,3500,3659,55853));
-
-                for(int m : val) {
-                    map.put(m+"", m*10);
+                Map<String, Integer> map = new HashMap<>();
+                int i = 0;
+                for(Double m : rev) {
+                    map.put(type.get(i), (int) (m*10));
+                    i++;
                 }
                 createBarChart(map);
                 //createBarChart(rev);
@@ -276,22 +323,4 @@ public class statsFragment extends Fragment implements
         homeViewModel.getRevenusByImmeuble(immeuble);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        Map<String, Integer> map = new HashMap<>();
-        ArrayList<Integer> val = new ArrayList<>(
-                Arrays.asList(2000,3500,3659,55853));
-
-        for(int m : val) {
-            map.put(m+"", position*10);
-        }
-        createBarChart(map);
-        selectedID = immeubleList.get(position).getId();
-        getBalanceView(immeubleList.get(position).getId());
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }
