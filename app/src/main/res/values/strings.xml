@@ -28,4 +28,5 @@
     <string name="immeuble_list_description">Tu peux sélectionner une immeuble existante ou alors en créer une nouvelle!</string>
     <string name="create_immeuble">Ou crée ton  Immeuble</string>
     <string name="immeuble_list_label">Sélectionne une Immeuble existante</string>
+    <string name="quit_prog_bar">Vous n\'avez pas d\'immeuble sous votre responsabilité</string>
 </resources>

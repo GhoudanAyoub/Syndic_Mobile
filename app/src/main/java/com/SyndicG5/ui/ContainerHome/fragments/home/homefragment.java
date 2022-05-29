@@ -83,6 +83,7 @@ public class homefragment extends Fragment {
         appartementAdapter = new AppartementAdapter(getContext(),repository);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(appartementAdapter);
+        binding.progressBar2.setVisibility(View.VISIBLE);
 
         binding.balanceView.outcomingBalanceTxt.setText("0.0 DH");
         binding.balanceView.incomingBalanceTxt.setText("0.0 DH");
@@ -190,6 +191,8 @@ public class homefragment extends Fragment {
             homeViewModel.getListAppartementByImmeubleMutableLiveData().observe(getViewLifecycleOwner(), appartementList -> {
                 appartementLists = appartementList;
                 binding.clientsNumberTxt.setText(appartementList.size()+"");
+
+                binding.progressBar2.setVisibility(View.GONE);
                 appartementAdapter.setList((ArrayList<Appartement>) appartementList);
             });
         });

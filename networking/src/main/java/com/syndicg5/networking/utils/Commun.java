@@ -13,7 +13,6 @@ import java.util.Locale;
 import kotlin.text.Regex;
 
 public class Commun {
-    public static String IP = "192.168.56.1:9090";
 
     public static String getClientNameInitials(String name) {
         String initials;
