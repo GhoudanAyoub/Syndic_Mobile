@@ -19,6 +19,7 @@ import com.SyndicG5.databinding.ActivityHomrContainerBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.emptyFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.home.homefragment;
 import com.SyndicG5.ui.ContainerHome.fragments.immeuble.immeubleFragment;
+import com.SyndicG5.ui.ContainerHome.fragments.payment.PaymentFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.profile.ProfileFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.residents.residentFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.stats.statsFragment;
@@ -35,7 +36,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
 
     private ActivityHomrContainerBinding binding;
     private static Toolbar toolbar;
-    private LinearLayout ll_Home, ll_profile, ll_Immeuble,ll_Residents,ll_stats, ll_Logout;
+    private LinearLayout ll_Home, ll_profile, ll_Immeuble,ll_Residents,ll_stats,ll_payment, ll_Logout;
     private static boolean open = false;
     loginViewModel mViewModel;
 
@@ -78,6 +79,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         ll_Immeuble = menuView.findViewById(R.id.ll_Immeuble);
         ll_Residents = menuView.findViewById(R.id.ll_Residents);
         ll_stats = menuView.findViewById(R.id.ll_stats);
+        ll_payment = menuView.findViewById(R.id.ll_payment);
         ll_Logout = menuView.findViewById(R.id.ll_Logout);
 
 
@@ -86,12 +88,25 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         ll_Immeuble.setOnClickListener(this);
         ll_Residents.setOnClickListener(this);
         ll_stats.setOnClickListener(this);
+        ll_payment.setOnClickListener(this);
         ll_Logout.setOnClickListener(this);
-       mViewModel.getImmeubleInfoLiveData().observe(this,immeuble -> {
-            if(immeuble==null)
-                replace(immeubleFragment.newInstance());
-            else
-                replace(homefragment.newInstance());
+        mViewModel.getLoginInfo();
+        mViewModel.getLoginLiveData().observe(this,login -> {
+            if (login.getType()==1){
+                ll_payment.setVisibility(View.GONE);
+                mViewModel.getImmeubleInfoLiveData().observe(this,immeuble -> {
+                    if(immeuble==null)
+                        replace(immeubleFragment.newInstance());
+                    else
+                        replace(homefragment.newInstance());
+                });
+            }else{
+                ll_Home.setVisibility(View.GONE);
+                ll_Immeuble.setVisibility(View.GONE);
+                ll_Residents.setVisibility(View.GONE);
+                ll_stats.setVisibility(View.GONE);
+                replace(PaymentFragment.newInstance());
+            }
         });
     }
 
@@ -123,8 +138,12 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
                 replace(new statsFragment(), "Stats");
                 break;
 
+            case R.id.ll_payment:
+                replace(new PaymentFragment(), "Payments");
+                break;
+
             case R.id.ll_Logout:
-                mViewModel.UpdateLogin(new Login(1, false));
+                mViewModel.UpdateLogin(new Login(1, false,1));
                 startActivity(new Intent(getApplicationContext(), login.class));
                 break;
         }

@@ -9,7 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Resident;
+import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.repository.roomRepository;
 
@@ -24,6 +26,8 @@ public class ResidentViewModel extends ViewModel {
     private roomRepository roomRepo;
 
     private MutableLiveData<List<Resident>> listResidentBySyndicMutableLiveData = new MutableLiveData<>();
+
+    private MutableLiveData<List<Revenu>> listRevenuBySyndicMutableLiveData = new MutableLiveData<>();
 
     @ViewModelInject
     public ResidentViewModel(apiRepository repository, roomRepository roomRepo) {
@@ -42,4 +46,18 @@ public class ResidentViewModel extends ViewModel {
     public LiveData<List<Resident>> getListResidentBySyndicMutableLiveData() {
         return  listResidentBySyndicMutableLiveData;
     }
+
+    public LiveData<List<Revenu>> getListPaymentBySyndicMutableLiveData() {
+        return listRevenuBySyndicMutableLiveData;
+    }
+
+    @SuppressLint("CheckResult")
+    public void getPaymentByResident(int id) {
+        repository.getPaymentByResident(id)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> listRevenuBySyndicMutableLiveData.setValue(response), Throwable::printStackTrace);
+
+    }
+
 }

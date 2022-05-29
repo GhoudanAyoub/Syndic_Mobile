@@ -99,4 +99,7 @@ public interface APISettings {
 
     @GET("api/categories")
     Single<List<Categorie>> getAllCategories();
+
+    @GET("api/paymentByResident/{id}")
+    Single<List<Revenu>> getPaymentByResident(int id);
 }
