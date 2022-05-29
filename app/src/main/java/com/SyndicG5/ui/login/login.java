@@ -41,7 +41,7 @@ public class login extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private loginViewModel mViewModel;
     private RadioButton radioButton, radioButton2;
-    private String radioButtonText;
+    private int radioButtonText = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +56,6 @@ public class login extends AppCompatActivity {
         progressDialog.setMessage("Login ..........");
         radioButton = findViewById(R.id.radioButton);
         radioButton2 = findViewById(R.id.radioButton2);
-        if (radioButton.isChecked())
-            radioButtonText = "syndic";
-        if (radioButton2.isChecked())
-            radioButtonText = "resident";
 
         RxView.clicks(binding.login)
                 .throttleFirst(3, TimeUnit.SECONDS)
@@ -74,6 +70,14 @@ public class login extends AppCompatActivity {
                     public void onNext(@NotNull Unit unit) {
                         progressDialog.show();
                         binding.login.setEnabled(false);
+                        if (radioButton.isChecked()) {
+                            radioButtonText = 1;
+                            radioButton2.setChecked(false);
+                        }
+                        if (radioButton2.isChecked()) {
+                            radioButtonText = 2;
+                            radioButton.setChecked(false);
+                        }
                         LoginUser(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString(), Objects.requireNonNull(binding.passEditText.getEditText()).getText().toString());
                     }
 
@@ -93,18 +97,35 @@ public class login extends AppCompatActivity {
         mViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
             if (aBoolean) {
                 mViewModel.getImmeubleInfo();
-                mViewModel.saveLogin(new Login(1, true));
-                mViewModel.getOneSyndic(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
-                mViewModel.getSyndicMutableLiveData().observe(this, syndic -> {
-                            if (syndic != null) {
-                                syndic.setType(1);
-                                mViewModel.saveUser(syndic.toUser());
-                                binding.login.setEnabled(true);
+                if(radioButtonText==1) {
+                    mViewModel.getOneSyndic(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
+                    mViewModel.getSyndicMutableLiveData().observe(this, syndic -> {
+                        if (syndic != null) {
+                            syndic.setType(1);
+                            mViewModel.saveLogin(new Login(1, true, radioButtonText));
+                            mViewModel.saveUser(syndic.toUser());
+                            binding.login.setEnabled(true);
+                            startActivity(new Intent(getApplication(), HomeContainer.class));
 
-                                startActivity(new Intent(getApplication(), HomeContainer.class));
-                            }
                         }
-                );
+                    });
+                }else{
+                    mViewModel.getOneResidents(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
+                    mViewModel.getResidentMutableLiveData().observe(this, resident -> {
+                        if (resident != null) {
+                            resident.setType(1);
+                            mViewModel.saveLogin(new Login(1, true, radioButtonText));
+                            mViewModel.saveUser(resident.toUser());
+                            binding.login.setEnabled(true);
+                            startActivity(new Intent(getApplication(), HomeContainer.class));
+
+                        }else{
+                            Toasty.error(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT, true).show();
+                            progressDialog.dismiss();
+                            binding.login.setEnabled(true);
+                        }
+                    });
+                }
             } else {
                 Toasty.error(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT, true).show();
                 progressDialog.dismiss();

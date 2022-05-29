@@ -18,6 +18,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.Reusable;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -124,5 +125,9 @@ public class apiRepository {
 
     public  Single<List<Categorie>> getAllCategories() {
         return apiSettings.getAllCategories();
+    }
+
+    public Single<List<Revenu>> getPaymentByResident(int id) {
+        return apiSettings.getPaymentByResident(id);
     }
 }
