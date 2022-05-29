@@ -32,12 +32,17 @@ public class HomefragementViewModel extends ViewModel {
     private MutableLiveData<List<Categorie>> listCategorieMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Appartement>> listAppartementMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Appartement>> listAppartementByImmeubleMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Appartement>> listAppartementByResidentMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Immeuble>> listImmeubleMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Revenu>> listRevenuByAppartementMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Revenu>> listRevenuByImmeubleMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Depense>> listDepenseByImmeubleMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Appartement> AppartementMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Immeuble> ImmeubleMutableLiveData = new MutableLiveData<>();
+
+    public MutableLiveData<List<Appartement>> getListAppartementByResidentMutableLiveData() {
+        return listAppartementByResidentMutableLiveData;
+    }
 
     public MutableLiveData<List<Categorie>> getListCategorieMutableLiveData() {
         return listCategorieMutableLiveData;
@@ -98,6 +103,14 @@ public class HomefragementViewModel extends ViewModel {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> AppartementMutableLiveData.setValue(response)
+                        , Throwable::printStackTrace);
+    }
+
+    public void getAppartementByResident(int id) {
+        repository.getAppartementByResident(id)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> listAppartementByResidentMutableLiveData.setValue(response)
                         , Throwable::printStackTrace);
     }
 

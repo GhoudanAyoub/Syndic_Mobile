@@ -1,7 +1,6 @@
 package com.SyndicG5.ui.ContainerHome.fragments.profile;
 
 import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
-import static com.syndicg5.networking.utils.Commun.profile;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;

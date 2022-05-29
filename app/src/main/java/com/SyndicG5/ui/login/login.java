@@ -73,6 +73,7 @@ public class login extends AppCompatActivity {
                     @Override
                     public void onNext(@NotNull Unit unit) {
                         progressDialog.show();
+                        binding.login.setEnabled(false);
                         LoginUser(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString(), Objects.requireNonNull(binding.passEditText.getEditText()).getText().toString());
                     }
 
@@ -91,44 +92,34 @@ public class login extends AppCompatActivity {
     private void subscribe() {
         mViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
             if (aBoolean) {
-                mViewModel.getLoginInfo();
                 mViewModel.getImmeubleInfo();
-                mViewModel.getLoginLiveData().observe(this, login -> {
-                    if (login == null) {
-                        mViewModel.saveLogin(new Login(1, true));
-                      //  if (radioButton.isChecked()) {
-                            mViewModel.getOneSyndic(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
-                            mViewModel.getSyndicMutableLiveData().observe(this, syndic -> {
-                                        syndic.setType(1);
-                                        mViewModel.saveUser(syndic.toUser());
-                                        progressDialog.dismiss();
-                                        startActivity(new Intent(getApplication(), HomeContainer.class));
-                                    }
-                            );
-                       /* } else {
-                            mViewModel.getOneResidents(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
-                            mViewModel.getResidentMutableLiveData().observe(this, resident -> {
-                                        resident.setType(2);
-                                        mViewModel.saveUser(resident.toUser());
-                                        progressDialog.dismiss();
-                                        startActivity(new Intent(getApplication(), HomeContainer.class));
-                                    }
-                            );
-                        }*/
-                    } else {
-                        mViewModel.UpdateLogin(new Login(1, true));
-                        startActivity(new Intent(getApplication(), HomeContainer.class));
-                    }
-                });
+                mViewModel.saveLogin(new Login(1, true));
+                mViewModel.getOneSyndic(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
+                mViewModel.getSyndicMutableLiveData().observe(this, syndic -> {
+                            if (syndic != null) {
+                                syndic.setType(1);
+                                mViewModel.saveUser(syndic.toUser());
+                                binding.login.setEnabled(true);
+
+                                startActivity(new Intent(getApplication(), HomeContainer.class));
+                            }
+                        }
+                );
             } else {
                 Toasty.error(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT, true).show();
                 progressDialog.dismiss();
+                binding.login.setEnabled(true);
             }
         });
     }
 
     private void LoginUser(String email, String pass) {
         mViewModel.Login(email, pass);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 
     @Override

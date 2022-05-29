@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 
 import com.SyndicG5.R;
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class emptyFragment extends Fragment {
 
 

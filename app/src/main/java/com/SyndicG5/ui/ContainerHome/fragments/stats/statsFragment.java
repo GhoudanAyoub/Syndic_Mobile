@@ -2,6 +2,8 @@ package com.SyndicG5.ui.ContainerHome.fragments.stats;
 
 import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
 
+import static java.lang.Thread.sleep;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.SyndicG5.R;
 import com.SyndicG5.databinding.StatsFragmentBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
 import com.SyndicG5.ui.login.loginViewModel;
@@ -33,15 +38,21 @@ import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Revenu;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Timer;
 import java.util.stream.Collectors;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import es.dmoral.toasty.Toasty;
+import timber.log.Timber;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 @AndroidEntryPoint
-public class statsFragment extends Fragment implements
-        AdapterView.OnItemSelectedListener {
+public class statsFragment extends Fragment {
 
     private StatsFragmentBinding binding;
     private BarChart chart;
@@ -53,6 +64,7 @@ public class statsFragment extends Fragment implements
     List<Double> rev = new ArrayList<>();
     private ArrayList<Immeuble> immeubleList;
     private int selectedID = 0;
+    private ProgressBar progressBar2;
 
     public static statsFragment newInstance() {
         return new statsFragment();
@@ -63,26 +75,27 @@ public class statsFragment extends Fragment implements
                              @Nullable Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
         loginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
-        binding = StatsFragmentBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setActivityName("Statistics");
-        chart = binding.chart1;
-        spin = binding.spinner;
-        spin.setOnItemSelectedListener(this);
+      //  binding = StatsFragmentBinding.inflate(inflater, container, false);
+        View v = inflater.inflate(R.layout.stats_fragment, container, false);
+        chart = v.findViewById(R.id.chart);
+        //spin = v.findViewById(R.id.spinner);
+        progressBar2 = v.findViewById(R.id.progressBar2);
+        progressBar2.setVisibility(View.VISIBLE);
         initializeBarChart();
         getImmeubleList();
+        subscribe();
+        return v.getRootView();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setActivityName("Statistics");
     }
 
     private void getImmeubleList() {
         loginViewModel.getUserInfo();
         loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user -> {
-            if (user != null)
                 homeViewModel.getAllImmeuble(user.getId(), user.getEmail(), user.getType());
         });
     }
@@ -90,9 +103,7 @@ public class statsFragment extends Fragment implements
     @Override
     public void onResume() {
         super.onResume();
-        initializeBarChart();
     }
-
     private void initializeBarChart() {
         chart.getDescription().setEnabled(false);
         chart.setMaxVisibleValueCount(4);
@@ -116,16 +127,16 @@ public class statsFragment extends Fragment implements
         chart.getXAxis().setEnabled(true);
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.invalidate();
-        subscribe();
     }
 
-    private void createBarChart(List<Double> byMarqueList) {
+    private void createBarChart(Map<String, Integer> map) {
         ArrayList<BarEntry> values = new ArrayList<>();
-
-        for (int i = 0; i < byMarqueList.size(); i++) {
-            Double dataObject = byMarqueList.get(i);
-            values.add(new BarEntry(i, Float.parseFloat(dataObject.toString())));
+        int i = 0;
+        for(String key : map.keySet()) {
+            values.add(new BarEntry(i, map.get(key)));
+            ++i;
         }
+
         BarDataSet set1;
         if (chart.getData() != null &&
                 chart.getData().getDataSetCount() > 0) {
@@ -140,12 +151,12 @@ public class statsFragment extends Fragment implements
             dataSets.add(set1);
             BarData data = new BarData(dataSets);
             chart.setData(data);
-            chart.setVisibleXRange(1, 4);
+            chart.setVisibleXRange(1,4);
             chart.setFitBars(true);
             XAxis xAxis = chart.getXAxis();
             xAxis.setGranularity(1f);
             xAxis.setGranularityEnabled(true);
-            xAxis.setValueFormatter(new IndexAxisValueFormatter(type));
+            xAxis.setValueFormatter(new IndexAxisValueFormatter(map.keySet()));
             for (IDataSet set : chart.getData().getDataSets())
                 set.setDrawValues(!set.isDrawValuesEnabled());
             chart.invalidate();
@@ -154,13 +165,8 @@ public class statsFragment extends Fragment implements
 
     private void subscribe() {
         homeViewModel.getImmeubleInfo().observe(getViewLifecycleOwner(), immeuble -> {
-            if (selectedID != 0) {
                 getBalanceView(immeuble.getId());
                 getCharts();
-            } else {
-                getBalanceView(selectedID);
-                getCharts();
-            }
         });
         homeViewModel.getListImmeubleMutableLiveData().observe(getViewLifecycleOwner(), immeubles -> {
             if (!immeubles.isEmpty()) {
@@ -168,7 +174,7 @@ public class statsFragment extends Fragment implements
                 List<String> names = immeubles.stream().map(Immeuble::getNom).collect(Collectors.toList());
                 ArrayAdapter aa = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, names);
                 aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spin.setAdapter(aa);
+               // spin.setAdapter(aa);
             }
         });
     }
@@ -192,9 +198,18 @@ public class statsFragment extends Fragment implements
                 for (Revenu revenu : revenus) {
                     income += revenu.getMontant();
                     rev.add(revenu.getMontant());
-                    type.add(revenu.getDate().getYear() + "");
+                    type.add(revenu.getDate().getMonth() + "");
                 }
-                createBarChart(rev);
+                Map<String, Integer> map = new HashMap<>();
+                int i = 0;
+                for(Double m : rev) {
+                    map.put(type.get(i), (int) (m*10));
+                    i++;
+                }
+                createBarChart(map);
+
+                progressBar2.setVisibility(View.GONE);
+                //createBarChart(rev);
             }
         });
     }
@@ -204,14 +219,4 @@ public class statsFragment extends Fragment implements
         homeViewModel.getRevenusByImmeuble(immeuble);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        selectedID = immeubleList.get(position).getId();
-        getBalanceView(immeubleList.get(position).getId());
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }
