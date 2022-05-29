@@ -81,7 +81,7 @@ public class immeubleFragment extends Fragment {
                 binding.selectStoreBtn.setVisibility(View.GONE);
                 binding.llProgressBar.getRoot().setVisibility(View.VISIBLE);
                 binding.llProgressBar.getRoot().findViewById(R.id.quit).setOnClickListener(view1 -> {
-                    loginViewModel.UpdateLogin(new Login(1, false));
+                    loginViewModel.UpdateLogin(new Login(1, false,1));
                     startActivity(new Intent(requireContext(), login.class));
                 });
             }

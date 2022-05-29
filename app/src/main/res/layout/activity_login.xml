@@ -109,15 +109,15 @@
             android:id="@+id/radioGroup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:visibility="gone"
             android:layout_below="@+id/imageView"
             android:layout_alignStart="@+id/textView2"
             android:layout_alignLeft="@+id/textView2"
             android:layout_alignEnd="@+id/textView3"
             android:layout_alignRight="@+id/textView3"
+            android:layout_margin="10dp"
             android:layout_marginTop="58dp"
             android:orientation="horizontal"
+            android:visibility="visible"
             android:weightSum="1">
 
             <RadioButton
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
-                android:checked="false"
+                android:checked="true"
                 android:text="Syndic"
                 android:textColor="@color/colorAmountOutBackground"
                 android:textSize="14sp"
