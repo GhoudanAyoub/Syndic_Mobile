@@ -23,7 +23,6 @@ public class roomRepository {
 
 
     public void saveLogin(Login f) {
-        dao.deleteLogin();
         dao.saveLogin(f);
     }
 

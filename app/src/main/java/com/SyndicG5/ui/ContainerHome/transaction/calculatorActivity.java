@@ -76,6 +76,7 @@ public class calculatorActivity extends SyndicActivity implements
         appartementSpin = binding.spinner3;
         categorySpin = binding.spinner4;
         spin.setOnItemSelectedListener(this);
+        binding.saveTransactionBtn.setEnabled(false);
         appartementSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -112,8 +113,6 @@ public class calculatorActivity extends SyndicActivity implements
                 categorySpin.setVisibility(View.VISIBLE);
                 appartementSpin.setVisibility(View.GONE);
             }
-
-            // binding.transactionMoneyBtn.setIconTint(balanceType ? ColorStateList.valueOf(Color.GREEN) : ColorStateList.valueOf(Color.RED));
         });
 
         binding.transactionDateBtn.setOnClickListener(view1 -> {
@@ -138,12 +137,14 @@ public class calculatorActivity extends SyndicActivity implements
         });
 
         binding.saveTransactionBtn.setOnClickListener(view1 -> {
+            binding.saveTransactionBtn.setEnabled(false);
+            binding.llProgressBar.getRoot().setVisibility(View.VISIBLE);
             RevenusReq f = new RevenusReq(Double.parseDouble(newOutput), binding.transactionMoreInfoInput.getText().toString(), selectedDateVal, selectedID, appartementSelectedID);
             depenseReq f2 = new depenseReq(Double.parseDouble(newOutput), binding.transactionMoreInfoInput.getText().toString(), selectedDateVal, selectedID, categoriesSelectedID);
             homeViewModel.saveBalance(f,f2, balanceType);
             homeViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
                 if (aBoolean) {
-                    Toasty.success(getApplicationContext(), "Success!", Toast.LENGTH_SHORT, true).show();
+                    binding.llProgressBar.getRoot().setVisibility(View.GONE);
                     super.onBackPressed();
                 }
             });

@@ -73,6 +73,7 @@ public class residentFragment extends Fragment {
         residentAdapter = new ResidentAdapter(getContext(),repository);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(residentAdapter);
+        binding.progressBar2.setVisibility(View.VISIBLE);
 
         binding.searchBtn.setOnClickListener(view1 -> {
 
@@ -118,7 +119,7 @@ public class residentFragment extends Fragment {
                 mViewModel.getListResidentBySyndicMutableLiveData().observe(getViewLifecycleOwner(), residents -> {
                     residentList=residents;
                     residentAdapter.setList((ArrayList<Resident>) residents);
-
+                    binding.progressBar2.setVisibility(View.GONE);
                 });
             }
         });

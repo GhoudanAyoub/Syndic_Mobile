@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -63,6 +64,7 @@ public class statsFragment extends Fragment {
     List<Double> rev = new ArrayList<>();
     private ArrayList<Immeuble> immeubleList;
     private int selectedID = 0;
+    private ProgressBar progressBar2;
 
     public static statsFragment newInstance() {
         return new statsFragment();
@@ -77,34 +79,11 @@ public class statsFragment extends Fragment {
         View v = inflater.inflate(R.layout.stats_fragment, container, false);
         chart = v.findViewById(R.id.chart);
         //spin = v.findViewById(R.id.spinner);
+        progressBar2 = v.findViewById(R.id.progressBar2);
+        progressBar2.setVisibility(View.VISIBLE);
         initializeBarChart();
         getImmeubleList();
         subscribe();
-
-     /*   spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                Timber.d("8855 %s", position);
-                Map<String, Integer> map = new HashMap<>();
-                ArrayList<Integer> val = new ArrayList<>(
-                        Arrays.asList(2000,3500,3659,55853));
-                ArrayList<String> mois = new ArrayList<>(
-                        Arrays.asList("JAN","FEV","MAR","AVR"));
-                int i = 0;
-                for(int m : val) {
-                    map.put(mois.get(i), m*10);
-                    i++;
-                }
-                createBarChart(map);
-                selectedID = immeubleList.get(position).getId();
-                getBalanceView(immeubleList.get(position).getId());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });*/
         return v.getRootView();
     }
 
@@ -183,94 +162,9 @@ public class statsFragment extends Fragment {
             chart.invalidate();
         }
     }
-//
-//    private void initializeBarChart() {
-//        chart.getDescription().setEnabled(false);
-//        chart.setMaxVisibleValueCount(4);
-//        chart.getXAxis().setDrawGridLines(false);
-//        chart.setPinchZoom(false);
-//        chart.setDrawBarShadow(false);
-//        chart.setDrawGridBackground(false);
-//        XAxis xAxis = chart.getXAxis();
-//        xAxis.setDrawGridLines(false);
-//        chart.getAxisLeft().setDrawGridLines(false);
-//        chart.getAxisRight().setDrawGridLines(false);
-//        chart.getAxisRight().setEnabled(false);
-//        chart.getAxisLeft().setEnabled(true);
-//        chart.getXAxis().setDrawGridLines(false);
-//        chart.animateY(1500);
-//        chart.getLegend().setEnabled(false);
-//        chart.getAxisRight().setDrawLabels(false);
-//        chart.getAxisLeft().setDrawLabels(true);
-//        chart.setTouchEnabled(false);
-//        chart.setDoubleTapToZoomEnabled(false);
-//        chart.getXAxis().setEnabled(true);
-//        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-//        chart.invalidate();
-//        subscribe();
-//    }
-//
-//    private void createBarChart(List<Double> byMarqueList) {
-//        ArrayList<BarEntry> values = new ArrayList<>();
-//
-//        for (int i = 0; i < byMarqueList.size(); i++) {
-//            Double dataObject = byMarqueList.get(i);
-//            values.add(new BarEntry(i, Float.parseFloat(dataObject.toString())));
-//        }
-//        BarDataSet set1;
-//        if (chart.getData() != null &&
-//                chart.getData().getDataSetCount() > 0) {
-//            set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
-//            set1.setValues(values);
-//            chart.getData().notifyDataChanged();
-//            chart.notifyDataSetChanged();
-//        } else {
-//            set1 = new BarDataSet(values, "Data Set");
-//            set1.setDrawValues(true);
-//            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-//            dataSets.add(set1);
-//            BarData data = new BarData(dataSets);
-//            chart.setData(data);
-//            chart.setVisibleXRange(1, 4);
-//            chart.setFitBars(true);
-//            XAxis xAxis = chart.getXAxis();
-//            xAxis.setGranularity(1f);
-//            xAxis.setGranularityEnabled(true);
-//            xAxis.setValueFormatter(new IndexAxisValueFormatter(type));
-//            for (IDataSet set : chart.getData().getDataSets())
-//                set.setDrawValues(!set.isDrawValuesEnabled());
-//            chart.invalidate();
-//        }
-//    }
 
     private void subscribe() {
         homeViewModel.getImmeubleInfo().observe(getViewLifecycleOwner(), immeuble -> {
-           /* Map<String, Integer> map = new HashMap<>();
-            ArrayList<Integer> val;
-            if(immeuble.getId()==1) {
-                val = new ArrayList<>(
-                        Arrays.asList(2000, 3500, 3659, 55853));
-
-                ArrayList<String> mois = new ArrayList<>(
-                        Arrays.asList("JAN","FEV","MAR","AVR"));
-                int i = 0;
-                for(int m : val) {
-                    map.put(mois.get(i), m*10);
-                    i++;
-                }
-                createBarChart(map);
-            }else {
-                val = new ArrayList<>(
-                        Arrays.asList(100, 2500, 1000));
-                ArrayList<String> mois = new ArrayList<>(
-                        Arrays.asList("JAN","FEV","MAR","AVR"));
-                int i = 0;
-                for(int m : val) {
-                    map.put(mois.get(i), m*10);
-                    i++;
-                }
-                createBarChart(map);
-            }*/
                 getBalanceView(immeuble.getId());
                 getCharts();
         });
@@ -313,6 +207,8 @@ public class statsFragment extends Fragment {
                     i++;
                 }
                 createBarChart(map);
+
+                progressBar2.setVisibility(View.GONE);
                 //createBarChart(rev);
             }
         });
