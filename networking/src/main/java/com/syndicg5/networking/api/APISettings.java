@@ -100,6 +100,6 @@ public interface APISettings {
     @GET("api/categories")
     Single<List<Categorie>> getAllCategories();
 
-    @GET("api/paymentByResident/{id}")
-    Single<List<Revenu>> getPaymentByResident(int id);
+    @GET("api/revenusByResident/{id}")
+    Single<List<Revenu>> getPaymentByResident(@Path("id") int id);
 }

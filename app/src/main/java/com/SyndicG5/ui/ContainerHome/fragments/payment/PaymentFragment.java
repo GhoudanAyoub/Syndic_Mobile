@@ -29,6 +29,7 @@ import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.utils.AppUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -119,22 +120,23 @@ public class PaymentFragment extends Fragment {
         loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user -> {
             if (user != null) {
                 mViewModel.getPaymentByResident(user.getId());
-                mViewModel.getListPaymentBySyndicMutableLiveData().observe(getViewLifecycleOwner(), revuenss -> {
-                    revuenssList=revuenss;
-                    revenuAdapter.setList((ArrayList<Revenu>) revuenss);
-                    binding.progressBar2.setVisibility(View.GONE);
-                });
             }
+        });
+        mViewModel.getListPaymentBySyndicMutableLiveData().observe(getViewLifecycleOwner(), revuenss -> {
+            revuenssList=revuenss;
+            revenuAdapter.setList((ArrayList<Revenu>) revuenss);
+            binding.progressBar2.setVisibility(View.GONE);
         });
     }
 
     private void filter(String query) {
         String lowerCaseQuery = query.toUpperCase(Locale.ROOT);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
         List<Revenu> filteredModelList = query.isEmpty() ?
                 revuenssList :
                 revuenssList
                         .stream()
-                        .filter(revenu -> revenu.getAppartement().getNumero().equals(lowerCaseQuery) || revenu.getDescription().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || revenu.getImmeuble().getNom().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || revenu.getImmeuble().getVille().contains(lowerCaseQuery))
+                        .filter(revenu -> dateFormat.format(revenu.getDate().getTime()).equals(lowerCaseQuery) || revenu.getAppartement().getNumero().equals(lowerCaseQuery) ||revenu.getMontant().equals(lowerCaseQuery) || revenu.getDescription().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || revenu.getImmeuble().getNom().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || revenu.getImmeuble().getVille().contains(lowerCaseQuery))
                         .collect(Collectors.toList());
         revenuAdapter.setList((ArrayList<Revenu>) filteredModelList);
     }
