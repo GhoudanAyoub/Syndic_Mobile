@@ -97,7 +97,6 @@ public class login extends AppCompatActivity {
         mViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
             if (aBoolean) {
                 mViewModel.getImmeubleInfo();
-                if(radioButtonText==1) {
                     mViewModel.getOneSyndic(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
                     mViewModel.getSyndicMutableLiveData().observe(this, syndic -> {
                         if (syndic != null) {
@@ -109,23 +108,7 @@ public class login extends AppCompatActivity {
 
                         }
                     });
-                }else{
-                    mViewModel.getOneResidents(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
-                    mViewModel.getResidentMutableLiveData().observe(this, resident -> {
-                        if (resident != null) {
-                            resident.setType(1);
-                            mViewModel.saveLogin(new Login(1, true, radioButtonText));
-                            mViewModel.saveUser(resident.toUser());
-                            binding.login.setEnabled(true);
-                            startActivity(new Intent(getApplication(), HomeContainer.class));
 
-                        }else{
-                            Toasty.error(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT, true).show();
-                            progressDialog.dismiss();
-                            binding.login.setEnabled(true);
-                        }
-                    });
-                }
             } else {
                 Toasty.error(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT, true).show();
                 progressDialog.dismiss();
@@ -135,7 +118,26 @@ public class login extends AppCompatActivity {
     }
 
     private void LoginUser(String email, String pass) {
+        if(radioButtonText==1) {
         mViewModel.Login(email, pass);
+        }else{
+            mViewModel.getImmeubleInfo();
+            mViewModel.getOneResidents(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
+            mViewModel.getResidentMutableLiveData().observe(this, resident -> {
+                if (resident != null) {
+                    resident.setType(1);
+                    mViewModel.saveLogin(new Login(1, true, radioButtonText));
+                    mViewModel.saveUser(resident.toUser());
+                    binding.login.setEnabled(true);
+                    startActivity(new Intent(getApplication(), HomeContainer.class));
+
+                }else{
+                    Toasty.error(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT, true).show();
+                    progressDialog.dismiss();
+                    binding.login.setEnabled(true);
+                }
+            });
+        }
     }
 
     @Override
