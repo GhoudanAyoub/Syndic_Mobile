@@ -55,7 +55,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView66"
+                android:id="@+id/loginTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -79,28 +79,29 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/gmailEditText"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="42dp"
                 android:layout_marginEnd="42dp"
                 android:background="@drawable/bg_textinputlayout"
                 android:inputType="textEmailAddress"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#FFFFFF"
+                app:hintTextColor="#FFFFFF"
                 app:boxBackgroundMode="none"
                 app:errorEnabled="true"
                 app:errorTextColor="#FF0000"
-                app:hintAnimationEnabled="false"
+                app:hintAnimationEnabled="true"
                 app:hintEnabled="true"
                 app:passwordToggleEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/amp_transparent"
+                    android:backgroundTint="#1A1D22"
                     android:fontFamily="@font/noto_sans"
                     android:hint="Enter your email address"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -117,29 +118,31 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passEditText"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="42dp"
                 android:layout_marginEnd="42dp"
                 android:background="@drawable/bg_textinputlayout"
                 android:inputType="textEmailAddress"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#FFFFFF"
+                app:hintTextColor="#FFFFFF"
                 app:boxBackgroundMode="none"
                 app:errorEnabled="true"
                 app:errorTextColor="#FF0000"
-                app:hintAnimationEnabled="false"
+                app:hintAnimationEnabled="true"
                 app:hintEnabled="true"
-                app:passwordToggleEnabled="false">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/amp_transparent"
+                    android:backgroundTint="#1A1D22"
                     android:fontFamily="@font/catamaran"
                     android:hint="Enter your passowrd"
                     android:inputType="textPassword"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -156,29 +159,31 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/confirmPassEditText"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="42dp"
                 android:layout_marginEnd="42dp"
                 android:background="@drawable/bg_textinputlayout"
                 android:inputType="textEmailAddress"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#FFFFFF"
+                app:hintTextColor="#FFFFFF"
                 app:boxBackgroundMode="none"
                 app:errorEnabled="true"
                 app:errorTextColor="#FF0000"
-                app:hintAnimationEnabled="false"
+                app:hintAnimationEnabled="true"
                 app:hintEnabled="true"
-                app:passwordToggleEnabled="false">
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/amp_transparent"
+                    android:backgroundTint="#1A1D22"
                     android:fontFamily="@font/catamaran"
                     android:hint="Enter your passowrd"
                     android:inputType="textPassword"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -195,28 +200,29 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/FullNameEditText"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="70dp"
                 android:layout_marginStart="42dp"
                 android:layout_marginEnd="42dp"
                 android:background="@drawable/bg_textinputlayout"
                 android:inputType="textEmailAddress"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#FFFFFF"
+                app:hintTextColor="#FFFFFF"
                 app:boxBackgroundMode="none"
                 app:errorEnabled="true"
                 app:errorTextColor="#FF0000"
-                app:hintAnimationEnabled="false"
+                app:hintAnimationEnabled="true"
                 app:hintEnabled="true"
                 app:passwordToggleEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/amp_transparent"
+                    android:backgroundTint="#1A1D22"
                     android:fontFamily="@font/noto_sans"
                     android:hint="Enter your full name"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -238,8 +244,8 @@
                 android:layout_marginEnd="42dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/bg_textinputlayout"
-                tools:listitem="@layout/spinner_item_text"
-                android:entries="@array/gender" />
+                android:entries="@array/gender"
+                tools:listitem="@layout/spinner_item_text" />
 
         </LinearLayout>
 
@@ -257,13 +263,14 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
             <Button
-                android:id="@+id/login"
+                android:id="@+id/createAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/buttoncolor"
+                android:background="@drawable/bg_button_selector"
                 android:fontFamily="@font/catamaran"
                 android:lineSpacingExtra="12sp"
                 android:text="Sign In"
+                android:enabled="false"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp" />
 

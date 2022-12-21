@@ -50,7 +50,7 @@ public class loginViewModel extends ViewModel {
         return userLoginLiveData;
     }
 
-    public MutableLiveData<Syndic> getSyndicMutableLiveData() {
+    public MutableLiveData<Syndic> getUserTypeMutableLiveData() {
         return syndicMutableLiveData;
     }
 
@@ -77,7 +77,23 @@ public class loginViewModel extends ViewModel {
     }
 
     @SuppressLint("CheckResult")
-    public void getOneSyndic(String email){
+    public void CreateAccount(String email, String pass,String name,int type) {
+        apiRepository.Login(new User(email,pass))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                            if (response.isSuccessful()) {
+                                if (response.code() == 200)
+                                    booleanMutableLiveData.setValue(true);
+                                else
+                                    booleanMutableLiveData.setValue(false);
+                            } else
+                                booleanMutableLiveData.setValue(false);
+                        }, Throwable::printStackTrace);
+    }
+
+    @SuppressLint("CheckResult")
+    public void getUserServerInfo(String email){
         apiRepository.getOneSyndic(email)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -4,17 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.WindowManager;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.SyndicG5.R;
 import com.SyndicG5.databinding.ActivityLoginBinding;
 import com.SyndicG5.ui.ContainerHome.HomeContainer;
+import com.SyndicG5.ui.register.CreateAccount;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.syndicg5.networking.models.Login;
 
@@ -40,7 +41,6 @@ public class login extends AppCompatActivity {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ProgressDialog progressDialog;
     private loginViewModel mViewModel;
-    private int radioButtonText = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,27 @@ public class login extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Login ..........");
 
+        binding.createaccountTxt.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), CreateAccount.class)));
+        Objects.requireNonNull(binding.passEditText.getEditText()).addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if (s.length() > 6 && binding.gmailEditText.getEditText().getText() != null)
+                    binding.login.setEnabled(true);
+                else
+                    binding.login.setEnabled(false);
+            }
+        });
         RxView.clicks(binding.login)
                 .throttleFirst(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -85,18 +106,16 @@ public class login extends AppCompatActivity {
     private void subscribe() {
         mViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
             if (aBoolean) {
-                mViewModel.getImmeubleInfo();
-                    mViewModel.getOneSyndic(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
-                    mViewModel.getSyndicMutableLiveData().observe(this, syndic -> {
-                        if (syndic != null) {
-                            syndic.setType(1);
-                            mViewModel.saveLogin(new Login(1, true, radioButtonText));
-                            mViewModel.saveUser(syndic.toUser());
-                            binding.login.setEnabled(true);
-                            startActivity(new Intent(getApplication(), HomeContainer.class));
+                mViewModel.getUserServerInfo(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
+                mViewModel.getUserTypeMutableLiveData().observe(this, user -> {
+                    if (user != null) {
+                        mViewModel.saveLogin(new Login(1, true, user.getType()));
+                        mViewModel.saveUser(user.toUser());
+                        binding.login.setEnabled(true);
+                        startActivity(new Intent(getApplication(), HomeContainer.class));
 
-                        }
-                    });
+                    }
+                });
 
             } else {
                 Toasty.error(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT, true).show();
@@ -107,26 +126,7 @@ public class login extends AppCompatActivity {
     }
 
     private void LoginUser(String email, String pass) {
-        if(radioButtonText==1) {
         mViewModel.Login(email, pass);
-        }else{
-            mViewModel.getImmeubleInfo();
-            mViewModel.getOneResidents(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
-            mViewModel.getResidentMutableLiveData().observe(this, resident -> {
-                if (resident != null) {
-                    resident.setType(1);
-                    mViewModel.saveLogin(new Login(1, true, radioButtonText));
-                    mViewModel.saveUser(resident.toUser());
-                    binding.login.setEnabled(true);
-                    startActivity(new Intent(getApplication(), HomeContainer.class));
-
-                }else{
-                    Toasty.error(getApplicationContext(), "Email or Password Not Correct", Toast.LENGTH_SHORT, true).show();
-                    progressDialog.dismiss();
-                    binding.login.setEnabled(true);
-                }
-            });
-        }
     }
 
     @Override
