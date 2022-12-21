@@ -1,4 +1,4 @@
-package com.SyndicG5.ui.ContainerHome.fragments.immeuble;
+package com.SyndicG5.ui.ContainerHome.fragments.teams;
 
 import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
 
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.SyndicG5.Adapters.ImmeubleListAdapter;
 import com.SyndicG5.R;
-import com.SyndicG5.databinding.FragmentImmebleBinding;
+import com.SyndicG5.databinding.FragmentTeamsBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
 import com.SyndicG5.ui.login.login;
 import com.SyndicG5.ui.login.loginViewModel;
@@ -30,12 +29,11 @@ import com.syndicg5.networking.models.Login;
 import javax.inject.Singleton;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import es.dmoral.toasty.Toasty;
 
 @AndroidEntryPoint
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class immeubleFragment extends Fragment {
-    private FragmentImmebleBinding binding;
+public class TeamsFragment extends Fragment {
+    private FragmentTeamsBinding binding;
     HomefragementViewModel homeViewModel;
     loginViewModel loginViewModel;
     private Immeuble chosenImmeuble;
@@ -44,8 +42,8 @@ public class immeubleFragment extends Fragment {
 
 
     @Singleton
-    public static immeubleFragment newInstance() {
-        return new immeubleFragment();
+    public static TeamsFragment newInstance() {
+        return new TeamsFragment();
     }
 
     @Override
@@ -53,7 +51,7 @@ public class immeubleFragment extends Fragment {
                              Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
         loginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
-        binding = FragmentImmebleBinding.inflate(inflater, container, false);
+        binding = FragmentTeamsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -61,7 +59,7 @@ public class immeubleFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setActivityName("Immeubles");
+        setActivityName("Teams");
         recyclerView = view.findViewById(R.id.immeuble_list);
         binding.llProgressBar.getRoot().setVisibility(View.GONE);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

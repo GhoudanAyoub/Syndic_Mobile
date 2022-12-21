@@ -1,15 +1,12 @@
-package com.SyndicG5.ui.ContainerHome.fragments.residents;
+package com.SyndicG5.ui.ContainerHome.fragments.pitches;
 
 import android.annotation.SuppressLint;
 
 import androidx.hilt.lifecycle.ViewModelInject;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.LiveDataKt;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.syndicg5.networking.models.Appartement;
-import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Resident;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.repository.apiRepository;
@@ -20,7 +17,7 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ResidentViewModel extends ViewModel {
+public class PitchesViewModel extends ViewModel {
 
     private apiRepository repository;
     private roomRepository roomRepo;
@@ -30,7 +27,7 @@ public class ResidentViewModel extends ViewModel {
     private MutableLiveData<List<Revenu>> listRevenuBySyndicMutableLiveData = new MutableLiveData<>();
 
     @ViewModelInject
-    public ResidentViewModel(apiRepository repository, roomRepository roomRepo) {
+    public PitchesViewModel(apiRepository repository, roomRepository roomRepo) {
         this.repository = repository;
         this.roomRepo = roomRepo;
     }

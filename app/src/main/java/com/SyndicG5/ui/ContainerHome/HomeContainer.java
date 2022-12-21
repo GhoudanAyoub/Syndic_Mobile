@@ -1,6 +1,5 @@
 package com.SyndicG5.ui.ContainerHome;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,28 +14,24 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.SyndicG5.R;
 import com.SyndicG5.SyndicActivity;
-import com.SyndicG5.databinding.ActivityHomrContainerBinding;
+import com.SyndicG5.databinding.ActivityHomeContainerBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.emptyFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.home.homefragment;
-import com.SyndicG5.ui.ContainerHome.fragments.immeuble.immeubleFragment;
-import com.SyndicG5.ui.ContainerHome.fragments.payment.PaymentFragment;
+import com.SyndicG5.ui.ContainerHome.fragments.teams.TeamsFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.profile.ProfileFragment;
-import com.SyndicG5.ui.ContainerHome.fragments.residents.residentFragment;
-import com.SyndicG5.ui.ContainerHome.fragments.stats.statsFragment;
+import com.SyndicG5.ui.ContainerHome.fragments.pitches.PitchesFragment;
 import com.SyndicG5.ui.login.login;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Login;
 
-import dagger.hilt.android.AndroidEntryPoint;
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
-import timber.log.Timber;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class HomeContainer extends SyndicActivity implements View.OnClickListener {
 
-    private ActivityHomrContainerBinding binding;
+    private ActivityHomeContainerBinding binding;
     private static Toolbar toolbar;
-    private LinearLayout ll_Home, ll_profile, ll_Immeuble,ll_Residents,ll_stats,ll_payment, ll_Logout;
+    private LinearLayout ll_Home, ll_profile, ll_Teams,ll_Pitches, ll_Logout;
     private static boolean open = false;
     loginViewModel mViewModel;
 
@@ -45,7 +40,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityHomrContainerBinding.inflate(getLayoutInflater());
+        binding = ActivityHomeContainerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         mViewModel = new ViewModelProvider(this).get(loginViewModel.class);
         mViewModel.getImmeubleInfo();
@@ -76,38 +71,30 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
 
         ll_Home = menuView.findViewById(R.id.ll_Home);
         ll_profile = menuView.findViewById(R.id.ll_profile);
-        ll_Immeuble = menuView.findViewById(R.id.ll_Immeuble);
-        ll_Residents = menuView.findViewById(R.id.ll_Residents);
-        ll_stats = menuView.findViewById(R.id.ll_stats);
-        ll_payment = menuView.findViewById(R.id.ll_payment);
+        ll_Teams = menuView.findViewById(R.id.ll_Teams);
+        ll_Pitches = menuView.findViewById(R.id.ll_Pitches);
         ll_Logout = menuView.findViewById(R.id.ll_Logout);
 
 
         ll_Home.setOnClickListener(this);
         ll_profile.setOnClickListener(this);
-        ll_Immeuble.setOnClickListener(this);
-        ll_Residents.setOnClickListener(this);
-        ll_stats.setOnClickListener(this);
-        ll_payment.setOnClickListener(this);
+        ll_Teams.setOnClickListener(this);
+        ll_Pitches.setOnClickListener(this);
         ll_Logout.setOnClickListener(this);
         mViewModel.getLoginInfo();
-        mViewModel.getLoginLiveData().observe(this,login -> {
-            if (login.getType()==1){
-                ll_payment.setVisibility(View.GONE);
-                mViewModel.getImmeubleInfoLiveData().observe(this,immeuble -> {
-                    if(immeuble==null)
-                        replace(immeubleFragment.newInstance());
-                    else
-                        replace(homefragment.newInstance());
-                });
-            }else{
-                ll_Home.setVisibility(View.GONE);
-                ll_Immeuble.setVisibility(View.GONE);
-                ll_Residents.setVisibility(View.GONE);
-                ll_stats.setVisibility(View.GONE);
-                replace(PaymentFragment.newInstance());
-            }
-        });
+//        mViewModel.getLoginLiveData().observe(this,login -> {
+//            if (login.getType()==1){
+//                mViewModel.getImmeubleInfoLiveData().observe(this,immeuble -> {
+//                    if(immeuble==null)
+//                        replace(immeubleFragment.newInstance());
+//                    else
+//                        replace(homefragment.newInstance());
+//                });
+//            }else{
+//                ll_Home.setVisibility(View.GONE);
+//                replace(PaymentFragment.newInstance());
+//            }
+//        });
     }
 
     public static void openHome(){
@@ -118,7 +105,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_Home:
-                replace(new homefragment(), "Home");
+                replace(new homefragment(), "Games");
                 break;
 
             case R.id.ll_profile:
@@ -126,22 +113,13 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
                 break;
 
 
-            case R.id.ll_Immeuble:
-                replace(new immeubleFragment(), "immeuble");
+            case R.id.ll_Teams:
+                replace(new TeamsFragment(), "Teams");
                 break;
 
-            case R.id.ll_Residents:
-                replace(new residentFragment(), "Residents");
+            case R.id.ll_Pitches:
+                replace(new PitchesFragment(), "Pitches");
                 break;
-
-            case R.id.ll_stats:
-                replace(new statsFragment(), "Stats");
-                break;
-
-            case R.id.ll_payment:
-                replace(new PaymentFragment(), "Payments");
-                break;
-
             case R.id.ll_Logout:
                 mViewModel.UpdateLogin(new Login(1, false,1));
                 startActivity(new Intent(getApplicationContext(), login.class));

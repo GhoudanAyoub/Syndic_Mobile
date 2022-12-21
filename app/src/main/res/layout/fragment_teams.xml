@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     android:background="#fafafa"
-    tools:context=".ui.ContainerHome.fragments.immeuble.immeubleFragment">
+    tools:context=".ui.ContainerHome.fragments.teams.TeamsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

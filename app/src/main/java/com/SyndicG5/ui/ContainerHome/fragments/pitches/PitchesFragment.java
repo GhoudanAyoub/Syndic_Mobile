@@ -1,4 +1,4 @@
-package com.SyndicG5.ui.ContainerHome.fragments.residents;
+package com.SyndicG5.ui.ContainerHome.fragments.pitches;
 
 import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
 
@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.SyndicG5.Adapters.ResidentAdapter;
 import com.SyndicG5.R;
-import com.SyndicG5.databinding.ResidentFragmentBinding;
+import com.SyndicG5.databinding.PichesFragmentBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Resident;
@@ -38,10 +38,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 @AndroidEntryPoint
-public class residentFragment extends Fragment {
+public class PitchesFragment extends Fragment {
 
-    private ResidentFragmentBinding binding;
-    private ResidentViewModel mViewModel;
+    private PichesFragmentBinding binding;
+    private PitchesViewModel mViewModel;
     private loginViewModel loginViewModel;
     private HomefragementViewModel homeViewModel;
     private RecyclerView recyclerView;
@@ -50,8 +50,8 @@ public class residentFragment extends Fragment {
     @Inject
     apiRepository repository;
 
-    public static residentFragment newInstance() {
-        return new residentFragment();
+    public static PitchesFragment newInstance() {
+        return new PitchesFragment();
     }
 
     @Override
@@ -59,16 +59,16 @@ public class residentFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         loginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
-        mViewModel = new ViewModelProvider(this).get(ResidentViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(PitchesViewModel.class);
         homeViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
-        binding = ResidentFragmentBinding.inflate(inflater, container, false);
+        binding = PichesFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setActivityName("Residents ");
+        setActivityName("Pitches ");
         recyclerView = view.findViewById(R.id.resident_recycler_view);
         residentAdapter = new ResidentAdapter(getContext(),repository);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

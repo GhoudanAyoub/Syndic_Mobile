@@ -23,7 +23,7 @@ import com.SyndicG5.Adapters.RevenuAdapter;
 import com.SyndicG5.R;
 import com.SyndicG5.databinding.FragmentPaymentBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
-import com.SyndicG5.ui.ContainerHome.fragments.residents.ResidentViewModel;
+import com.SyndicG5.ui.ContainerHome.fragments.pitches.PitchesViewModel;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.repository.apiRepository;
@@ -45,7 +45,7 @@ public class PaymentFragment extends Fragment {
 
 
     private FragmentPaymentBinding binding;
-    private ResidentViewModel mViewModel;
+    private PitchesViewModel mViewModel;
     private loginViewModel loginViewModel;
     private HomefragementViewModel homeViewModel;
     private RecyclerView recyclerView;
@@ -63,7 +63,7 @@ public class PaymentFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         loginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
-        mViewModel = new ViewModelProvider(this).get(ResidentViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(PitchesViewModel.class);
         homeViewModel = new ViewModelProvider(this).get(HomefragementViewModel.class);
         binding = FragmentPaymentBinding.inflate(inflater, container, false);
         return binding.getRoot();

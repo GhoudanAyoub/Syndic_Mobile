@@ -78,7 +78,7 @@ public class homefragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setActivityName("Home");
+        setActivityName("Games");
         recyclerView = view.findViewById(R.id.balance_recycler_view);
         appartementAdapter = new AppartementAdapter(getContext(),repository);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

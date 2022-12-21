@@ -2,9 +2,11 @@ package com.SyndicG5;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.SyndicG5.ui.ContainerHome.HomeContainer;
@@ -17,6 +19,7 @@ import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 @SuppressLint("CheckResult")
 public class SplashScreen extends SyndicActivity {
 
@@ -54,7 +57,7 @@ public class SplashScreen extends SyndicActivity {
     private void goLogin() {
         Completable.timer(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribe(() -> {
-                    startActivity(new Intent(getApplication(), login.class));
+                    startActivity(new Intent(getApplication(), HomeContainer.class));
                 });
     }
 }

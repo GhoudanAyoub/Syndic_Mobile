@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bglogin"
+            android:background="@drawable/ic_login"
             android:orientation="vertical">
 
 
@@ -27,8 +27,7 @@
                 android:textStyle="bold"
                 android:gravity="center"
 
-                android:text="@string/app_name"
-                android:textColor="@color/BaseColor"
+                android:text="@string/footplanet"
                 android:textSize="40sp"/>
 
 
@@ -44,7 +43,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_baseline_laptop_windows_24"
+                    android:src="@drawable/ic_baseline_sports_baseball_24"
                     app:tint="@color/white" />
 
                 <TextView
@@ -53,7 +52,59 @@
                     android:layout_marginHorizontal="16dp"
                     android:fontFamily="@font/catamaran"
                     android:textStyle="bold"
-                    android:text="Dashboard"
+                    android:text="Games"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_Teams"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_baseline_people_24"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:fontFamily="@font/catamaran"
+                    android:textStyle="bold"
+                    android:text="Teams"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_Pitches"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_baseline_stadium_24"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:fontFamily="@font/catamaran"
+                    android:textStyle="bold"
+                    android:text="Pitches"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
@@ -79,116 +130,12 @@
                     android:layout_marginHorizontal="16dp"
                     android:fontFamily="@font/catamaran"
                     android:textStyle="bold"
-                    android:text="Profile"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_Immeuble"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_baseline_business_24"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:fontFamily="@font/catamaran"
-                    android:textStyle="bold"
-                    android:text="Immeuble"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_Residents"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_baseline_people_24"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:fontFamily="@font/catamaran"
-                    android:textStyle="bold"
-                    android:text="Residents"
+                    android:text="Account"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_stats"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/statistiques"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:fontFamily="@font/catamaran"
-                    android:textStyle="bold"
-                    android:text="Statistiques"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_payment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/statistiques"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    android:fontFamily="@font/catamaran"
-                    android:textStyle="bold"
-                    android:text="Payments"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_Logout"
                 android:layout_width="match_parent"
@@ -265,6 +212,7 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/black"
                 app:title="title" />
 
         </RelativeLayout>
