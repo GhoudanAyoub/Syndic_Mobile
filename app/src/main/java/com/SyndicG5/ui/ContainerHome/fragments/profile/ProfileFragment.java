@@ -41,11 +41,8 @@ import timber.log.Timber;
 @AndroidEntryPoint
 public class ProfileFragment extends Fragment {
 
-    private ProfileViewModel mViewModel;
     private ProfileFragmentBinding binding;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
     loginViewModel loginViewModel;
-    private User currentUser= null;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -54,7 +51,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mViewModel = new ViewModelProvider(this).get(ProfileViewModel.class);
         loginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
         binding = ProfileFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -64,30 +60,6 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setActivityName("");
-
-        RxView.clicks(binding.save)
-                .throttleFirst(3, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Unit>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        compositeDisposable.add(d);
-                    }
-
-                    @Override
-                    public void onNext(@NotNull Unit unit) {
-                        UpdateData();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.e(Objects.requireNonNull(e.getMessage()));
-                    }
-
-                    @Override
-                    public void onComplete() {
-                    }
-                });
     }
 
     @Override
@@ -100,17 +72,11 @@ public class ProfileFragment extends Fragment {
         loginViewModel.getUserInfo();
         loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(),user -> {
             if(user!=null){
-                currentUser = user;
-                binding.textView7.setText(user.getNom()+" "+user.getPrenom());
-                Objects.requireNonNull(binding.emailedittext.getEditText()).setText(user.getEmail());
-                Objects.requireNonNull(binding.phoneedittext.getEditText()).setText(user.getTelephone());
+                binding.clientName.setText(user.getNom()+" "+user.getPrenom());
+                binding.name.setText(user.getEmail());
+                Objects.requireNonNull(binding.passEditText.getEditText()).setText(user.getPassword());
             }
         });
-    }
-
-    private void UpdateData() {
-        mViewModel.UpdateUser(new User(currentUser.getId(), Objects.requireNonNull(binding.emailedittext.getEditText()).getText().toString() , currentUser.getPassword(), currentUser.getNom(), currentUser.getPrenom() , currentUser.getMdp(), currentUser.getAdresse() , currentUser.getVille(), currentUser.getPhoto(), Objects.requireNonNull(binding.phoneedittext.getEditText()).getText().toString(),currentUser.getType()));
-        Toasty.success(requireActivity(), "Success!", Toast.LENGTH_SHORT, true).show();
     }
 
 }

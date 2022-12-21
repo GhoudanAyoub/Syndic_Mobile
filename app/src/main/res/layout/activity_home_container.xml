@@ -189,8 +189,8 @@
 
 
                 <LinearLayout
-                    android:background="@drawable/main_bg"
-                    android:layout_marginTop="60dp"
+                    android:background="@drawable/ic_login"
+                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -212,7 +212,7 @@
                 android:layout_height="wrap_content"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/black"
+                android:background="#000F23"
                 app:title="title" />
 
         </RelativeLayout>
