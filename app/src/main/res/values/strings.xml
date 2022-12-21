@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Syndic</string>
+    <string name="app_name">FootPlanet</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -31,4 +31,10 @@
     <string name="quit_prog_bar">Vous n\'avez pas d\'immeuble sous votre responsabilité</string>
     <string name="footplanet"><font color="#19D2C2">Foot</font><font color="#0AADE8">Planet</font></string>
     <string name="createAccount">Don’t have an account ?<font color="#0AADE8"> sign up</font></string>
+    <string name="create_account_desc">already have an account ?<font color="#0AADE8">sign in</font></string>
+    <array name="gender">
+        <item>Select your profile</item>
+        <item>Owner</item>
+        <item>Player</item>
+    </array>
 </resources>
