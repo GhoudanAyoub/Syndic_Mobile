@@ -40,7 +40,6 @@ public class login extends AppCompatActivity {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ProgressDialog progressDialog;
     private loginViewModel mViewModel;
-    private RadioButton radioButton, radioButton2;
     private int radioButtonText = 1;
 
     @Override
@@ -54,8 +53,6 @@ public class login extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Login ..........");
-        radioButton = findViewById(R.id.radioButton);
-        radioButton2 = findViewById(R.id.radioButton2);
 
         RxView.clicks(binding.login)
                 .throttleFirst(3, TimeUnit.SECONDS)
@@ -70,14 +67,6 @@ public class login extends AppCompatActivity {
                     public void onNext(@NotNull Unit unit) {
                         progressDialog.show();
                         binding.login.setEnabled(false);
-                        if (radioButton.isChecked()) {
-                            radioButtonText = 1;
-                            radioButton2.setChecked(false);
-                        }
-                        if (radioButton2.isChecked()) {
-                            radioButtonText = 2;
-                            radioButton.setChecked(false);
-                        }
                         LoginUser(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString(), Objects.requireNonNull(binding.passEditText.getEditText()).getText().toString());
                     }
 

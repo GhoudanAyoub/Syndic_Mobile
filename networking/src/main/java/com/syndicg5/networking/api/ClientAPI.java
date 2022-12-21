@@ -22,7 +22,7 @@ public class ClientAPI {
     @Provides
     @Singleton
     public static APISettings getInstance() {
-        String base_url = "https://syndic-web.herokuapp.com/";
+        String base_url = "https://footplanet-web.herokuapp.com/";
         return new Retrofit.Builder()
                 .baseUrl(base_url)
                 .addConverterFactory(GsonConverterFactory.create( new GsonBuilder()
