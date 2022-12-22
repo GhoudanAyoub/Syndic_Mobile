@@ -1,6 +1,7 @@
 package com.syndicg5.networking.api;
 
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.request.RevenusReq;
 import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
@@ -41,8 +42,8 @@ public interface APISettings {
     @GET("api/residents/{id}")
     Single<Resident> getOneResidents(@Path("id") int id);
 
-    @GET("api/residents/syndic/{id}")
-    Single<List<Resident>> getResidentBySyndic(@Path("id") int id);
+    @GET("api/pitch")
+    Single<List<Pitches>> getAllPitches();
 
     @GET("api/residentByEmail/{email}")
     Single<Resident> getOneResident(@Path("email") String id);

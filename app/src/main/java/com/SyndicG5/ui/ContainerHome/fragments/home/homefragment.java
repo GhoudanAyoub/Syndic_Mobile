@@ -5,11 +5,9 @@ import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,12 +16,11 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.SyndicG5.Adapters.AppartementAdapter;
+import com.SyndicG5.Adapters.GamesAdapter;
 import com.SyndicG5.R;
 import com.SyndicG5.databinding.HomefragementFragmentBinding;
 import com.SyndicG5.ui.ContainerHome.transaction.calculatorActivity;
@@ -36,14 +33,12 @@ import com.syndicg5.networking.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import timber.log.Timber;
 
 @AndroidEntryPoint
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -51,7 +46,7 @@ public class homefragment extends Fragment {
 
     private HomefragementFragmentBinding binding;
     HomefragementViewModel homeViewModel;
-    private AppartementAdapter appartementAdapter;
+    private GamesAdapter appartementAdapter;
     private RecyclerView recyclerView;
     private boolean amountHidden = false;
     private Double outcome = 0.0;
@@ -80,7 +75,7 @@ public class homefragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setActivityName("Games");
         recyclerView = view.findViewById(R.id.balance_recycler_view);
-        appartementAdapter = new AppartementAdapter(getContext(),repository);
+        appartementAdapter = new GamesAdapter(getContext(),repository);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(appartementAdapter);
         binding.progressBar2.setVisibility(View.VISIBLE);

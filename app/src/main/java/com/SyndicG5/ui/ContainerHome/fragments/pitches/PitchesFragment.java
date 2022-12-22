@@ -18,12 +18,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.SyndicG5.Adapters.ResidentAdapter;
+import com.SyndicG5.Adapters.PitchesAdapter;
 import com.SyndicG5.R;
 import com.SyndicG5.databinding.PichesFragmentBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
 import com.SyndicG5.ui.login.loginViewModel;
-import com.syndicg5.networking.models.Resident;
+import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.utils.AppUtils;
 
@@ -45,8 +45,8 @@ public class PitchesFragment extends Fragment {
     private loginViewModel loginViewModel;
     private HomefragementViewModel homeViewModel;
     private RecyclerView recyclerView;
-    private ResidentAdapter residentAdapter;
-    private List<Resident> residentList;
+    private PitchesAdapter pitchesAdapter;
+    private List<Pitches> pitchesList;
     @Inject
     apiRepository repository;
 
@@ -70,9 +70,9 @@ public class PitchesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setActivityName("Pitches ");
         recyclerView = view.findViewById(R.id.resident_recycler_view);
-        residentAdapter = new ResidentAdapter(getContext(),repository);
+        pitchesAdapter = new PitchesAdapter(getContext(),repository);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(residentAdapter);
+        recyclerView.setAdapter(pitchesAdapter);
         binding.progressBar2.setVisibility(View.VISIBLE);
 
         binding.searchBtn.setOnClickListener(view1 -> {
@@ -112,28 +112,23 @@ public class PitchesFragment extends Fragment {
     }
 
     private void subscribe() {
-        loginViewModel.getUserInfo();
-        loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user -> {
-            if (user != null) {
-                mViewModel.getResidentBySyndic(user.getId());
-                mViewModel.getListResidentBySyndicMutableLiveData().observe(getViewLifecycleOwner(), residents -> {
-                    residentList=residents;
-                    residentAdapter.setList((ArrayList<Resident>) residents);
-                    binding.progressBar2.setVisibility(View.GONE);
-                });
-            }
+        mViewModel.getAllPitches();
+        mViewModel.getListPitchesMutableLiveData().observe(getViewLifecycleOwner(), pitches -> {
+            pitchesList=pitches;
+            pitchesAdapter.setList((ArrayList<Pitches>) pitches);
+            binding.progressBar2.setVisibility(View.GONE);
         });
     }
 
     private void filter(String query) {
         String lowerCaseQuery = query.toUpperCase(Locale.ROOT);
-        List<Resident> filteredModelList = query.isEmpty() ?
-                residentList :
-                residentList
+        List<Pitches> filteredModelList = query.isEmpty() ?
+                pitchesList :
+                pitchesList
                         .stream()
-                        .filter(resident -> resident.getPrenom().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || resident.getNom().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || resident.getEmail().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || resident.getTelephone().contains(lowerCaseQuery) || resident.getVille().toUpperCase(Locale.ROOT).contains(lowerCaseQuery))
+                        .filter(pitch -> pitch.getLocation().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || pitch.getName().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) )
                         .collect(Collectors.toList());
-        residentAdapter.setList((ArrayList<Resident>) filteredModelList);
+        pitchesAdapter.setList((ArrayList<Pitches>) filteredModelList);
     }
 
     private void clearAndHideSearchView() {

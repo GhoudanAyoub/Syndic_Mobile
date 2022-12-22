@@ -3,6 +3,7 @@ package com.syndicg5.networking.repository;
 
 import com.syndicg5.networking.api.APISettings;
 import com.syndicg5.networking.models.Appartement;
+import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.request.RevenusReq;
 import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
@@ -111,8 +112,8 @@ public class apiRepository {
         return apiSettings.getOneImmeuble(id);
     }
 
-    public Single<List<Resident>> getResidentBySyndic(int id) {
-        return apiSettings.getResidentBySyndic(id);
+    public Single<List<Pitches>> getAllPitches() {
+        return apiSettings.getAllPitches();
     }
 
     public Single<Response<ResponseBody>> saveBalance(RevenusReq f, depenseReq d, boolean type) {

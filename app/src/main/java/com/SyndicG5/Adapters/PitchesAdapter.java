@@ -23,55 +23,65 @@ import com.SyndicG5.R;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.syndicg5.networking.models.Appartement;
-import com.syndicg5.networking.models.Revenu;
-import com.syndicg5.networking.models.Revenu;
+import com.syndicg5.networking.models.Pitches;
+import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.repository.apiRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import io.reactivex.schedulers.Schedulers;
 
-public class RevenuAdapter extends RecyclerView.Adapter<RevenuAdapter.RevenuAdapterHolder> {
+public class PitchesAdapter extends RecyclerView.Adapter<PitchesAdapter.PitchesAdapterHolder> {
 
-    private ArrayList<Revenu> RevenuList = new ArrayList<>();
+    private ArrayList<Pitches> PitchesList = new ArrayList<>();
     private Context context;
+    private apiRepository repository;
 
-    public RevenuAdapter(Context context) {
+    public PitchesAdapter(Context context, apiRepository repository) {
         this.context = context;
+        this.repository=repository;
     }
 
     @NonNull
     @Override
-    public RevenuAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RevenuAdapterHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.template_balance_item, parent, false));
+    public PitchesAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new PitchesAdapterHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.template_balance_item, parent, false));
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public void onBindViewHolder(@NonNull RevenuAdapterHolder holder, int position) {
-        Revenu Revenu = RevenuList.get(position);
+    public void onBindViewHolder(@NonNull PitchesAdapterHolder holder, int position) {
+        Pitches Pitches = PitchesList.get(position);
 
+        holder.PitchesName.setText(Pitches.getName());
+        holder.pitch_location.setText(Pitches.getLocation());
+        Glide.with(context)
+                .load(Pitches.getPhoto())
+                .placeholder(R.drawable.placeholder)
+                .into(holder.PitchesImage);
+        holder.itemView.setOnClickListener(view -> {
+
+        });
     }
 
     @Override
     public int getItemCount() {
-        return RevenuList.size();
+        return PitchesList.size();
     }
 
-    public void setList(ArrayList<Revenu> RevenuList) {
-        this.RevenuList = RevenuList;
+    public void setList(ArrayList<Pitches> PitchesList) {
+        this.PitchesList = PitchesList;
         notifyDataSetChanged();
     }
 
-    public class RevenuAdapterHolder extends RecyclerView.ViewHolder {
+    public class PitchesAdapterHolder extends RecyclerView.ViewHolder {
         public TextView  PitchesName,pitch_location;
         public ShapeableImageView PitchesImage;
 
-        public RevenuAdapterHolder(View itemView) {
+        public PitchesAdapterHolder(View itemView) {
             super(itemView);
             PitchesName = itemView.findViewById(R.id.pitch_name);
             pitch_location = itemView.findViewById(R.id.pitch_location);
