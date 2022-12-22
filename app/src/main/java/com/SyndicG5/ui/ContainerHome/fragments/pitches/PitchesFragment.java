@@ -15,6 +15,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -69,9 +70,10 @@ public class PitchesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setActivityName("Pitches ");
-        recyclerView = view.findViewById(R.id.resident_recycler_view);
+        recyclerView = view.findViewById(R.id.pitche_recycler_view);
         pitchesAdapter = new PitchesAdapter(getContext(),repository);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        recyclerView.addItemDecoration(new GridAutoFitItemDecoration(2, getResources().getDimensionPixelSize(R.dimen.alternative_horizontal_margin_page)));
         recyclerView.setAdapter(pitchesAdapter);
         binding.progressBar2.setVisibility(View.VISIBLE);
 

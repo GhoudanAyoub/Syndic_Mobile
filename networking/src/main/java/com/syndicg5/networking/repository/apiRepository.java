@@ -40,8 +40,8 @@ public class apiRepository {
         return apiSettings.createAccount(user);
     }
 
-    public Single<User> getUserServerInfo(Long id) {
-        return apiSettings.getUserServerInfo(id);
+    public Single<User> getUserServerInfo(String email) {
+        return apiSettings.getUserServerInfo(email);
     }
     //Syndic
     public Single<List<Syndic>> getAllSyndic() {

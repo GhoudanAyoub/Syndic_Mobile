@@ -60,7 +60,7 @@ public class PitchesAdapter extends RecyclerView.Adapter<PitchesAdapter.PitchesA
         holder.pitch_location.setText(Pitches.getLocation());
         Glide.with(context)
                 .load(Pitches.getPhoto())
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.img_placeholder)
                 .into(holder.PitchesImage);
         holder.itemView.setOnClickListener(view -> {
 

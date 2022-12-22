@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:layout_height="wrap_content"
-    tools:layout_width="140dp"
+    android:layout_width="170dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_rounded_lightgrey_stroke"
+    android:padding="8dp"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <FrameLayout
@@ -11,21 +14,20 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="140dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <FrameLayout
-                android:layout_width="140dp"
+                android:layout_width="match_parent"
                 android:layout_height="140dp"
-                android:layout_gravity="center"
-                android:background="@drawable/bg_rounded_lightgrey_stroke">
+                android:layout_gravity="center">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/pitche_img"
-                    android:layout_width="130dp"
+                    android:layout_width="match_parent"
                     android:layout_height="130dp"
                     android:layout_gravity="center"
                     android:contentDescription="@null"
@@ -75,4 +77,4 @@
     </FrameLayout>
 
 
-</merge>
+</LinearLayout>

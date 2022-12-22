@@ -24,7 +24,7 @@ public class Syndic implements Serializable {
     private int type ;
 
     public User toUser(){
-        return new User( id,  email,  mdp,  nom,  prenom,  mdp,  adresse,  ville,  photo,  telephone,type);
+        return new User(id,email,mdp,nom+" "+prenom,photo,telephone,type);
     }
 
     @Ignore

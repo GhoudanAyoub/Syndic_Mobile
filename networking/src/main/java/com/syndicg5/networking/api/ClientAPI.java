@@ -22,7 +22,7 @@ public class ClientAPI {
     @Provides
     @Singleton
     public static APISettings getInstance() {
-        String base_url = "http://localhost:9090/";
+        String base_url = "http://192.168.1.11:9090/";
         return new Retrofit.Builder()
                 .baseUrl(base_url)
                 .addConverterFactory(GsonConverterFactory.create( new GsonBuilder()

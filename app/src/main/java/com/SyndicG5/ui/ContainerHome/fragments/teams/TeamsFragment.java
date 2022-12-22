@@ -68,7 +68,7 @@ public class TeamsFragment extends Fragment {
         loginViewModel.getUserInfo();
         loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(),user -> {
             if(user!=null)
-                homeViewModel.getAllImmeuble(user.getId(),user.getEmail(),user.getType());
+                homeViewModel.getAllImmeuble(user.getUserId(),user.getEmail(),user.getType());
         });
         homeViewModel.getListImmeubleMutableLiveData().observe(getViewLifecycleOwner(), immeubles -> {
             if (!immeubles.isEmpty()) {

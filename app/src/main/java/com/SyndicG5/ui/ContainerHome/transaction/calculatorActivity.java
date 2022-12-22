@@ -161,7 +161,7 @@ public class calculatorActivity extends SyndicActivity implements
 
         loginViewModel.getUserLoginLiveData().observe(this, user -> {
             if (user != null)
-                homeViewModel.getAllImmeuble(user.getId(), user.getEmail(), user.getType());
+                homeViewModel.getAllImmeuble(user.getUserId(), user.getEmail(), user.getType());
         });
         homeViewModel.getListImmeubleMutableLiveData().observe(this, immeubles -> {
             if (!immeubles.isEmpty()) {

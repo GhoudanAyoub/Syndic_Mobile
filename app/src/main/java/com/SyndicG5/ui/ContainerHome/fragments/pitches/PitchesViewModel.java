@@ -38,32 +38,6 @@ public class PitchesViewModel extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void getAllPitches() {
-        listPitchesBySyndicMutableLiveData.setValue(Arrays.asList(
-                new Pitches(
-                        1,
-                        "Pitch 1",
-                        10,
-                        100,
-                        "Location 1",
-                        "https://www.google.com/url?sa=i&url=http%3A%2F%2Fstadiumdb.com%2F&psig=AOvVaw1QsSRozeSsoAVHF1-Q1nTl&ust=1671797598593000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCLjHq8aZjfwCFQAAAAAdAAAAABAI"
-                ),
-                new Pitches(
-                        2,
-                        "Pitch 2",
-                        20,
-                        300,
-                        "Location 4",
-                        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpopulous.com%2Four-projects%2Fstadium-experience&psig=AOvVaw1QsSRozeSsoAVHF1-Q1nTl&ust=1671797598593000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCLjHq8aZjfwCFQAAAAAdAAAAABAW"
-                ),
-                new Pitches(
-                        3,
-                        "Pitch 3",
-                        20,
-                        150,
-                        "Location 5",
-                        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fsportsbrief.com%2Ffacts%2Ftop-listicles%2F27297-which-top-20-ranking-world-cup-stadiums-time%2F&psig=AOvVaw1QsSRozeSsoAVHF1-Q1nTl&ust=1671797598593000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCLjHq8aZjfwCFQAAAAAdAAAAABAd"
-                )
-                ));
         repository.getAllPitches()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -96,7 +96,7 @@ public class statsFragment extends Fragment {
     private void getImmeubleList() {
         loginViewModel.getUserInfo();
         loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user -> {
-                homeViewModel.getAllImmeuble(user.getId(), user.getEmail(), user.getType());
+                homeViewModel.getAllImmeuble(user.getUserId(), user.getEmail(), user.getType());
         });
     }
 

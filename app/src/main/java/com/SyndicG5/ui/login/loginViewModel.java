@@ -17,6 +17,7 @@ import com.syndicg5.networking.repository.roomRepository;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 public class loginViewModel extends ViewModel {
 
@@ -66,6 +67,7 @@ public class loginViewModel extends ViewModel {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
+                    Timber.e("8822: %s", response);
                             if (response.isSuccessful()) {
                                 if (response.code() == 200) {
                                     booleanMutableLiveData.setValue(true);
@@ -94,8 +96,8 @@ public class loginViewModel extends ViewModel {
     }
 
     @SuppressLint("CheckResult")
-    public void getUserServerInfo(Long id){
-        apiRepository.getUserServerInfo(id)
+    public void getUserServerInfo(String email){
+        apiRepository.getUserServerInfo(email)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {

@@ -119,7 +119,7 @@ public class PaymentFragment extends Fragment {
         loginViewModel.getUserInfo();
         loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user -> {
             if (user != null) {
-                mViewModel.getPaymentByPitches(user.getId());
+                mViewModel.getPaymentByPitches(user.getUserId());
             }
         });
         mViewModel.getListPaymentBySyndicMutableLiveData().observe(getViewLifecycleOwner(), revuenss -> {

@@ -32,8 +32,8 @@ public interface APISettings {
     @POST("api/user")
     Single<Response<ResponseBody>> createAccount(@Body User user);
 
-    @GET("api/user/{id}")
-    Single<User> getUserServerInfo(@Path("id") Long id);
+    @GET("api/user/login/{email}")
+    Single<User> getUserServerInfo(@Path("email") String email);
 
     //Syndic
     @GET("api/syndics")

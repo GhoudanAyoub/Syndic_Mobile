@@ -25,9 +25,8 @@ public class Resident implements Serializable {
     private int type ;
 
     public User toUser(){
-        return new User( id,  email,  mdp,  nom,  prenom,  mdp,  adresse,  ville,  photo,  telephone,type);
+        return new User(id,email,mdp,nom+" "+prenom,photo,telephone,type);
     }
-
     public Resident(int id, String nom, String prenom, String email, String mdp, String adresse, String ville, String photo, String telephone, List<Appartement> appartements) {
         this.id = id;
         this.nom = nom;

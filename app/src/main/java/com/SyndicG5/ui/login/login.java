@@ -106,7 +106,7 @@ public class login extends AppCompatActivity {
     private void subscribe() {
         mViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
             if (aBoolean) {
-                mViewModel.getUserServerInfo(1L);
+                mViewModel.getUserServerInfo(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
                 mViewModel.getUserTypeMutableLiveData().observe(this, user -> {
                     if (user != null) {
                         mViewModel.saveLogin(new Login(1, true, user.getType()));

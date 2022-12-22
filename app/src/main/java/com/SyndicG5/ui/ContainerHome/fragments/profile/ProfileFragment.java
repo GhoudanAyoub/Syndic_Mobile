@@ -59,7 +59,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setActivityName("");
+        setActivityName("Account ");
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ProfileFragment extends Fragment {
         loginViewModel.getUserInfo();
         loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(),user -> {
             if(user!=null){
-                binding.clientName.setText(user.getNom()+" "+user.getPrenom());
+                binding.clientName.setText(user.getFullname());
                 binding.name.setText(user.getEmail());
                 Objects.requireNonNull(binding.passEditText.getEditText()).setText(user.getPassword());
             }

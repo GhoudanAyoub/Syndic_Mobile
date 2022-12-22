@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_login">
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -61,10 +61,10 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/noto_sans"
                 android:gravity="center_horizontal"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="18dp"
-                tools:text="Ayoub Ghoudan" />
+                android:text="Ayoub Ghoudan" />
 
 
         </LinearLayout>
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
-                android:background="@color/white" />
+                android:background="@color/colorGray" />
 
             <LinearLayout
                 android:id="@+id/BtnContainer"
@@ -98,10 +98,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/noto_sans"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:text="Personal informations"
-                    android:textColor="@color/white"
-                    android:textSize="16dp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -119,12 +120,13 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/noto_sans"
                         android:gravity="center_vertical|start"
+                        android:drawableTint="@color/black"
                         android:textAlignment="viewStart"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textSize="16dp"
                         app:drawableStartCompat="@drawable/ic_baseline_person_24"
-                        tools:hint="GHOUDAN" />
+                        android:text="GHOUDAN" />
 
 
                     <View
@@ -140,27 +142,28 @@
                         android:layout_height="70dp"
                         android:background="@color/amp_transparent"
                         android:inputType="textEmailAddress"
-                        android:textColor="#FFFFFF"
-                        android:textColorHint="#FFFFFF"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
                         app:boxBackgroundMode="none"
                         app:errorEnabled="true"
                         app:errorTextColor="#FF0000"
                         app:hintAnimationEnabled="true"
                         app:hintEnabled="false"
-                        app:hintTextColor="#FFFFFF"
+                        app:hintTextColor="@color/black"
                         app:passwordToggleEnabled="true"
-                        app:passwordToggleTint="@color/white"
+                        app:passwordToggleTint="@color/black"
                         app:startIconDrawable="@drawable/ic_baseline_password_24"
-                        app:startIconTint="@color/white">
+                        app:startIconTint="@color/black">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:backgroundTint="#1A1D22"
+                            android:backgroundTint="@color/amp_transparent"
                             android:fontFamily="@font/catamaran"
                             android:inputType="textPassword"
                             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/black"
+                            android:text="****************"
                             android:textSize="16dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -172,7 +175,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/white" />
+                    android:background="@color/colorGray" />
 
 
                 <Button
@@ -189,8 +192,9 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textSize="16dp"
                     android:text="privacy policy"
+                    android:drawableTint="@color/black"
                     android:textAlignment="viewStart"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/cguBtn"
@@ -206,8 +210,9 @@
                     android:text="Terms of Service"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textSize="16dp"
+                    android:drawableTint="@color/black"
                     android:textAlignment="viewStart"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
 
                 <View
@@ -230,8 +235,9 @@
                     android:fontFamily="@font/noto_sans"
                     android:text="Share Application"
                     android:textAlignment="viewStart"
+                    android:drawableTint="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16dp" />
 
 
@@ -243,7 +249,7 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/BtnContainer"
                 android:layout_marginTop="16dp"
-                android:background="@color/white" />
+                android:background="@color/colorGray" />
 
             <TextView
                 android:id="@+id/appV"
@@ -255,7 +261,7 @@
                 android:gravity="center_horizontal"
                 android:textSize="16dp"
                 android:text="Version 1.0.0"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
         </RelativeLayout>
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>
