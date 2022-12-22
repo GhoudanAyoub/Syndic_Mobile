@@ -24,6 +24,7 @@ import com.SyndicG5.ui.ContainerHome.HomeContainer;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.syndicg5.networking.models.Login;
+import com.syndicg5.networking.models.User;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -145,16 +146,14 @@ public class CreateAccount extends AppCompatActivity {
     private void subscribe() {
         mViewModel.getBooleanMutableLiveData().observe(this, aBoolean -> {
             if (aBoolean) {
-                mViewModel.getImmeubleInfo();
-                mViewModel.getUserServerInfo(Objects.requireNonNull(binding.gmailEditText.getEditText()).getText().toString());
+                mViewModel.getUserServerInfo(1L);
                 mViewModel.getUserTypeMutableLiveData().observe(this, user -> {
                     if (user != null) {
                         user.setType(1);
                         mViewModel.saveLogin(new Login(1, true, type));
-                        mViewModel.saveUser(user.toUser());
+                        mViewModel.saveUser(user);
                         binding.createAccount.setEnabled(true);
                         startActivity(new Intent(getApplication(), HomeContainer.class));
-
                     }
                 });
 
@@ -167,7 +166,11 @@ public class CreateAccount extends AppCompatActivity {
     }
 
     private void createAccount() {
-        mViewModel.CreateAccount(binding.gmailEditText.getEditText().getText().toString(), binding.passEditText.getEditText().getText().toString(), binding.FullNameEditText.getEditText().getText().toString(), type);
+        mViewModel.CreateAccount(
+                new User(binding.gmailEditText.getEditText().getText().toString(),
+                        binding.passEditText.getEditText().getText().toString(),
+                        binding.FullNameEditText.getEditText().getText().toString(),
+                        type));
     }
 
     @Override

@@ -10,17 +10,14 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @PrimaryKey
-    private int id;
+    private int userId;
     private String email;
     private String password;
-    private String nom;
-    private String prenom;
-    private String mdp;
-    private String adresse;
-    private String ville;
+    private String fullname;
     private String photo;
     private String telephone;
     private int type;
+    private boolean verified;
 
     @Ignore
     public User(String email, String password) {
@@ -28,66 +25,58 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public User(int id, String email, String password, String nom, String prenom, String mdp, String adresse, String ville, String photo, String telephone,int type) {
-        this.id = id;
+    @Ignore
+    public User(String email, String password, String fullname,  int type) {
         this.email = email;
         this.password = password;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.mdp = mdp;
-        this.adresse = adresse;
-        this.ville = ville;
+        this.fullname = fullname;
+        this.photo = "";
+        this.telephone = "";
+        this.type = type;
+        this.verified = true;
+    }
+
+    public User(int userId, String email, String password, String fullname, String photo, String telephone, int type) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+        this.fullname = fullname;
         this.photo = photo;
         this.telephone = telephone;
-        this.type=type;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
         this.type = type;
+        this.verified = true;
     }
 
-    public String getNom() {
-        return nom;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getPrenom() {
-        return prenom;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getMdp() {
-        return mdp;
+    public String getPassword() {
+        return password;
     }
 
-    public void setMdp(String mdp) {
-        this.mdp = mdp;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getVille() {
-        return ville;
-    }
-
-    public void setVille(String ville) {
-        this.ville = ville;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getPhoto() {
@@ -106,27 +95,19 @@ public class User implements Serializable {
         this.telephone = telephone;
     }
 
-    public int getId() {
-        return id;
+    public int getType() {
+        return type;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public String getEmail() {
-        return email;
+    public boolean isVerified() {
+        return verified;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 }

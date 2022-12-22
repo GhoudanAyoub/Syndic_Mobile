@@ -27,7 +27,7 @@ public class loginViewModel extends ViewModel {
     private LiveData<Login> loginLiveData = new MutableLiveData<>();
     private LiveData<Immeuble> immeubleLoginLiveData = new MutableLiveData<>();
     private LiveData<User> userLoginLiveData = new MutableLiveData<>();
-    private MutableLiveData<Syndic> syndicMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<User> userMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Resident> residentMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<Resident> getResidentMutableLiveData() {
@@ -50,8 +50,8 @@ public class loginViewModel extends ViewModel {
         return userLoginLiveData;
     }
 
-    public MutableLiveData<Syndic> getUserTypeMutableLiveData() {
-        return syndicMutableLiveData;
+    public MutableLiveData<User> getUserTypeMutableLiveData() {
+        return userMutableLiveData;
     }
 
     @ViewModelInject
@@ -67,8 +67,9 @@ public class loginViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                             if (response.isSuccessful()) {
-                                if (response.code() == 200)
+                                if (response.code() == 200) {
                                     booleanMutableLiveData.setValue(true);
+                                }
                                 else
                                     booleanMutableLiveData.setValue(false);
                             } else
@@ -77,8 +78,8 @@ public class loginViewModel extends ViewModel {
     }
 
     @SuppressLint("CheckResult")
-    public void CreateAccount(String email, String pass,String name,int type) {
-        apiRepository.Login(new User(email,pass))
+    public void CreateAccount(User user) {
+        apiRepository.createAccount(user)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
@@ -93,12 +94,12 @@ public class loginViewModel extends ViewModel {
     }
 
     @SuppressLint("CheckResult")
-    public void getUserServerInfo(String email){
-        apiRepository.getOneSyndic(email)
+    public void getUserServerInfo(Long id){
+        apiRepository.getUserServerInfo(id)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    syndicMutableLiveData.setValue(response);
+                    userMutableLiveData.setValue(response);
                 }, Throwable::printStackTrace);
     }
     @SuppressLint("CheckResult")

@@ -3,15 +3,15 @@ package com.syndicg5.networking.repository;
 
 import com.syndicg5.networking.api.APISettings;
 import com.syndicg5.networking.models.Appartement;
-import com.syndicg5.networking.models.Pitches;
-import com.syndicg5.networking.request.RevenusReq;
 import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
+import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.models.Resident;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
 import com.syndicg5.networking.models.User;
+import com.syndicg5.networking.request.RevenusReq;
 import com.syndicg5.networking.request.depenseReq;
 
 import java.util.List;
@@ -19,7 +19,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import dagger.Reusable;
-import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -33,12 +32,17 @@ public class apiRepository {
         this.apiSettings = apiSettings;
     }
 
-
     public Single<Response<ResponseBody>> Login(User user) {
         return apiSettings.Login(user.getEmail(), user.getPassword());
     }
 
+    public Single<Response<ResponseBody>> createAccount(User user) {
+        return apiSettings.createAccount(user);
+    }
 
+    public Single<User> getUserServerInfo(Long id) {
+        return apiSettings.getUserServerInfo(id);
+    }
     //Syndic
     public Single<List<Syndic>> getAllSyndic() {
         return apiSettings.getAllSyndic();

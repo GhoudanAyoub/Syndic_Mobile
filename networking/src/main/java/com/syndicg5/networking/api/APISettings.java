@@ -1,14 +1,15 @@
 package com.syndicg5.networking.api;
 
 import com.syndicg5.networking.models.Appartement;
-import com.syndicg5.networking.models.Pitches;
-import com.syndicg5.networking.request.RevenusReq;
 import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
+import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.models.Resident;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
+import com.syndicg5.networking.models.User;
+import com.syndicg5.networking.request.RevenusReq;
 import com.syndicg5.networking.request.depenseReq;
 
 import java.util.List;
@@ -25,8 +26,14 @@ import retrofit2.http.Query;
 public interface APISettings {
 
 
-    @POST("login")
+    @POST("api/user/login")
     Single<Response<ResponseBody>> Login(@Query("email") String username, @Query("password") String password);
+
+    @POST("api/user")
+    Single<Response<ResponseBody>> createAccount(@Body User user);
+
+    @GET("api/user/{id}")
+    Single<User> getUserServerInfo(@Path("id") Long id);
 
     //Syndic
     @GET("api/syndics")
