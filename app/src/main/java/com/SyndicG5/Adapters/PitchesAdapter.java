@@ -38,10 +38,12 @@ public class PitchesAdapter extends RecyclerView.Adapter<PitchesAdapter.PitchesA
     private ArrayList<Pitches> PitchesList = new ArrayList<>();
     private Context context;
     private apiRepository repository;
+    private PitcherListener listener;
 
-    public PitchesAdapter(Context context, apiRepository repository) {
+    public PitchesAdapter(Context context, apiRepository repository, PitcherListener listener) {
         this.context = context;
         this.repository=repository;
+        this.listener=listener;
     }
 
     @NonNull
@@ -63,7 +65,7 @@ public class PitchesAdapter extends RecyclerView.Adapter<PitchesAdapter.PitchesA
                 .placeholder(R.drawable.img_placeholder)
                 .into(holder.PitchesImage);
         holder.itemView.setOnClickListener(view -> {
-
+            listener.onPitcherClicked(Pitches);
         });
     }
 
@@ -87,5 +89,8 @@ public class PitchesAdapter extends RecyclerView.Adapter<PitchesAdapter.PitchesA
             pitch_location = itemView.findViewById(R.id.pitch_location);
             PitchesImage = itemView.findViewById(R.id.pitche_img);
         }
+    }
+    public interface PitcherListener {
+        void onPitcherClicked(Pitches Pitches);
     }
 }

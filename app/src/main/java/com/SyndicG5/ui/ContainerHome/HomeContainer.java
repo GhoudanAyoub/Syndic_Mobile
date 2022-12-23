@@ -105,7 +105,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_Home:
-                replace(new homefragment(), "Games");
+//                replace(new homefragment(), "Games");
                 break;
 
             case R.id.ll_profile:
@@ -114,7 +114,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
 
 
             case R.id.ll_Teams:
-                replace(new TeamsFragment(), "Teams");
+//                replace(new TeamsFragment(), "Teams");
                 break;
 
             case R.id.ll_Pitches:

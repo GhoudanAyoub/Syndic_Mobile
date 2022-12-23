@@ -28,7 +28,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/pitche_img"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:contentDescription="@null"
                     android:scaleType="centerCrop"

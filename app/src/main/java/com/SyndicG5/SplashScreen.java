@@ -57,7 +57,7 @@ public class SplashScreen extends SyndicActivity {
     private void goLogin() {
         Completable.timer(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribe(() -> {
-                    startActivity(new Intent(getApplication(), HomeContainer.class));
+                    startActivity(new Intent(getApplication(), login.class));
                 });
     }
 }

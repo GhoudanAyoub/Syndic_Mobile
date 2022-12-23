@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,7 +40,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 @AndroidEntryPoint
-public class PitchesFragment extends Fragment {
+public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherListener {
 
     private PichesFragmentBinding binding;
     private PitchesViewModel mViewModel;
@@ -71,7 +72,7 @@ public class PitchesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setActivityName("Pitches ");
         recyclerView = view.findViewById(R.id.pitche_recycler_view);
-        pitchesAdapter = new PitchesAdapter(getContext(),repository);
+        pitchesAdapter = new PitchesAdapter(getContext(),repository,this);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         recyclerView.addItemDecoration(new GridAutoFitItemDecoration(2, getResources().getDimensionPixelSize(R.dimen.alternative_horizontal_margin_page)));
         recyclerView.setAdapter(pitchesAdapter);
@@ -145,4 +146,17 @@ public class PitchesFragment extends Fragment {
         binding.clientsSearchView.clearFocus();
         AppUtils.hideKeyboard(requireActivity());
     }
+
+    @Override
+    public void onPitcherClicked(Pitches Pitches) {
+        replace(new PitchDetailsFragment(), "Pitches");
+    }
+
+    private void replace(Fragment fragment, String s) {
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragment);
+        transaction.addToBackStack(s);
+        transaction.commit();
+    }
+
 }
