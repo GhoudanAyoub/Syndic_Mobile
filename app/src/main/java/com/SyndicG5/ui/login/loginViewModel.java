@@ -63,8 +63,8 @@ public class loginViewModel extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void Login(String email, String pass) {
-        apiRepository.Login(new User(email,pass))
-                .subscribeOn(Schedulers.newThread())
+        apiRepository.Login(email,pass)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     Timber.e("8822: %s", response);

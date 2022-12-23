@@ -26,7 +26,7 @@ import retrofit2.http.Query;
 public interface APISettings {
 
 
-    @POST("api/user/login")
+    @POST("api/user/mlogin")
     Single<Response<ResponseBody>> Login(@Query("email") String username, @Query("password") String password);
 
     @POST("api/user")

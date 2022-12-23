@@ -6,11 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -28,8 +24,6 @@ import com.syndicg5.networking.models.User;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -51,7 +45,6 @@ public class CreateAccount extends AppCompatActivity {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ProgressDialog progressDialog;
     private loginViewModel mViewModel;
-    private Spinner spinner;
     private int type = 1;
 
     @Override
@@ -62,40 +55,12 @@ public class CreateAccount extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         mViewModel = new ViewModelProvider(this).get(loginViewModel.class);
-        spinner = binding.spinner;
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Creating your Account ..........");
         binding.loginTxt.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), Login.class)));
 
-        List<String> gender = Arrays.asList("Select your profile", "Owner", "Player");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                getApplicationContext(),
-                R.layout.spinner_item_text,
-                gender) {
 
-            @Override
-            public boolean isEnabled(int position) {
-                return position != 0;
-            }
-
-        };
-        adapter.setDropDownViewResource(R.layout.spinner_item_text);
-
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // your code here
-            }
-
-        });
-
-        Objects.requireNonNull(binding.confirmPassEditText.getEditText())
+        Objects.requireNonNull(binding.FullNameEditText.getEditText())
                 .addTextChangedListener(new TextWatcher() {
 
                     @Override
@@ -110,9 +75,41 @@ public class CreateAccount extends AppCompatActivity {
                     @Override
                     public void onTextChanged(CharSequence s, int start,
                                               int before, int count) {
-                        if (!s.equals(binding.passEditText.getEditText().getText().toString()))
+                        if (binding.gmailEditText.getEditText().getText().toString()==null ||
+                                s.length()==0)
+                            binding.createAccount.setEnabled(false);
+                        else
+                            binding.createAccount.setEnabled(true);
+
+                    }
+                });
+        Objects.requireNonNull(binding.FullNameEditText.getEditText())
+                .addTextChangedListener(new TextWatcher() {
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start,
+                                                  int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start,
+                                              int before, int count) {
+                        if (!binding.confirmPassEditText.getEditText().getText().toString()
+                                .contains(binding.passEditText.getEditText().getText().toString())) {
                             binding.confirmPassEditText.setBackground(AppCompatResources
                                     .getDrawable(getApplicationContext(), R.drawable.buttoncolorerror));
+                            binding.createAccount.setEnabled(false);
+                        }
+                        else {
+                            binding.confirmPassEditText.setBackground(AppCompatResources
+                                    .getDrawable(getApplicationContext(), R.drawable.bg_textinputlayout));
+                            binding.createAccount.setEnabled(true);
+                        }
+
                     }
                 });
         RxView.clicks(binding.createAccount)

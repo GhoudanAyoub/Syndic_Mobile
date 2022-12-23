@@ -32,8 +32,8 @@ public class apiRepository {
         this.apiSettings = apiSettings;
     }
 
-    public Single<Response<ResponseBody>> Login(User user) {
-        return apiSettings.Login(user.getEmail(), user.getPassword());
+    public Single<Response<ResponseBody>> Login(String email, String password) {
+        return apiSettings.Login(email, password);
     }
 
     public Single<Response<ResponseBody>> createAccount(User user) {

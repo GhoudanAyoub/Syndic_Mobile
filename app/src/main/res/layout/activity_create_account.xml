@@ -225,28 +225,6 @@
                     android:textSize="14sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:layout_marginStart="38dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/noto_sans"
-                android:text="You are a"
-                android:textAlignment="viewStart"
-                android:textColor="#FFFFFF"
-                android:textSize="14dp" />
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="42dp"
-                android:layout_marginEnd="42dp"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/bg_textinputlayout"
-                android:entries="@array/gender"
-                tools:listitem="@layout/spinner_item_text" />
-
         </LinearLayout>
 
         <LinearLayout
