@@ -15,9 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.SyndicG5.R;
 import com.SyndicG5.SyndicActivity;
 import com.SyndicG5.databinding.ActivityHomeContainerBinding;
-import com.SyndicG5.ui.ContainerHome.fragments.emptyFragment;
+import com.SyndicG5.ui.ContainerHome.fragments.map.MapFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.home.homefragment;
-import com.SyndicG5.ui.ContainerHome.fragments.teams.TeamsFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.profile.ProfileFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.pitches.PitchesFragment;
 import com.SyndicG5.ui.login.login;
@@ -46,7 +45,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         mViewModel.getImmeubleInfo();
         mViewModel.getUserInfo();
         transaction =  getSupportFragmentManager().beginTransaction();
-        replace(emptyFragment.newInstance());
+        replace(MapFragment.newInstance());
         init();
     }
 
