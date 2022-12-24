@@ -129,7 +129,7 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
                 pitchesList :
                 pitchesList
                         .stream()
-                        .filter(pitch -> pitch.getLocation().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || pitch.getName().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) )
+                        .filter(pitch -> pitch.getComplexe().getLocation().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || pitch.getName().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) )
                         .collect(Collectors.toList());
         pitchesAdapter.setList((ArrayList<Pitches>) filteredModelList);
     }
@@ -149,7 +149,7 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
 
     @Override
     public void onPitcherClicked(Pitches Pitches) {
-        replace(new PitchDetailsFragment(), "Pitches");
+        replace(new PitchDetailsFragment(Pitches), "homefragment");
     }
 
     private void replace(Fragment fragment, String s) {

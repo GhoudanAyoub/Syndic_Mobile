@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.syndicg5.networking.models.Pitches;
+import com.syndicg5.networking.models.Reservation;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.User;
 import com.syndicg5.networking.repository.apiRepository;
@@ -15,6 +16,7 @@ import com.syndicg5.networking.repository.roomRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,6 +30,7 @@ public class PitchesViewModel extends ViewModel {
     private MutableLiveData<List<Pitches>> listPitchesBySyndicMutableLiveData = new MutableLiveData<>();
 
     private MutableLiveData<List<Revenu>> listRevenuBySyndicMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<Boolean> reservationMutableLiveData = new MutableLiveData<>();
 
 
     @ViewModelInject
@@ -52,6 +55,10 @@ public class PitchesViewModel extends ViewModel {
         return listRevenuBySyndicMutableLiveData;
     }
 
+    public MutableLiveData<Boolean> getReservationMutableLiveData() {
+        return reservationMutableLiveData;
+    }
+
     @SuppressLint("CheckResult")
     public void getPaymentByPitches(int id) {
         repository.getPaymentByResident(id)
@@ -61,4 +68,18 @@ public class PitchesViewModel extends ViewModel {
 
     }
 
+    @SuppressLint("CheckResult")
+    public void RunReservation(Pitches pitche, Date reservationDate,
+                                            Date matchDate) {
+        User user = roomRepo.getUserInfo().getValue();
+        repository.RunReservation(new Reservation(user,pitche,reservationDate,matchDate,pitche.getPrice()))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                        if(response.code()==200)
+                            reservationMutableLiveData.setValue(true);
+                        else
+                            reservationMutableLiveData.setValue(false);
+                }, Throwable::printStackTrace);
+    }
 }

@@ -5,6 +5,7 @@ import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Pitches;
+import com.syndicg5.networking.models.Reservation;
 import com.syndicg5.networking.models.Resident;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
@@ -34,6 +35,9 @@ public interface APISettings {
 
     @GET("api/user/login/{email}")
     Single<User> getUserServerInfo(@Path("email") String email);
+
+    @POST("api/reservation")
+    Single<Response<ResponseBody>>  RunReservation(@Body Reservation reservation);
 
     //Syndic
     @GET("api/syndics")

@@ -9,27 +9,27 @@ public class Pitches {
 
     private double price;
 
-    private String location;
+    private Complexe complexe;
 
     private User owner;
 
     private String photo;
 
-    public Pitches(long pitchId, String name, int capacity, double price, String location, String photo) {
+    public Pitches(long pitchId, String name, int capacity, double price, Complexe complexe, String photo) {
         this.pitchId = pitchId;
         this.name = name;
         this.capacity = capacity;
         this.price = price;
-        this.location = location;
+        this.complexe = complexe;
         this.photo = photo;
     }
 
-    public Pitches(long pitchId, String name, int capacity, double price, String location, User owner, String photo) {
+    public Pitches(long pitchId, String name, int capacity, double price, Complexe complexe, User owner, String photo) {
         this.pitchId = pitchId;
         this.name = name;
         this.capacity = capacity;
         this.price = price;
-        this.location = location;
+        this.complexe = complexe;
         this.owner = owner;
         this.photo = photo;
     }
@@ -66,12 +66,12 @@ public class Pitches {
         this.price = price;
     }
 
-    public String getLocation() {
-        return location;
+    public Complexe getComplexe() {
+        return complexe;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocation(Complexe complexe) {
+        this.complexe = complexe;
     }
 
     public User getOwner() {

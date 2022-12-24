@@ -1,14 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ContainerHome.fragments.pitches.PitchDetailsFragment">
+    android:background="@color/white">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/bloc_article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/spacing_m"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:layout_marginEnd="@dimen/spacing_m"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/pitche_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearance="@style/ProductRoundedImage"
+                        app:strokeColor="@null"
+                        tools:src="@tools:sample/backgrounds/scenic" />
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_primary_article"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_l"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/pitch_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_l"
+                        android:fontFamily="@font/noto_sans"
+                        android:layout_weight="0.8"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textAlignment="viewStart"
+                        android:textSize="16sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/content_dark"
+                        tools:text="ARIEL MAINS" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:gravity="end|center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/pitch_price"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:textAlignment="viewEnd"
+                            android:fontFamily="@font/noto_sans"
+                            android:textSize="16sp"
+                            android:textColor="@color/content_dark"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            tools:text="111.50  Dh" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/pitch_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:fontFamily="@font/noto_sans"
+                    android:textSize="16sp"
+                    android:textAlignment="viewStart"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/content_dark"
+                    tools:text="LOREM IPSUM DOLOR"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/reservation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_button_reserve"
+                        android:fontFamily="@font/noto_sans"
+                        android:lineSpacingExtra="12sp"
+                        android:text="Book a Reservation"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:background="@color/content_softGrey" />
+
+
+            <LinearLayout
+                android:id="@+id/bloc_similars"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_m"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:layout_marginBottom="@dimen/spacing_s"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+
+                <TextView
+                    android:id="@+id/similar_products_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.6"
+                    android:fontFamily="@font/noto_sans"
+                    android:text="Nearest Pitch"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textAlignment="viewStart"
+                    android:textSize="16sp"
+                    android:textColor="@color/content_dark" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/similar_pitch_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:layout_marginEnd="@dimen/spacing_xs" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

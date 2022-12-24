@@ -61,4 +61,13 @@
     <color name="duck_egg_blue">#c4f5da</color>
     <color name="light_pink">#fdf0ec</color>
     <color name="secondary_red">#d80000</color>
+
+    <color name="content_dark">#1D2939</color>
+    <color name="content_darkGrey">#667085</color>
+    <color name="content_Grey">#98A2B3</color>
+    <color name="content_lightGrey">#E4E7EC</color>
+    <color name="content_softGrey">#F2F4F7</color>
+    <color name="content_ultraLightGrey">#F9FAFB</color>
+    <color name="content_lightOrange">#FFEAD5</color>
+    <color name="content_white">#FFFFFF</color>
 </resources>

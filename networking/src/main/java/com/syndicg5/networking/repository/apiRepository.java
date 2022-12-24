@@ -7,6 +7,7 @@ import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
 import com.syndicg5.networking.models.Pitches;
+import com.syndicg5.networking.models.Reservation;
 import com.syndicg5.networking.models.Resident;
 import com.syndicg5.networking.models.Revenu;
 import com.syndicg5.networking.models.Syndic;
@@ -38,6 +39,9 @@ public class apiRepository {
 
     public Single<Response<ResponseBody>> createAccount(User user) {
         return apiSettings.createAccount(user);
+    }
+    public Single<Response<ResponseBody>> RunReservation(Reservation reservation) {
+        return apiSettings.RunReservation(reservation);
     }
 
     public Single<User> getUserServerInfo(String email) {
