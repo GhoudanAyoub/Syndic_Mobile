@@ -2,6 +2,7 @@ package com.SyndicG5.ui.ContainerHome.fragments.pitches;
 
 import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Build;
@@ -23,6 +24,7 @@ import com.SyndicG5.Adapters.PitchesAdapter;
 import com.SyndicG5.R;
 import com.SyndicG5.databinding.FragmentPitchDetailsBinding;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.model.LatLng;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.repository.apiRepository;
@@ -92,7 +94,8 @@ public class PitchDetailsFragment extends Fragment implements PitchesAdapter.Pit
 
         binding.pitchName.setText(pitche.getName());
         binding.pitchPrice.setText(pitche.getPrice() + " Dh");
-        binding.pitchDesc.setText("Capacity :" + pitche.getCapacity());
+        binding.pitchCap.setText("Capacity :" + pitche.getCapacity());
+        binding.pitchDesc.setText(pitche.getDescripton());
         Glide.with(getContext())
                 .load(pitche.getPhoto())
                 .placeholder(R.drawable.img_placeholder)
@@ -146,8 +149,7 @@ public class PitchDetailsFragment extends Fragment implements PitchesAdapter.Pit
         pickerDialog.getDatePicker().setMinDate(currentDay);
         pickerDialog.getDatePicker().setMaxDate(getValableDates());
         pickerDialog.setOnDismissListener(dialogInterface -> {
-            progressDialog.show();
-            RunReservation();
+            showMessageOKCancel();
         });
         pickerDialog.show();
     }
@@ -159,7 +161,17 @@ public class PitchDetailsFragment extends Fragment implements PitchesAdapter.Pit
     }
 
 
+    private void showMessageOKCancel() {
+        new AlertDialog.Builder(getContext())
+                .setMessage("Book Reservation")
+                .setPositiveButton("OK", (dialogInterface, i) -> RunReservation())
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
     private void RunReservation() {
+        progressDialog.show();
         mViewModel.RunReservation(pitche, new Date(), selectedDeliveryDate);
         mViewModel.getReservationMutableLiveData().observe(getViewLifecycleOwner(), valeur -> {
             progressDialog.dismiss();
@@ -175,23 +187,48 @@ public class PitchDetailsFragment extends Fragment implements PitchesAdapter.Pit
                         .filter(pitches1 ->
                                 pitches1.getComplexe().getLocation()
                                         .contains(p.getComplexe().getLocation())
+                                        && pitches1.getPitchId() != p.getPitchId()
+                                        && CheckDistanceBetweenTwoLocations(
+                                        new LatLng(pitches1.getComplexe().getLatitude()
+                                                , pitches1.getComplexe().getLongitude()),
+                                        new LatLng(p.getComplexe().getLatitude(),
+                                                p.getComplexe().getLongitude()))
                         )
                         .collect(Collectors.toList());
-                pitchesAdapter.setList(
-                        (ArrayList<Pitches>) pitchesList1);
+                if (!pitchesList1.isEmpty()) {
+                    binding.blocSimilars.setVisibility(View.VISIBLE);
+                    pitchesAdapter.setList(
+                            (ArrayList<Pitches>) pitchesList1);
+                }
+                else
+                    binding.blocSimilars.setVisibility(View.GONE);
             }
         });
     }
 
-    @Override
-    public void onPitcherClicked(Pitches Pitches) {
-        replace(new PitchDetailsFragment(Pitches), "PitchesFragment");
+    public Boolean CheckDistanceBetweenTwoLocations(LatLng location, LatLng location2) {
+        double lat1 = Math.toRadians(location.latitude);
+        double lon1 = Math.toRadians(location.longitude);
+        double lat2 = Math.toRadians(location2.latitude);
+        double lon2 = Math.toRadians(location2.longitude);
+
+        // Calculate the distance between the two locations using the Haversine formula
+        final int EARTH_RADIUS = 6371; // Earth's radius in kilometers
+        double distance = 2 * EARTH_RADIUS * Math.asin(Math.sqrt(Math.pow(Math.sin((lat2 - lat1) / 2), 2) +
+                Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon2 - lon1) / 2), 2)));
+
+        return distance <= 10;
     }
 
-    private void replace(Fragment fragment, String s) {
+    @Override
+    public void onPitcherClicked(Pitches Pitches) {
+        replace(new PitchDetailsFragment(Pitches));
+    }
+
+    private void replace(Fragment fragment) {
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame, fragment);
-        transaction.addToBackStack(s);
+        transaction.addToBackStack(PitchesFragment.class.getName());
         transaction.commit();
     }
 

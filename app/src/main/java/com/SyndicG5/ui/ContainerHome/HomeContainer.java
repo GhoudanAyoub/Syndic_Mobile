@@ -140,9 +140,4 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         transaction.replace(R.id.frame, fragment);
         transaction.commit();
     }
-
-    @Override
-    public void onBackPressed() {
-        finishAffinity();
-    }
 }

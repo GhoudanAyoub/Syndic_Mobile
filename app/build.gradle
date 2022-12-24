@@ -5,6 +5,7 @@ plugins {
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdk rootProject.ext.androidCompileSdkVersion
@@ -151,4 +152,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     //toasty
     implementation 'com.github.GrenderG:Toasty:1.5.2'
+
+    // google maps library ------------------------------------------------------------------------
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 }

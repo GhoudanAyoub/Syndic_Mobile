@@ -59,7 +59,8 @@ public class PitchesAdapter extends RecyclerView.Adapter<PitchesAdapter.PitchesA
         Pitches Pitches = PitchesList.get(position);
 
         holder.PitchesName.setText(Pitches.getName());
-        holder.pitch_location.setText(Pitches.getComplexe().getLocation());
+        if(Pitches.getComplexe()!=null)holder.pitch_location.setText(Pitches.getComplexe().getLocation());
+        holder.pitch_description.setText(Pitches.getDescripton());
         Glide.with(context)
                 .load(Pitches.getPhoto())
                 .placeholder(R.drawable.img_placeholder)
@@ -80,13 +81,14 @@ public class PitchesAdapter extends RecyclerView.Adapter<PitchesAdapter.PitchesA
     }
 
     public class PitchesAdapterHolder extends RecyclerView.ViewHolder {
-        public TextView  PitchesName,pitch_location;
+        public TextView  PitchesName,pitch_location,pitch_description;
         public ShapeableImageView PitchesImage;
 
         public PitchesAdapterHolder(View itemView) {
             super(itemView);
             PitchesName = itemView.findViewById(R.id.pitch_name);
             pitch_location = itemView.findViewById(R.id.pitch_location);
+            pitch_description = itemView.findViewById(R.id.pitch_description);
             PitchesImage = itemView.findViewById(R.id.pitche_img);
         }
     }

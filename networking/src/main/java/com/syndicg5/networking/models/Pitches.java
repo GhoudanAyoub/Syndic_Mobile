@@ -15,13 +15,16 @@ public class Pitches {
 
     private String photo;
 
-    public Pitches(long pitchId, String name, int capacity, double price, Complexe complexe, String photo) {
+    private String descripton;
+
+    public Pitches(long pitchId, String name, int capacity, double price, Complexe complexe, String photo, String descripton) {
         this.pitchId = pitchId;
         this.name = name;
         this.capacity = capacity;
         this.price = price;
         this.complexe = complexe;
         this.photo = photo;
+        this.descripton = descripton;
     }
 
     public Pitches(long pitchId, String name, int capacity, double price, Complexe complexe, User owner, String photo) {
@@ -88,5 +91,13 @@ public class Pitches {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getDescripton() {
+        return descripton;
+    }
+
+    public void setDescripton(String descripton) {
+        this.descripton = descripton;
     }
 }
