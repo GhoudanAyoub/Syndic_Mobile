@@ -47,6 +47,9 @@ public class apiRepository {
     public Single<User> getUserServerInfo(String email) {
         return apiSettings.getUserServerInfo(email);
     }
+    public Single<List<Reservation>> getReservationByUserId(int id) {
+        return apiSettings.getReservationByUserId(id);
+    }
     //Syndic
     public Single<List<Syndic>> getAllSyndic() {
         return apiSettings.getAllSyndic();

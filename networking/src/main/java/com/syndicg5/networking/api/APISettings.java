@@ -39,6 +39,11 @@ public interface APISettings {
     @POST("api/reservation")
     Single<Response<ResponseBody>>  RunReservation(@Body Reservation reservation);
 
+    //reservation
+
+    @GET("api/reservation/user/{userId}")
+    Single<List<Reservation>> getReservationByUserId(@Path("userId") int id);
+
     //Syndic
     @GET("api/syndics")
     Single<List<Syndic>> getAllSyndic();

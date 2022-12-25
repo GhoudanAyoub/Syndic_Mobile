@@ -14,8 +14,6 @@ import com.syndicg5.networking.models.User;
 import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.repository.roomRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +28,7 @@ public class PitchesViewModel extends ViewModel {
     private MutableLiveData<List<Pitches>> listPitchesBySyndicMutableLiveData = new MutableLiveData<>();
 
     private MutableLiveData<List<Revenu>> listRevenuBySyndicMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Reservation>> listReservationMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Boolean> reservationMutableLiveData = new MutableLiveData<>();
 
 
@@ -59,12 +58,24 @@ public class PitchesViewModel extends ViewModel {
         return reservationMutableLiveData;
     }
 
+    public MutableLiveData<List<Reservation>> getListReservationMutableLiveData() {
+        return listReservationMutableLiveData;
+    }
+
     @SuppressLint("CheckResult")
     public void getPaymentByPitches(int id) {
         repository.getPaymentByResident(id)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> listRevenuBySyndicMutableLiveData.setValue(response), Throwable::printStackTrace);
+
+    }
+    @SuppressLint("CheckResult")
+    public void getReservationByUserId(int id) {
+        repository.getReservationByUserId(id)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> listReservationMutableLiveData.setValue(response), Throwable::printStackTrace);
 
     }
 

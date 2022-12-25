@@ -61,6 +61,19 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/reservation_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:fontFamily="@font/noto_sans"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                tools:text="Marrakesh, Morocco"
+                android:visibility="gone"/>
+
+            <TextView
                 android:id="@+id/pitch_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

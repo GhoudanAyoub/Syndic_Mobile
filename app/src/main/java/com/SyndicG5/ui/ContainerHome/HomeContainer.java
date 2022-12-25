@@ -15,10 +15,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.SyndicG5.R;
 import com.SyndicG5.SyndicActivity;
 import com.SyndicG5.databinding.ActivityHomeContainerBinding;
-import com.SyndicG5.ui.ContainerHome.fragments.map.MapFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.home.homefragment;
-import com.SyndicG5.ui.ContainerHome.fragments.profile.ProfileFragment;
+import com.SyndicG5.ui.ContainerHome.fragments.map.MapFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.pitches.PitchesFragment;
+import com.SyndicG5.ui.ContainerHome.fragments.profile.ProfileFragment;
 import com.SyndicG5.ui.login.login;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Login;
@@ -30,11 +30,11 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
 
     private ActivityHomeContainerBinding binding;
     private static Toolbar toolbar;
-    private LinearLayout ll_Home, ll_profile, ll_Teams,ll_Pitches, ll_Logout;
+    private LinearLayout ll_Home, ll_profile, ll_Teams, ll_Pitches, ll_Logout;
     private static boolean open = false;
     loginViewModel mViewModel;
 
-     private static FragmentTransaction transaction;
+    private static FragmentTransaction transaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         mViewModel = new ViewModelProvider(this).get(loginViewModel.class);
         mViewModel.getImmeubleInfo();
         mViewModel.getUserInfo();
-        transaction =  getSupportFragmentManager().beginTransaction();
+        transaction = getSupportFragmentManager().beginTransaction();
         replace(MapFragment.newInstance());
         init();
     }
@@ -96,10 +96,11 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
 //        });
     }
 
-    public static void openHome(){
+    public static void openHome() {
         transaction.replace(R.id.frame, homefragment.newInstance());
         transaction.commit();
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -120,7 +121,7 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
                 replace(new PitchesFragment(), "Pitches");
                 break;
             case R.id.ll_Logout:
-                mViewModel.UpdateLogin(new Login(1, false,1));
+                mViewModel.UpdateLogin(new Login(1, false, 1));
                 startActivity(new Intent(getApplicationContext(), login.class));
                 break;
         }
@@ -139,4 +140,5 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         transaction.replace(R.id.frame, fragment);
         transaction.commit();
     }
+
 }
