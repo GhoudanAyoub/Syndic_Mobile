@@ -102,58 +102,67 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void attachListeners() {
-        pitchesViewModel.getAllPitches();
-        pitchesViewModel.getListPitchesMutableLiveData()
-                .observe(getViewLifecycleOwner(), pitches -> {
-                            pitches.stream().map(pitches1 ->
-                                    pitchesHashMap.put(pitches1.getName(), pitches1)
-                            );
-                            attachMarkerOnMap();
-                            Timber.d("GPS Map list %s", String.valueOf(pitchesHashMap));
-
-                        }
-                );
 
         binding.getLocationBtn.setOnClickListener(view -> supportMapFragment.getMapAsync(googleMap -> {
             gMap = googleMap;
             gMap.clear();
             getPreCurrentLocation();
-            attachMarkerOnMap();
+            attachMarkerOnMap(pitchesHashMap);
         }));
 
-        binding.showFullMap.setOnClickListener(view -> {
-            final float scale = getContext().getResources().getDisplayMetrics().density;
-                    isUp = !isUp;
-                    if (isUp) {
-                        int pixels = (int) (500 * scale + 0.5f);
-                        binding.showFullMap.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_up));
-                        binding.mapContainer.setLayoutParams(new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                pixels));
-                    }else {
-                        int pixels = (int) (250 * scale + 0.5f);
-                        binding.showFullMap.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_down));
-                        binding.mapContainer.setLayoutParams(new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                pixels));
-                    }
-
-                }
-        );
+        binding.showFullMap.setOnClickListener(view -> changeGoogleMapScale());
         binding.nearByBtn.setOnClickListener(view -> {
-//            startActivity(new Intent(getActivity(), NearByAreaActivity.class));
-//            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            HashMap<String, Pitches> nearestPitches  = new HashMap<String, Pitches>();
+            for (Map.Entry<String, Pitches> pitchAreaEntry : pitchesHashMap.entrySet()) {
+                Map.Entry<String, Pitches> mapElement = pitchAreaEntry;
+                Pitches pitch = (Pitches) mapElement.getValue();
+                LatLng current = new LatLng(pitch.getComplexe().getLatitude(),
+                        pitch.getComplexe().getLongitude());
+                if (CheckDistanceBetweenTwoLocations(globalLatLng, current)) {
+                    nearestPitches.put(pitchAreaEntry.getKey(),pitchAreaEntry.getValue());
+                }
+            }
+            gMap.clear();
+            attachMarkerOnMap(nearestPitches);
+            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(globalLatLng, 12));
         });
 
         binding.myBookingsBtn.setOnClickListener(view -> {
 //            startActivity(new Intent(getActivity(), UserHistoryActivity.class));
 //            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+    }
 
-        binding.openMapsBtn.setOnClickListener(view -> {
-//            startActivity(new Intent(getActivity(), GPSMapActivity.class));
-//            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        });
+    private void changeGoogleMapScale() {
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        isUp = !isUp;
+        if (isUp) {
+            int pixels = (int) (600 * scale + 0.5f);
+            binding.showFullMap.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_up));
+            binding.mapContainer.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    pixels));
+        } else {
+            int pixels = (int) (250 * scale + 0.5f);
+            binding.showFullMap.setImageDrawable(getResources().getDrawable(R.drawable.ic_arrow_down));
+            binding.mapContainer.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    pixels));
+        }
+    }
+
+    public Boolean CheckDistanceBetweenTwoLocations(LatLng location, LatLng location2) {
+        double lat1 = Math.toRadians(location.latitude);
+        double lon1 = Math.toRadians(location.longitude);
+        double lat2 = Math.toRadians(location2.latitude);
+        double lon2 = Math.toRadians(location2.longitude);
+
+        // Calculate the distance between the two locations using the Haversine formula
+        final int EARTH_RADIUS = 6371; // Earth's radius in kilometers
+        double distance = 2 * EARTH_RADIUS * Math.asin(Math.sqrt(Math.pow(Math.sin((lat2 - lat1) / 2), 2) +
+                Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin((lon2 - lon1) / 2), 2)));
+
+        return distance <= 10;
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -166,10 +175,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         return false;
     }
 
-    private void attachMarkerOnMap() {
+    private void attachMarkerOnMap(HashMap<String, Pitches> hashMap) {
         supportMapFragment.getMapAsync(googleMap -> {
             gMap = googleMap;
-            for (Map.Entry<String, Pitches> stringParkingAreaEntry : pitchesHashMap.entrySet()) {
+            googleMap.addMarker(new MarkerOptions().position(globalLatLng).title("You are here"));
+            for (Map.Entry<String, Pitches> stringParkingAreaEntry : hashMap.entrySet()) {
                 Map.Entry<String, Pitches> mapElement = stringParkingAreaEntry;
                 Pitches parking = (Pitches) mapElement.getValue();
                 Timber.e("Add marker on map: " + parking.getName());
@@ -194,27 +204,41 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getCurrentLocation(final Boolean zoom) {
+        Timber.e("8855 getCurrentLocation");
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]
                     {Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
         }
+
         Task<Location> task = client.getLastLocation();
         task.addOnSuccessListener(location -> {
             if (location != null) {
-                supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                    @Override
-                    public void onMapReady(GoogleMap googleMap) {
-                        gMap = googleMap;
-                        globalLatLng = new LatLng(location.getLatitude(),
-                                location.getLongitude());
-                        googleMap.addMarker(new MarkerOptions().position(globalLatLng).title("You are here"));
-                        if (zoom) {
-                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(globalLatLng, 18));
-                        }
+                supportMapFragment.getMapAsync(googleMap -> {
+                    gMap = googleMap;
+                    globalLatLng = new LatLng(location.getLatitude(),
+                            location.getLongitude());
+                    googleMap.addMarker(new MarkerOptions().position(globalLatLng).title("You are here"));
+                    if (zoom) {
+                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(globalLatLng, 18));
+
+                        pitchesViewModel.getAllPitches();
+                        pitchesViewModel.getListPitchesMutableLiveData()
+                                .observe(getViewLifecycleOwner(), pitches -> {
+                                            for (Pitches pitch : pitches) {
+                                                pitchesHashMap.put(pitch.getName(), pitch);
+                                            }
+                                            attachMarkerOnMap(pitchesHashMap);
+                                            Timber.d("GPS Map list %s", String.valueOf(pitchesHashMap));
+
+                                        }
+                                );
                     }
                 });
             }
+        });
+        task.addOnFailureListener(e -> {
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -237,7 +261,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (position.equals(globalLatLng)) {
                 return;
             }
-            String[] items = {"Book Place", "More Info"};
+            String[] items = {"Book Place"};
             androidx.appcompat.app.AlertDialog.Builder itemDilog = new AlertDialog.Builder(getActivity());
             itemDilog.setTitle("");
             itemDilog.setCancelable(true);
@@ -250,10 +274,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             Pitches val = (Pitches) pitchesHashMap.get(UUID);
                             replace(new PitchDetailsFragment(val), "MapFragment");
                             Timber.d("Value of UUID: " + UUID);
-                        }
-                        break;
-                        case 1: {
-                            Timber.d("More Info");
                         }
                         break;
                     }
