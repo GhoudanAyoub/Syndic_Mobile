@@ -145,7 +145,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
             }
             gMap.clear();
             attachMarkerOnMap(nearestPitches);
-            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(globalLatLng, 12));
+            if (globalLatLng != null)
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(globalLatLng, 12));
         });
 
         binding.myBookingsBtn.setOnClickListener(view -> {
@@ -207,7 +208,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
     private void attachMarkerOnMap(HashMap<String, Pitches> hashMap) {
         supportMapFragment.getMapAsync(googleMap -> {
             gMap = googleMap;
-            googleMap.addMarker(new MarkerOptions().position(globalLatLng).title("You are here"));
+            if (globalLatLng != null) {
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(globalLatLng, 12));
+                googleMap.addMarker(new MarkerOptions().position(globalLatLng).title("You are here"));
+            }
             for (Map.Entry<String, Pitches> stringParkingAreaEntry : hashMap.entrySet()) {
                 Map.Entry<String, Pitches> mapElement = stringParkingAreaEntry;
                 Pitches parking = (Pitches) mapElement.getValue();

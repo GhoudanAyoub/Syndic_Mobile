@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.SyndicG5.Adapters.PitchesAdapter;
@@ -26,6 +25,7 @@ import com.SyndicG5.databinding.PichesFragmentBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
 import com.SyndicG5.ui.login.loginViewModel;
 import com.syndicg5.networking.models.Pitches;
+import com.syndicg5.networking.models.User;
 import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.utils.AppUtils;
 
@@ -51,6 +51,8 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
     private List<Pitches> pitchesList;
     @Inject
     apiRepository repository;
+    private boolean myPitch = false;
+    private User currentUser = null;
 
     public static PitchesFragment newInstance() {
         return new PitchesFragment();
@@ -72,7 +74,7 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
         super.onViewCreated(view, savedInstanceState);
         setActivityName("Pitches ");
         recyclerView = view.findViewById(R.id.pitche_recycler_view);
-        pitchesAdapter = new PitchesAdapter(getContext(),repository,this);
+        pitchesAdapter = new PitchesAdapter(getContext(), repository, this);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         recyclerView.addItemDecoration(new GridAutoFitItemDecoration(2, getResources().getDimensionPixelSize(R.dimen.alternative_horizontal_margin_page)));
         recyclerView.setAdapter(pitchesAdapter);
@@ -91,7 +93,18 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
             binding.clientsSearchView.requestFocus();
             AppUtils.showKeyboard(requireActivity());
         });
-
+        binding.endSearchBtn.setOnClickListener(view1 -> {
+            myPitch = !myPitch;
+            binding.endSearchBtn.setText(myPitch ? "Show All" : "My Pictch");
+            if(myPitch)
+            pitchesAdapter.setList((ArrayList<Pitches>) pitchesList
+                    .stream()
+                    .filter(pitche ->
+                            pitche.getOwner().getUserId() == currentUser.getUserId())
+                    .collect(Collectors.toList()));
+            else
+                pitchesAdapter.setList((ArrayList<Pitches>) pitchesList);
+        });
         binding.clientsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -116,8 +129,11 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
 
     private void subscribe() {
         mViewModel.getAllPitches();
+        loginViewModel.getUserInfo();
+        loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user ->
+                currentUser = user);
         mViewModel.getListPitchesMutableLiveData().observe(getViewLifecycleOwner(), pitches -> {
-            pitchesList=pitches;
+            pitchesList = pitches;
             pitchesAdapter.setList((ArrayList<Pitches>) pitches);
             binding.progressBar2.setVisibility(View.GONE);
         });
@@ -129,7 +145,7 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
                 pitchesList :
                 pitchesList
                         .stream()
-                        .filter(pitch -> pitch.getComplexe().getLocation().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || pitch.getName().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) )
+                        .filter(pitch -> pitch.getComplexe().getLocation().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || pitch.getName().toUpperCase(Locale.ROOT).contains(lowerCaseQuery))
                         .collect(Collectors.toList());
         pitchesAdapter.setList((ArrayList<Pitches>) filteredModelList);
     }
