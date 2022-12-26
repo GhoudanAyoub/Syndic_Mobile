@@ -1,13 +1,21 @@
 package com.SyndicG5.ui.ContainerHome;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,20 +29,41 @@ import com.SyndicG5.ui.ContainerHome.fragments.pitches.PitchesFragment;
 import com.SyndicG5.ui.ContainerHome.fragments.profile.ProfileFragment;
 import com.SyndicG5.ui.login.login;
 import com.SyndicG5.ui.login.loginViewModel;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.Task;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.syndicg5.networking.models.Login;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
+import timber.log.Timber;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class HomeContainer extends SyndicActivity implements View.OnClickListener {
+    private static int PERMISSION_REQUEST_CODE = 1000;
 
     private ActivityHomeContainerBinding binding;
     private static Toolbar toolbar;
     private LinearLayout ll_Home, ll_profile, ll_Teams, ll_Pitches, ll_Logout;
     private static boolean open = false;
     loginViewModel mViewModel;
+    FusedLocationProviderClient fusedLocationProviderClient;
 
+    private static Double currentLatitude= 0.0;
+    private static Double currentLongitude= 0.0;
     private static FragmentTransaction transaction;
+    private static boolean isGPSEnabled = false;
+    private static boolean isPermissionGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +74,58 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         mViewModel.getImmeubleInfo();
         mViewModel.getUserInfo();
         transaction = getSupportFragmentManager().beginTransaction();
+        isGpsEnabled();
+        isPermissionGranted = isPermissionGiven();
+        grantLocationPermission();
         replace(MapFragment.newInstance());
         init();
+    }
+
+    private void grantLocationPermission() {
+        Dexter.withContext(this)
+                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        if (!isGPSEnabled) {
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                        isGPSEnabled = true;
+                        isPermissionGranted = true;
+                        Timber.d("permission granted");
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        Toast.makeText(
+                                HomeContainer.this,
+                                "Please enable location permission",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                })
+                .onSameThread()
+                .check();
+    }
+
+    private boolean isPermissionGiven() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean isGpsEnabled() {
+        try {
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            Timber.d("GPS already enabled");
+        } catch (Exception ex) {
+            Timber.e(ex);
+        }
+        return isGPSEnabled;
     }
 
     public static void setActivityName(String name) {
@@ -141,4 +220,69 @@ public class HomeContainer extends SyndicActivity implements View.OnClickListene
         transaction.commit();
     }
 
+    public static LatLng getCurrentLocation(FusedLocationProviderClient fusedLocationProviderClient, Context context) {
+        Timber.d("getting the current location");
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+
+        try {
+            if (isPermissionGranted && isGPSEnabled) {
+                Task<Location> result = fusedLocationProviderClient.getLastLocation();
+                result.addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        Location currentLocation = task.getResult();
+                        LatLng newLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                        Timber.d("new coordinates %f %f", newLatLng.latitude, newLatLng.longitude);
+                        currentLatitude = currentLocation.getLatitude();
+                        currentLongitude = currentLocation.getLongitude();
+                    } else {
+                        Toast.makeText(
+                                context,
+                                "Unable to get current location",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                });
+            } else {
+                //inflate custom view for the alertDialog
+                Toast.makeText(
+                        context,
+                        "Please enable location permission",
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+        } catch (SecurityException e) {
+            Timber.e(e);
+        }
+        return new LatLng(currentLatitude, currentLongitude);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        List<String> requiredPermissions = new ArrayList<>(Arrays.asList(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            requiredPermissions.add(Manifest.permission.ACTIVITY_RECOGNITION);
+            requiredPermissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+        } else {
+            requiredPermissions.add(Manifest.permission.READ_PHONE_STATE);
+        }
+
+        List<String> missingPermissions = new ArrayList<>();
+        for (String permission : requiredPermissions) {
+            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                missingPermissions.add(permission);
+            }
+        }
+
+        if (!missingPermissions.isEmpty()) {
+            String[] permissionsArray = missingPermissions.toArray(new String[0]);
+            ActivityCompat.requestPermissions(this, permissionsArray, PERMISSION_REQUEST_CODE);
+        }
+
+    }
 }

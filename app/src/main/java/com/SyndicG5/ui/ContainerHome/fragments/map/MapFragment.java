@@ -44,12 +44,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.models.Reservation;
 import com.syndicg5.networking.repository.apiRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -91,6 +97,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
         loginViewModel = new ViewModelProvider(this).get(loginViewModel.class);
         pitchesViewModel = new ViewModelProvider(this).get(PitchesViewModel.class);
         binding = FragmentEmptyBinding.inflate(inflater, container, false);
+
+        Dexter.withContext(requireContext())
+                .withPermissions(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE
+                ).withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {}
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(
+                            List<PermissionRequest> permissions,
+                            PermissionToken token
+                    ) {}
+                }).check();
 
         initComponents(binding.getRoot());
         attachListeners();
