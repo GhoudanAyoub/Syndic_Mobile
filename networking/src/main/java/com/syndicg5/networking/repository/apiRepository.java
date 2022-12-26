@@ -6,6 +6,7 @@ import com.syndicg5.networking.models.Appartement;
 import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
+import com.syndicg5.networking.models.Monument;
 import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.models.Reservation;
 import com.syndicg5.networking.models.Resident;
@@ -125,6 +126,10 @@ public class apiRepository {
 
     public Single<List<Pitches>> getAllPitches() {
         return apiSettings.getAllPitches();
+    }
+
+    public Single<List<Monument>> getMonuments() {
+        return apiSettings.getMonuments();
     }
 
     public Single<Response<ResponseBody>> saveBalance(RevenusReq f, depenseReq d, boolean type) {

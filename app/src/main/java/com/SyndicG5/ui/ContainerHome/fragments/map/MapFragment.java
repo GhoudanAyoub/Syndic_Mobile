@@ -5,7 +5,6 @@ import static com.SyndicG5.ui.ContainerHome.HomeContainer.setActivityName;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -20,14 +19,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.SyndicG5.Adapters.ReservationAdapter;
+import com.SyndicG5.Adapters.PitchesAdapter;
 import com.SyndicG5.R;
 import com.SyndicG5.databinding.FragmentEmptyBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.pitches.GridAutoFitItemDecoration;
@@ -49,14 +50,16 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.syndicg5.networking.models.Pitches;
-import com.syndicg5.networking.models.Reservation;
+import com.syndicg5.networking.models.Monument;
 import com.syndicg5.networking.repository.apiRepository;
+import com.syndicg5.networking.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -65,7 +68,7 @@ import timber.log.Timber;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 @AndroidEntryPoint
-public class MapFragment extends Fragment implements OnMapReadyCallback, ReservationAdapter.ReservationListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback, PitchesAdapter.PitcherListener {
 
     public static final int LOCATION_REQUEST_CODE = 100;
     private FragmentEmptyBinding binding;
@@ -78,13 +81,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
     LatLng globalLatLng;
     BasicUtils utils = new BasicUtils();
     private RecyclerView recyclerView;
-    private ReservationAdapter reservationAdapter;
+    private PitchesAdapter reservationAdapter;
 
-    HashMap<String, Pitches> pitchesHashMap = new HashMap<String, Pitches>();
+    HashMap<String, Monument> pitchesHashMap = new HashMap<String, Monument>();
     private boolean isUp = false;
-    public boolean bookedPitchPage = false;
+    public static boolean bookedPitchPage = false;
     @Inject
     apiRepository repository;
+    private List<Monument> pitchesList = new ArrayList<>();
 
     public static MapFragment newInstance() {
         return new MapFragment();
@@ -105,13 +109,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
                         Manifest.permission.READ_PHONE_STATE
                 ).withListener(new MultiplePermissionsListener() {
                     @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {}
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                    }
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(
                             List<PermissionRequest> permissions,
                             PermissionToken token
-                    ) {}
+                    ) {
+                    }
                 }).check();
 
         initComponents(binding.getRoot());
@@ -128,13 +134,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setActivityName("Map ... ");
+        setActivityName("Historical monuments");
 
         recyclerView = view.findViewById(R.id.pitche_recycler_view);
-        reservationAdapter = new ReservationAdapter(getContext(), repository, this);
-        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
-        recyclerView.addItemDecoration(new GridAutoFitItemDecoration(2, getResources().getDimensionPixelSize(R.dimen.alternative_horizontal_margin_page)));
+        reservationAdapter = new PitchesAdapter(getContext(), repository, this);
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
+        recyclerView.addItemDecoration(new GridAutoFitItemDecoration(1, getResources().getDimensionPixelSize(R.dimen.alternative_horizontal_margin_page)));
         recyclerView.setAdapter(reservationAdapter);
+        updateMapToBookedPitches();
     }
 
     private void initComponents(View root) {
@@ -142,6 +149,32 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
                 .findFragmentById(R.id.google_map);
         supportMapFragment.getMapAsync(this);
         client = LocationServices.getFusedLocationProviderClient(getActivity());
+
+
+        binding.searchBtn.setOnClickListener(view1 -> {
+            binding.clientsDetails.setVisibility(View.VISIBLE);
+            binding.searchBtn.setVisibility(View.GONE);
+            binding.clientsSearchView.setVisibility(View.VISIBLE);
+            binding.clientsHeaderBar.setBackgroundColor(
+                    ContextCompat.getColor(requireContext(), R.color.white)
+            );
+            binding.clientsSearchView.setIconified(true);
+            binding.clientsSearchView.requestFocus();
+            AppUtils.showKeyboard(requireActivity());
+        });
+        binding.clientsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                clearAndHideSearchView();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText);
+                return true;
+            }
+        });
     }
 
     private void attachListeners() {
@@ -155,12 +188,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
 
         binding.showFullMap.setOnClickListener(view -> changeGoogleMapScale());
         binding.nearByBtn.setOnClickListener(view -> {
-            HashMap<String, Pitches> nearestPitches = new HashMap<String, Pitches>();
-            for (Map.Entry<String, Pitches> pitchAreaEntry : pitchesHashMap.entrySet()) {
-                Map.Entry<String, Pitches> mapElement = pitchAreaEntry;
-                Pitches pitch = (Pitches) mapElement.getValue();
-                LatLng current = new LatLng(pitch.getComplexe().getLatitude(),
-                        pitch.getComplexe().getLongitude());
+            HashMap<String, Monument> nearestPitches = new HashMap<String, Monument>();
+            for (Map.Entry<String, Monument> pitchAreaEntry : pitchesHashMap.entrySet()) {
+                Map.Entry<String, Monument> mapElement = pitchAreaEntry;
+                Monument pitch = (Monument) mapElement.getValue();
+                LatLng current = new LatLng(pitch.getLatitude(),
+                        pitch.getLongitude());
                 if (CheckDistanceBetweenTwoLocations(globalLatLng, current)) {
                     nearestPitches.put(pitchAreaEntry.getKey(), pitchAreaEntry.getValue());
                 }
@@ -183,6 +216,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
         binding.homeMapContainer.setVisibility(bookedPitchPage ? View.GONE : View.VISIBLE);
         binding.homeMapButtonsContainer.setVisibility(bookedPitchPage ? View.GONE : View.VISIBLE);
         binding.bookedPitchesContainer.setVisibility(bookedPitchPage ? View.VISIBLE : View.GONE);
+        binding.clientsHeaderBar.setVisibility(bookedPitchPage ? View.VISIBLE : View.GONE);
+    }
+
+    private void filter(String query) {
+        String lowerCaseQuery = query.toUpperCase(Locale.ROOT);
+        List<Monument> filteredModelList = query.isEmpty() ?
+                pitchesList :
+                pitchesList
+                        .stream()
+                        .filter(pitch -> pitch.getAdresse().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || pitch.getNom().toUpperCase(Locale.ROOT).contains(lowerCaseQuery))
+                        .collect(Collectors.toList());
+        reservationAdapter.setList((ArrayList<Monument>) filteredModelList);
+    }
+
+    private void clearAndHideSearchView() {
+        binding.clientsDetails.setVisibility(View.VISIBLE);
+        binding.searchBtn.setVisibility(View.VISIBLE);
+        binding.clientsSearchView.setVisibility(View.GONE);
+        binding.clientsSearchView.setIconified(false);
+        binding.clientsHeaderBar.setBackgroundColor(
+                ContextCompat.getColor(requireContext(), R.color.white)
+        );
+        binding.clientsSearchView.clearFocus();
+        AppUtils.hideKeyboard(requireActivity());
     }
 
     private void changeGoogleMapScale() {
@@ -227,22 +284,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
         return false;
     }
 
-    private void attachMarkerOnMap(HashMap<String, Pitches> hashMap) {
+    private void attachMarkerOnMap(HashMap<String, Monument> hashMap) {
         supportMapFragment.getMapAsync(googleMap -> {
             gMap = googleMap;
             if (globalLatLng != null) {
                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(globalLatLng, 12));
                 googleMap.addMarker(new MarkerOptions().position(globalLatLng).title("You are here"));
             }
-            for (Map.Entry<String, Pitches> stringParkingAreaEntry : hashMap.entrySet()) {
-                Map.Entry<String, Pitches> mapElement = stringParkingAreaEntry;
-                Pitches parking = (Pitches) mapElement.getValue();
-                Timber.e("Add marker on map: " + parking.getName());
-                LatLng latLngParking = new LatLng(parking.getComplexe().getLatitude(),
-                        parking.getComplexe().getLongitude());
+            for (Map.Entry<String, Monument> stringParkingAreaEntry : hashMap.entrySet()) {
+                Map.Entry<String, Monument> mapElement = stringParkingAreaEntry;
+                Monument parking = (Monument) mapElement.getValue();
+                Timber.e("Add marker on map: " + parking.getNom());
+                LatLng latLngParking = new LatLng(parking.getLatitude(),
+                        parking.getLongitude());
                 MarkerOptions option = new MarkerOptions().position(latLngParking)
                         .title(mapElement.getKey().toString())
-                        .snippet(parking.getName());
+                        .snippet(parking.getNom());
                 gMap.addMarker(option);
             }
         });
@@ -259,9 +316,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
     }
 
     private void getCurrentLocation(final Boolean zoom) {
-        pitchesViewModel.getAllPitches();
+        pitchesViewModel.getMonuments();
         loginViewModel.getUserInfo();
-        Timber.e("8855 getCurrentLocation");
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]
@@ -269,8 +325,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
         }
 
         Task<Location> task = client.getLastLocation();
-        task.addOnSuccessListener(location -> {
-            if (location != null) {
+        task.addOnCompleteListener(t -> {
+            if (t.isSuccessful() && t.getResult() != null) {
+                Location location = task.getResult();
                 supportMapFragment.getMapAsync(googleMap -> {
                     gMap = googleMap;
                     globalLatLng = new LatLng(location.getLatitude(),
@@ -279,10 +336,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
                     if (zoom) {
                         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(globalLatLng, 18));
                     }
-                    pitchesViewModel.getListPitchesMutableLiveData()
-                            .observe(getViewLifecycleOwner(), pitches -> {
-                                        for (Pitches pitch : pitches) {
-                                            pitchesHashMap.put(pitch.getName(), pitch);
+                    pitchesViewModel.getListMonumentMutableLiveData()
+                            .observe(getViewLifecycleOwner(), moniment -> {
+                                        for (Monument m : moniment) {
+                                            pitchesHashMap.put(m.getNom(), m);
                                         }
                                         attachMarkerOnMap(pitchesHashMap);
                                         Timber.d("GPS Map list %s", String.valueOf(pitchesHashMap));
@@ -290,9 +347,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
                             );
 
                     loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user -> {
-                                pitchesViewModel.getReservationByUserId(user.getUserId());
-                                pitchesViewModel.getListReservationMutableLiveData().observe(getViewLifecycleOwner(),
-                                        reservations -> reservationAdapter.setList((ArrayList<Reservation>) reservations)
+                                pitchesViewModel.getMonuments();
+                                pitchesViewModel.getListMonumentMutableLiveData().observe(getViewLifecycleOwner(),
+                                        result -> {
+                                            pitchesList = result;
+                                    reservationAdapter.setList((ArrayList<Monument>) result);}
                                 );
                             }
                     );
@@ -319,28 +378,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
 
         gMap.setOnInfoWindowClickListener(marker -> {
             LatLng position = marker.getPosition();
-            Timber.d("Compare Location: " + globalLatLng.latitude + "," + globalLatLng.longitude + " | " + position.latitude + "," + position.longitude);
             if (position.equals(globalLatLng)) {
                 return;
             }
-            String[] items = {"Book Place"};
+            String[] items = {"More Infos"};
             androidx.appcompat.app.AlertDialog.Builder itemDilog = new AlertDialog.Builder(getActivity());
             itemDilog.setTitle("");
             itemDilog.setCancelable(true);
-            itemDilog.setItems(items, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case 0: {
-                            Timber.d("Book Reservation");
-                            String UUID = marker.getTitle();
-                            Pitches val = (Pitches) pitchesHashMap.get(UUID);
-                            replace(new PitchDetailsFragment(val), "MapFragment");
-                            Timber.d("Value of UUID: " + UUID);
-                        }
-                        break;
+            itemDilog.setItems(items, (dialog, which) -> {
+                switch (which) {
+                    case 0: {
+                        String UUID = marker.getTitle();
+                        Monument val = (Monument) pitchesHashMap.get(UUID);
+                        replace(new PitchDetailsFragment(val), "MapFragment");
                     }
-
+                    break;
                 }
+
             });
             itemDilog.show();
 
@@ -349,15 +403,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Reserva
     }
 
 
-    @Override
-    public void onReservationClicked(Reservation reservation) {
-        replace(new PitchDetailsFragment(reservation.getPitch()), "homefragment");
-    }
-
     private void replace(Fragment fragment, String s) {
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame, fragment);
         transaction.addToBackStack(s);
         transaction.commit();
+    }
+
+    @Override
+    public void onPitcherClicked(Monument monument) {
+        replace(new PitchDetailsFragment(monument), "homefragment");
     }
 }

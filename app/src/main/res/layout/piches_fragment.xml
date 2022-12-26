@@ -45,22 +45,6 @@ tools:context=".ui.ContainerHome.fragments.pitches.PitchesFragment">
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
                             android:animateLayoutChanges="true">
-
-                            <TextView
-                                android:id="@+id/end_search_btn"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginEnd="16dp"
-                                android:layout_weight="1"
-                                android:drawableStart="@drawable/ic_filter_new"
-                                android:fontFamily="sans-serif"
-                                android:drawablePadding="4dp"
-                                android:text="My Pictch"
-                                android:textColor="#262626"
-                                android:textSize="16sp" />
-
                             <LinearLayout
                                 android:id="@+id/clients_details"
                                 android:layout_width="wrap_content"
@@ -106,10 +90,10 @@ tools:context=".ui.ContainerHome.fragments.pitches.PitchesFragment">
 
                             <androidx.appcompat.widget.SearchView
                                 android:id="@+id/clients_search_view"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_toStartOf="@+id/clients_details_actions"
-                                android:layout_toEndOf="@+id/end_search_btn"
+                                android:layout_alignParentStart="true"
                                 android:background="#fafafa"
                                 android:visibility="visible"
                                 app:closeIcon="@null"

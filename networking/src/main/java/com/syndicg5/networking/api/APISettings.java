@@ -4,6 +4,7 @@ import com.syndicg5.networking.models.Appartement;
 import com.syndicg5.networking.models.Categorie;
 import com.syndicg5.networking.models.Depense;
 import com.syndicg5.networking.models.Immeuble;
+import com.syndicg5.networking.models.Monument;
 import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.models.Reservation;
 import com.syndicg5.networking.models.Resident;
@@ -43,6 +44,10 @@ public interface APISettings {
 
     @GET("api/reservation/user/{userId}")
     Single<List<Reservation>> getReservationByUserId(@Path("userId") int id);
+
+
+    @GET("Projet1WebWS/monuments")
+    Single<List<Monument>> getMonuments();
 
     //Syndic
     @GET("api/syndics")

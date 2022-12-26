@@ -33,7 +33,7 @@ public class ClientAPI {
     @Provides
     @Singleton
     public static APISettings getInstance(OkHttpClient httpClient) {
-        String base_url = "https://footplanet-backend.herokuapp.com/";
+        String base_url = "http://10.0.2.2:8080/";
         return new Retrofit.Builder()
                 .baseUrl(base_url)
                 .client(httpClient)

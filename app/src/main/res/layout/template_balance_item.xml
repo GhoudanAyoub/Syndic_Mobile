@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="170dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:background="@drawable/bg_rounded_lightgrey_stroke"
+    android:orientation="horizontal"
     android:padding="8dp"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
@@ -22,7 +22,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="250dp"
                 android:layout_gravity="center">
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -53,8 +53,8 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/noto_sans"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     tools:text="Northern Pitch" />
 
 
@@ -66,12 +66,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
-                android:maxLines="2"
                 android:fontFamily="@font/noto_sans"
+                android:maxLines="2"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                tools:text="Marrakesh, Morocco"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                tools:text="Marrakesh, Morocco" />
 
             <TextView
                 android:id="@+id/pitch_location"
@@ -79,8 +79,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
-                android:maxLines="2"
                 android:fontFamily="@font/noto_sans"
+                android:maxLines="2"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 tools:text="Marrakesh, Morocco" />
@@ -91,8 +91,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
-                android:maxLines="2"
                 android:fontFamily="@font/noto_sans"
+                android:maxLines="2"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 tools:text="Marrakesh, Morocco" />

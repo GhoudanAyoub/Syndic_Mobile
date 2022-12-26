@@ -24,7 +24,7 @@ import com.SyndicG5.R;
 import com.SyndicG5.databinding.PichesFragmentBinding;
 import com.SyndicG5.ui.ContainerHome.fragments.home.HomefragementViewModel;
 import com.SyndicG5.ui.login.loginViewModel;
-import com.syndicg5.networking.models.Pitches;
+import com.syndicg5.networking.models.Monument;
 import com.syndicg5.networking.models.User;
 import com.syndicg5.networking.repository.apiRepository;
 import com.syndicg5.networking.utils.AppUtils;
@@ -48,7 +48,7 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
     private HomefragementViewModel homeViewModel;
     private RecyclerView recyclerView;
     private PitchesAdapter pitchesAdapter;
-    private List<Pitches> pitchesList;
+    private List<Monument> pitchesList;
     @Inject
     apiRepository repository;
     private boolean myPitch = false;
@@ -81,29 +81,15 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
         binding.progressBar2.setVisibility(View.VISIBLE);
 
         binding.searchBtn.setOnClickListener(view1 -> {
-
             binding.clientsDetails.setVisibility(View.VISIBLE);
             binding.searchBtn.setVisibility(View.GONE);
             binding.clientsSearchView.setVisibility(View.VISIBLE);
-            binding.endSearchBtn.setVisibility(View.VISIBLE);
             binding.clientsHeaderBar.setBackgroundColor(
                     ContextCompat.getColor(requireContext(), R.color.white)
             );
             binding.clientsSearchView.setIconified(true);
             binding.clientsSearchView.requestFocus();
             AppUtils.showKeyboard(requireActivity());
-        });
-        binding.endSearchBtn.setOnClickListener(view1 -> {
-            myPitch = !myPitch;
-            binding.endSearchBtn.setText(myPitch ? "Show All" : "My Pictch");
-            if(myPitch)
-            pitchesAdapter.setList((ArrayList<Pitches>) pitchesList
-                    .stream()
-                    .filter(pitche ->
-                            pitche.getOwner().getUserId() == currentUser.getUserId())
-                    .collect(Collectors.toList()));
-            else
-                pitchesAdapter.setList((ArrayList<Pitches>) pitchesList);
         });
         binding.clientsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -128,33 +114,32 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
     }
 
     private void subscribe() {
-        mViewModel.getAllPitches();
+        mViewModel.getMonuments();
         loginViewModel.getUserInfo();
         loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user ->
                 currentUser = user);
-        mViewModel.getListPitchesMutableLiveData().observe(getViewLifecycleOwner(), pitches -> {
-            pitchesList = pitches;
-            pitchesAdapter.setList((ArrayList<Pitches>) pitches);
+        mViewModel.getListMonumentMutableLiveData().observe(getViewLifecycleOwner(), monuments-> {
+            pitchesList = monuments;
+            pitchesAdapter.setList((ArrayList<Monument>) monuments);
             binding.progressBar2.setVisibility(View.GONE);
         });
     }
 
     private void filter(String query) {
         String lowerCaseQuery = query.toUpperCase(Locale.ROOT);
-        List<Pitches> filteredModelList = query.isEmpty() ?
+        List<Monument> filteredModelList = query.isEmpty() ?
                 pitchesList :
                 pitchesList
                         .stream()
-                        .filter(pitch -> pitch.getComplexe().getLocation().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || pitch.getName().toUpperCase(Locale.ROOT).contains(lowerCaseQuery))
+                        .filter(pitch -> pitch.getAdresse().toUpperCase(Locale.ROOT).contains(lowerCaseQuery) || pitch.getNom().toUpperCase(Locale.ROOT).contains(lowerCaseQuery))
                         .collect(Collectors.toList());
-        pitchesAdapter.setList((ArrayList<Pitches>) filteredModelList);
+        pitchesAdapter.setList((ArrayList<Monument>) filteredModelList);
     }
 
     private void clearAndHideSearchView() {
         binding.clientsDetails.setVisibility(View.VISIBLE);
         binding.searchBtn.setVisibility(View.VISIBLE);
         binding.clientsSearchView.setVisibility(View.GONE);
-        binding.endSearchBtn.setVisibility(View.GONE);
         binding.clientsSearchView.setIconified(false);
         binding.clientsHeaderBar.setBackgroundColor(
                 ContextCompat.getColor(requireContext(), R.color.white)
@@ -164,8 +149,8 @@ public class PitchesFragment extends Fragment implements PitchesAdapter.PitcherL
     }
 
     @Override
-    public void onPitcherClicked(Pitches Pitches) {
-        replace(new PitchDetailsFragment(Pitches), "homefragment");
+    public void onPitcherClicked(Monument monument) {
+        replace(new PitchDetailsFragment(monument), "homefragment");
     }
 
     private void replace(Fragment fragment, String s) {

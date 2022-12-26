@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.SyndicG5.ui.ContainerHome.HomeContainer;
-import com.SyndicG5.ui.login.login;
 import com.SyndicG5.ui.login.loginViewModel;
 
 import java.util.concurrent.TimeUnit;
@@ -48,16 +47,16 @@ public class SplashScreen extends SyndicActivity {
 
 
     private void goHome() {
-        Completable.timer(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+        Completable.timer(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribe(() -> {
                     startActivity(new Intent(getApplication(), HomeContainer.class));
                 });
     }
 
     private void goLogin() {
-        Completable.timer(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+        Completable.timer(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribe(() -> {
-                    startActivity(new Intent(getApplication(), login.class));
+                    startActivity(new Intent(getApplication(), HomeContainer.class));
                 });
     }
 }

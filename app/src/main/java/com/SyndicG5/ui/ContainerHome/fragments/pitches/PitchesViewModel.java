@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.syndicg5.networking.models.Monument;
 import com.syndicg5.networking.models.Pitches;
 import com.syndicg5.networking.models.Reservation;
 import com.syndicg5.networking.models.Revenu;
@@ -26,6 +27,7 @@ public class PitchesViewModel extends ViewModel {
     private roomRepository roomRepo;
 
     private MutableLiveData<List<Pitches>> listPitchesBySyndicMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Monument>> listMonumentMutableLiveData = new MutableLiveData<>();
 
     private MutableLiveData<List<Revenu>> listRevenuBySyndicMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Reservation>> listReservationMutableLiveData = new MutableLiveData<>();
@@ -44,6 +46,17 @@ public class PitchesViewModel extends ViewModel {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> listPitchesBySyndicMutableLiveData.setValue(response), Throwable::printStackTrace);
+    }
+    @SuppressLint("CheckResult")
+    public void getMonuments() {
+        repository.getMonuments()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> listMonumentMutableLiveData.setValue(response), Throwable::printStackTrace);
+    }
+
+    public MutableLiveData<List<Monument>> getListMonumentMutableLiveData() {
+        return listMonumentMutableLiveData;
     }
 
     public LiveData<List<Pitches>> getListPitchesMutableLiveData() {
