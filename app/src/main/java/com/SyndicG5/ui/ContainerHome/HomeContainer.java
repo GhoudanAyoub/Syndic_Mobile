@@ -55,7 +55,7 @@ public class HomeContainer extends SyndicActivity  {
         isGpsEnabled();
         isPermissionGranted = isPermissionGiven();
         grantLocationPermission();
-        replace(MapFragment.newInstance());
+        replace(MapFragment.newInstance(null));
         toolbar = findViewById(R.id.toolbar);
     }
 

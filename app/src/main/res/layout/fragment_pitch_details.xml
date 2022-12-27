@@ -24,23 +24,35 @@
                 android:layout_marginEnd="@dimen/spacing_m"
                 android:orientation="vertical">
 
-                <FrameLayout
+                <RelativeLayout
+                    android:id="@+id/rl_image"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_gravity="center">
+                    android:layout_height="250dp">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/pitche_img"
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/article_images_pager"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
                         android:layout_gravity="center"
-                        android:contentDescription="@null"
-                        android:scaleType="centerCrop"
-                        app:shapeAppearance="@style/ProductRoundedImage"
-                        app:strokeColor="@null"
-                        tools:src="@tools:sample/backgrounds/scenic" />
+                        android:minHeight="207dp" />
 
-                </FrameLayout>
+                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                        android:id="@+id/product_images_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        app:dotsColor="@color/content_Grey"
+                        app:dotsCornerRadius="50dp"
+                        app:dotsSize="6dp"
+                        app:dotsSpacing="2dp"
+                        app:dotsWidthFactor="1"
+                        app:progressMode="false"
+                        app:selectedDotColor="@color/primary" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/ly_primary_article"
@@ -53,17 +65,19 @@
                     <TextView
                         android:id="@+id/pitch_name"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginEnd="@dimen/spacing_l"
-                        android:fontFamily="@font/noto_sans"
                         android:layout_weight="0.8"
                         android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:fontFamily="@font/roboto_slab"
                         android:maxLines="2"
                         android:textAlignment="viewStart"
-                        android:textSize="16sp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/content_dark"
-                        tools:text="ARIEL MAINS" />
+                        android:textSize="16sp"
+                        tools:text="ARIEL MAINS"
+                        tools:ignore="RtlCompat" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -72,17 +86,15 @@
                         android:gravity="end|center_vertical"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/pitch_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:maxLines="1"
-                            android:textAlignment="viewEnd"
-                            android:fontFamily="@font/noto_sans"
-                            android:textSize="16sp"
-                            android:textColor="@color/content_dark"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                            tools:text="111.50  Dh" />
+
+                        <ImageButton
+                            android:id="@+id/findLocation"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_location"
+                            app:tint="@color/black" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -92,8 +104,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_xs"
-                    android:fontFamily="@font/noto_sans"
-                    android:textSize="16sp"
+                    android:fontFamily="@font/roboto_slab"
+                    android:textSize="14sp"
                     android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/content_dark"
@@ -104,13 +116,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_xs"
-                    android:fontFamily="@font/noto_sans"
-                    android:textSize="16sp"
+                    android:fontFamily="@font/roboto_slab"
                     android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/content_dark"
-                    tools:text="LOREM IPSUM DOLOR"/>
-
+                    android:textSize="12sp"
+                    tools:text="LOREM IPSUM DOLOR" />
 
             </LinearLayout>
 
@@ -139,7 +150,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.6"
                     android:fontFamily="@font/noto_sans"
-                    android:text="Nearest Pitch : 10Km"
+                    android:text="Nearest Monuments : 10Km"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textAlignment="viewStart"
                     android:textSize="16sp"

@@ -84,16 +84,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Pitches
     private PitchesAdapter reservationAdapter;
 
     HashMap<String, Monument> pitchesHashMap = new HashMap<String, Monument>();
+    HashMap<String, Monument> currentHashMap = new HashMap<String, Monument>();
     private boolean isUp = false;
     public static boolean bookedPitchPage = false;
     @Inject
     apiRepository repository;
     private List<Monument> pitchesList = new ArrayList<>();
+    private static Monument monument;
 
-    public static MapFragment newInstance() {
+    public static MapFragment newInstance(Monument m) {
+        monument = m;
+        bookedPitchPage = false;
         return new MapFragment();
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -138,8 +141,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Pitches
 
         recyclerView = view.findViewById(R.id.pitche_recycler_view);
         reservationAdapter = new PitchesAdapter(getContext(), repository, this);
-        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 1));
-        recyclerView.addItemDecoration(new GridAutoFitItemDecoration(1, getResources().getDimensionPixelSize(R.dimen.alternative_horizontal_margin_page)));
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        recyclerView.addItemDecoration(new GridAutoFitItemDecoration(2, getResources().getDimensionPixelSize(R.dimen.alternative_horizontal_margin_page)));
         recyclerView.setAdapter(reservationAdapter);
         updateMapToBookedPitches();
     }
@@ -200,7 +203,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Pitches
             }
             gMap.clear();
             attachMarkerOnMap(nearestPitches);
-            if (globalLatLng != null)
+            if (globalLatLng != null && monument == null)
                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(globalLatLng, 12));
         });
 
@@ -336,25 +339,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Pitches
                     if (zoom) {
                         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(globalLatLng, 18));
                     }
-                    pitchesViewModel.getListMonumentMutableLiveData()
-                            .observe(getViewLifecycleOwner(), moniment -> {
-                                        for (Monument m : moniment) {
-                                            pitchesHashMap.put(m.getNom(), m);
+                    if(monument==null) {
+                        pitchesViewModel.getListMonumentMutableLiveData()
+                                .observe(getViewLifecycleOwner(), moniment -> {
+                                    pitchesHashMap.clear();
+                                            for (Monument m : moniment) {
+                                                pitchesHashMap.put(m.getNom(), m);
+                                            }
+                                            attachMarkerOnMap(pitchesHashMap);
+                                            Timber.d("GPS Map list %s", String.valueOf(pitchesHashMap));
                                         }
-                                        attachMarkerOnMap(pitchesHashMap);
-                                        Timber.d("GPS Map list %s", String.valueOf(pitchesHashMap));
-                                    }
-                            );
-
-                    loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user -> {
-                                pitchesViewModel.getMonuments();
-                                pitchesViewModel.getListMonumentMutableLiveData().observe(getViewLifecycleOwner(),
-                                        result -> {
-                                            pitchesList = result;
-                                    reservationAdapter.setList((ArrayList<Monument>) result);}
                                 );
-                            }
-                    );
+
+                    }else{
+                        currentHashMap.clear();
+                        currentHashMap.put(monument.getNom(), monument);
+                        attachMarkerOnMap(currentHashMap);
+                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(monument.getLatitude(),monument.getLongitude()), 12));
+                    }
+                        loginViewModel.getUserLoginLiveData().observe(getViewLifecycleOwner(), user -> {
+                                    pitchesViewModel.getMonuments();
+                                    pitchesViewModel.getListMonumentMutableLiveData().observe(getViewLifecycleOwner(),
+                                            result -> {
+                                                pitchesList = result;
+                                                reservationAdapter.setList((ArrayList<Monument>) result);
+                                            }
+                                    );
+                                }
+                        );
                 });
             }
         });

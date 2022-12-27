@@ -47,14 +47,14 @@ public class SplashScreen extends SyndicActivity {
 
 
     private void goHome() {
-        Completable.timer(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+        Completable.timer(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribe(() -> {
                     startActivity(new Intent(getApplication(), HomeContainer.class));
                 });
     }
 
     private void goLogin() {
-        Completable.timer(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+        Completable.timer(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .subscribe(() -> {
                     startActivity(new Intent(getApplication(), HomeContainer.class));
                 });

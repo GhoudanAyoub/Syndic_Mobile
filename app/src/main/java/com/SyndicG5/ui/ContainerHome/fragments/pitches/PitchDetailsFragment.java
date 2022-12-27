@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.SyndicG5.Adapters.PitchesAdapter;
 import com.SyndicG5.R;
 import com.SyndicG5.databinding.FragmentPitchDetailsBinding;
-import com.bumptech.glide.Glide;
+import com.SyndicG5.ui.ContainerHome.fragments.map.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.syndicg5.networking.models.Monument;
 import com.syndicg5.networking.repository.apiRepository;
@@ -68,7 +68,7 @@ public class PitchDetailsFragment extends Fragment implements PitchesAdapter.Pit
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setActivityName("Pitches Details ");
+        setActivityName("Monuments Details ");
         recyclerView = view.findViewById(R.id.similar_pitch_recycler);
         pitchesAdapter = new PitchesAdapter(getContext(), repository, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -79,16 +79,28 @@ public class PitchDetailsFragment extends Fragment implements PitchesAdapter.Pit
         progressDialog.setMessage("Login ..........");
 
         binding.pitchName.setText(pitche.getNom());
-        binding.pitchPrice.setText(pitche.getAdresse());
+        binding.pitchCap.setText(pitche.getAdresse());
         binding.pitchDesc.setText(pitche.getDescription());
-        Glide.with(getContext())
-                .load(pitche.getImages().get(0).getUrl())
-                .placeholder(R.drawable.img_placeholder)
-                .into(binding.pitcheImg);
-
+        List<String> urls = new ArrayList<>();
+        pitche.getImages().stream().forEach(image -> {
+            urls.add(image.getUrl());
+        });
+        ProductImagesAdapter adapter =new ProductImagesAdapter(urls);
+        binding.articleImagesPager.setAdapter(adapter);
+        binding.productImagesIndicator.attachTo(binding.articleImagesPager);
+        binding.findLocation.setOnClickListener(v -> {
+            replace( MapFragment.newInstance(pitche),"PitchDetailsFragment");
+        });
         subscribe(pitche);
     }
 
+
+    private void replace(Fragment fragment, String s) {
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, fragment);
+        transaction.addToBackStack(s);
+        transaction.commit();
+    }
     private void subscribe(Monument p) {
         mViewModel.getMonuments();
         mViewModel.getListMonumentMutableLiveData().observe(getViewLifecycleOwner(), monuments -> {
