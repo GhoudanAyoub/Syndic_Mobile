@@ -401,7 +401,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Pitches
                 switch (which) {
                     case 0: {
                         String UUID = marker.getTitle();
-                        Monument val = (Monument) pitchesHashMap.get(UUID);
+                        Monument val = (Monument) monument == null ? pitchesHashMap.get(UUID) : currentHashMap.get(UUID);
                         replace(new PitchDetailsFragment(val), "MapFragment");
                     }
                     break;
